@@ -6,7 +6,7 @@ function App() {
     <div>
       admin 페이지 입니다
       <code>테스트 {sayHello()}</code>
-      <Button>버튼 From @biblical/react-ui</Button>
+      <Button variant="contained">버튼 From @biblical/react-ui</Button>
     </div>
   );
 }
