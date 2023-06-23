@@ -1,1 +1,1 @@
-# biblical/web-admi
+# biblical/web-admin

@@ -6,9 +6,9 @@ const webpack = require('webpack');
 module.exports = {
   entry: `${path.resolve(__dirname, './src')}/index.tsx`,
   output: {
-    path: path.join(__dirname, 'dist'), // 번들링 결과 위치
+    path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js',
-    clean: true, // 빌드 전 폴더 정리
+    clean: true,
   },
   resolve: {
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
@@ -19,21 +19,9 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ts|tsx)?$/,
-        exclude: /node_modules|\.d\.ts$/,
-        use: {
-          loader: 'ts-loader',
-          options: {
-            compilerOptions: {
-              noEmit: false,
-            },
-          },
-        },
-      },
-      {
-        test: /\.(js|jsx)?$/,
+        test: /\.(js|jsx|tsx|ts)$/,
         exclude: /node_modules/,
-        use: ['babel-loader'],
+        loader: 'babel-loader',
       },
       {
         test: /\.(png|jpe?g|gif|ico|webp)$/,
