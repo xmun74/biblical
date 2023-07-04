@@ -48,39 +48,6 @@ app.use((err, req, res, next) => {
   res.status(500).send(err.message);
 });
 
-// file uploads - multer
-// try {
-//   fs.readdirSync('uploads');
-// } catch (error) {
-//   console.error('uploads 폴더 없어서 uploads 폴더 생성한다');
-//   fs.mkdirSync('uploads');
-// }
-
-// const upload = multer({
-//   storage: multer.diskStorage({
-//     destination(req, file, done) {
-//       done(null, 'uploads/');
-//     },
-//     filename(req, file, done) {
-//       const ext = path.extname(file.originalname);
-//       done(null, path.basename(file.originalname, ext) + Date.now() + ext);
-//     },
-//   }),
-//   limits: { fileSize: 5 * 1024 * 1024 }, // 파일크기 5 MB로 제한
-// });
-
-// app.get('/upload', (req, res) => {
-//   res.sendFile(path.join(__dirname, 'multipart.html'));
-// });
-// /* app.post('/upload', upload.single('image'), (req, res) => {
-//   console.log(req.file);
-//   res.send('ok');
-// }); */
-// app.post('/upload', upload.fields([{ name: 'image1' }, { name: 'image2' }]), (req, res) => {
-//   console.log(req.files, req.body);
-//   res.send('OK');
-// });
-
 app.listen(app.get('port'), () => {
   console.log(`🌏 RUN ${app.get('port')}번 PORT`);
 });
