@@ -1,26 +1,37 @@
 import { Link } from 'react-router-dom';
+import KakaoLoginBtn from '@/components/KakaoLoginBtn';
 
 const Login = () => {
   return (
-    <div>
-      <div className="flex flex-col items-center w-full">
-        <div className="pt-6 pb-10 font-light">LOGIN</div>
-        <form className="flex flex-col w-[300px]">
-          <label>아이디</label>
-          <input className="border border-slate-200 rounded-md" type="text" />
-          <label>비밀번호</label>
-          <input className="border border-slate-200 rounded-md" type="password" />
-          <button className="bg-emerald-300 rounded-md p-2 my-4 hover:bg-emerald-200 ">로그인</button>
+    <div className="flex flex-col items-center justify-center">
+      <div className="w-4/5">
+        <div className="flex justify-center text-2xl font-light">로그인</div>
+        <form className="flex justify-center mt-10">
+          <div className="flex flex-col w-full max-w-xs">
+            <label className="mt-4 text-xs">이메일</label>
+            <input type="email" placeholder="example@naver.com" className="sign_input" />
+
+            <label className="mt-4 text-xs">비밀번호</label>
+            <input type="password" placeholder="******" className="sign_input" />
+
+            <button type="submit" className="sign_form_submit_btn hover_bg">
+              로그인
+            </button>
+            <div className="flex justify-between font-thin">
+              아직 계정이 없다면?
+              <Link to="/auth/signup" className="font-semibold hover_text">
+                회원가입
+              </Link>
+            </div>
+            <div className="relative my-10 text-slate-300 border-t text-center">
+              <div className="absolute left-[45%] top-[-14px] bg-white px-2 text-center">or</div>
+            </div>
+            <div className="flex justify-center mb-4 font-thin">SNS 계정으로 로그인하기</div>
+            <div className="flex justify-center">
+              <KakaoLoginBtn />
+            </div>
+          </div>
         </form>
-        <div>
-          아이디가 없다면?{' '}
-          <Link to="/auth/signup" className="hover:font-bold text-emerald-500">
-            회원가입
-          </Link>
-          <Link to="/auth/kakao" className="hover:font-bold text-emerald-500">
-            카카오로그인
-          </Link>
-        </div>
       </div>
     </div>
   );
