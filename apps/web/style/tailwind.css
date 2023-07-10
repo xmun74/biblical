@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.sign_input {
+  @apply p-2 my-2 border border-solid rounded-md outline-none border-slate-300 placeholder:font-thin placeholder:text-sm;
+}
+.sign_form_submit_btn {
+  @apply w-full p-2 mt-6 mb-4 rounded-md text-slate-50;
+}
+.hover_text {
+  @apply text-accent-400 hover:text-accent-500;
+}
+.hover_bg {
+  @apply bg-accent-400 hover:bg-accent-500;
+}
