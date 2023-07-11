@@ -1,8 +1,10 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
+const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const webpack = require('webpack');
 
+dotenv.config();
 module.exports = {
   entry: `${path.resolve(__dirname, './src')}/index.tsx`,
   output: {
@@ -50,5 +52,6 @@ module.exports = {
     new webpack.ProvidePlugin({
       React: 'react',
     }),
+    new webpack.EnvironmentPlugin(['API_URL']),
   ],
 };
