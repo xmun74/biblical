@@ -1,12 +1,13 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import KakaoLoginBtn from '@/components/KakaoLoginBtn';
 
 const Login = () => {
   const URL = process.env.API_URL;
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
-  const [pwd, setPwd] = useState('');
+  const [password, setPassword] = useState('');
   const [EmailErrMsg, setEmailErrMsg] = useState(false);
   const [pwdErrMsg, setPwdErrMsg] = useState(false);
   const [loginErrMsg, setLoginErrMsg] = useState('');
@@ -19,6 +20,7 @@ const Login = () => {
 
   const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { type, value } = e.target;
+    setLoginErrMsg('');
     if (type === 'email') {
       setEmail(value);
       const isValid = emailValid(value);
@@ -33,22 +35,26 @@ const Login = () => {
         setPwdErrMsg(true);
       } else {
         setPwdErrMsg(false);
-        setPwd(value);
+        setPassword(value);
       }
     }
   };
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const isValid = emailValid(email);
     if (!isValid) {
       return;
     }
     try {
-      const data = axios.post(`${URL}/auth/login`, { email, password: pwd });
-      console.log(data);
+      const { status, data } = await axios.post(`${URL}/auth/login`, { email, password });
+      if (status === 200) {
+        console.log('로그인 성공 data :', data);
+        navigate('/');
+      }
     } catch (error) {
-      setLoginErrMsg('이메일이나 비밀번호를 정확하게 입력해주세요.');
-      console.log(error);
+      const { response } = error as unknown as AxiosError;
+      setLoginErrMsg(`${response.data}`);
+      console.log('에러다', error);
     }
   };
 
@@ -71,8 +77,10 @@ const Login = () => {
               maxLength={16}
               onBlur={handleBlur}
             />
-            <div className="text-red-400 text-xs">{pwdErrMsg && '6-16자로 입력해주세요.'}</div>
-            <div className="text-red-400 text-xs">{loginErrMsg && loginErrMsg}</div>
+            <div className="flex justify-between">
+              <div className="text-red-400 text-xs">{pwdErrMsg && '6-16자로 입력해주세요.'}</div>
+              <div className="text-red-400 text-xs">{loginErrMsg && loginErrMsg}</div>
+            </div>
             <button type="submit" className="sign_form_submit_btn hover_bg">
               로그인
             </button>
