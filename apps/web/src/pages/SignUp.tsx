@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -8,43 +8,43 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [password, setPassword] = useState('');
-  const [pwdValidErrMsg, setpwdValidErrMsg] = useState(false);
-  const [EmailErrMsg, setEmailErrMsg] = useState(false);
-  const [nickErrMsg, setNickErrMsg] = useState(false);
+  const [pwdMatchErr, setPwdMatchErr] = useState(false);
   const [pwdErrMsg, setPwdErrMsg] = useState(false);
-  const [signErrMsg, setSignErrMsg] = useState(false);
+  const [EmailErrMsg, setEmailErrMsg] = useState('');
+  const [nickErrMsg, setNickErrMsg] = useState('');
 
-  const onPwdValid = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const onPwdMatch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const pwdConfirm = e.target.value;
     if (password !== pwdConfirm) {
-      setpwdValidErrMsg(true);
+      setPwdMatchErr(true);
     } else {
-      setpwdValidErrMsg(false);
+      setPwdMatchErr(false);
     }
   };
-  const emailValid = (value: string) => {
+  const onEmailValid = (value: string) => {
     const emailReg = RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,3}$/);
     const isValid = emailReg.test(value);
     return isValid;
   };
   const handleSignUpBlur = (e: React.FocusEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    setSignErrMsg(false);
+    setEmailErrMsg('');
+    setNickErrMsg('');
     if (name === 'email') {
-      const isEmailValid = emailValid(value);
+      const isEmailValid = onEmailValid(value);
       if (!isEmailValid) {
-        setEmailErrMsg(true);
+        setEmailErrMsg('이메일 형식에 맞게 입력해주세요.');
         return;
       } else {
         setEmail(value);
-        setEmailErrMsg(false);
+        setEmailErrMsg('');
       }
     } else if (name === 'nickname') {
       if (value.length < 2 || value.length > 15) {
-        setNickErrMsg(true);
+        setNickErrMsg('2자 이상 15자 이하로 입력해주세요');
       } else {
         setNickname(value);
-        setNickErrMsg(false);
+        setNickErrMsg('');
       }
     } else {
       if (value.length < 6 || value.length > 16) {
@@ -58,10 +58,9 @@ const SignUp = () => {
 
   const handleSignUpSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (pwdValidErrMsg || EmailErrMsg || nickErrMsg || pwdErrMsg || signErrMsg) {
+    if (pwdMatchErr || EmailErrMsg || nickErrMsg || pwdErrMsg) {
       return;
     }
-    // console.log('전송됨', email, nickname, password);
     try {
       const data = await axios.post(
         `${URL}/auth/signup`,
@@ -75,7 +74,13 @@ const SignUp = () => {
       console.log('회원가입 성공', data);
       navigate('/auth/login');
     } catch (error) {
-      setSignErrMsg(true);
+      const { response } = error as unknown as AxiosError;
+      if (response?.data === '중복된 이메일') {
+        setEmailErrMsg('중복된 이메일입니다.');
+      }
+      if (response?.data === '중복된 닉네임') {
+        setNickErrMsg('중복된 닉네임입니다.');
+      }
       console.log(error);
     }
   };
@@ -93,7 +98,7 @@ const SignUp = () => {
               placeholder="biblical@gmail.com"
               onBlur={handleSignUpBlur}
             />
-            <div className="text-red-400 text-xs">{EmailErrMsg && '이메일 형식에 맞게 입력해주세요.'}</div>
+            <div className="text-red-400 text-xs">{EmailErrMsg && EmailErrMsg}</div>
 
             <label className="mt-4 text-xs">닉네임</label>
             <input
@@ -105,7 +110,7 @@ const SignUp = () => {
               maxLength={15}
               onBlur={handleSignUpBlur}
             />
-            <div className="text-red-400 text-xs">{nickErrMsg && '2자 이상 15자 이하로 입력해주세요'}</div>
+            <div className="text-red-400 text-xs">{nickErrMsg && nickErrMsg}</div>
 
             <label className="mt-4 text-xs">비밀번호</label>
             <input
@@ -125,10 +130,9 @@ const SignUp = () => {
               placeholder="비밀번호 확인"
               minLength={6}
               maxLength={16}
-              onChange={onPwdValid}
+              onChange={onPwdMatch}
             />
-            <div className="text-red-400 text-xs">{pwdValidErrMsg && '비밀번호가 일치하지 않습니다.'}</div>
-            <div className="text-red-400 text-xs">{signErrMsg && '회원가입에 실패했습니다'}</div>
+            <div className="text-red-400 text-xs">{pwdMatchErr && '비밀번호가 일치하지 않습니다.'}</div>
             <button
               type="submit"
               className="sign_form_submit_btn hover_bg"
