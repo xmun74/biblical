@@ -1,10 +1,11 @@
 import axios from 'axios';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Header = () => {
   const URL = process.env.API_URL;
-  const isLoggedId = true;
+  const { pathname } = useLocation();
+  const isLoggedId = false; // 임시
   const [isModalOpen, setIsModalOpen] = useState(true);
 
   const handleMenuClick = () => {
@@ -24,10 +25,16 @@ const Header = () => {
         <Link to="/" className="font-monda mr-10">
           Biblical
         </Link>
-        <Link to="/bible" className="font-extrabold mr-6 hover:text-accent-350">
+        <Link
+          to="/bible"
+          className={`font-extrabold mr-6 hover:text-accent-350 ${pathname === '/bible' && 'text-accent-350'}`}
+        >
           성경읽기
         </Link>
-        <Link to="/meetings" className="font-extrabold hover:text-accent-300">
+        <Link
+          to="/meetings"
+          className={`font-extrabold hover:text-accent-300 ${pathname === '/meetings' && 'text-accent-350'}`}
+        >
           모임
         </Link>
       </div>
