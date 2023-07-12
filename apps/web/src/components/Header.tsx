@@ -24,22 +24,22 @@ const Header = () => {
         <Link to="/" className="font-monda mr-10">
           Biblical
         </Link>
-        <Link to="/" className="font-extrabold mr-6 hover:text-accent-350">
+        <Link to="/bible" className="font-extrabold mr-6 hover:text-accent-350">
           성경읽기
         </Link>
-        <Link to="/" className="font-extrabold hover:text-accent-300">
+        <Link to="/meetings" className="font-extrabold hover:text-accent-300">
           모임
         </Link>
       </div>
       {isLoggedId ? (
         <div className="relative flex items-center">
-          <Link to="/auth/login" className="font-bold text-accent-400 mr-4">
+          <Link to={`/users/:userId/history`} className="font-bold text-accent-400 mr-4">
             MY 성경기록
           </Link>
           <div className="bg-slate-500 w-9 h-9 border rounded-3xl cursor-pointer" onClick={handleMenuClick}></div>
           {isModalOpen && (
             <div className="w-[184px] absolute right-0 z-20 top-[40px] p-2 rounded shadow-lg border">
-              <Link to={`/users/:$id`} className="block px-4 py-2 hover:bg-slate-50">
+              <Link to={`/users/:userId/edit`} className="block px-4 py-2 hover:bg-slate-50">
                 내 정보 수정
               </Link>
               <div className="px-4 py-2 hover:bg-slate-50 cursor-pointer" onClick={handleLogout}>
