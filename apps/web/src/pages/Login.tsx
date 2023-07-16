@@ -2,9 +2,9 @@ import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import KakaoLoginBtn from '@/components/KakaoLoginBtn';
+import { API_URL } from '@/config';
 
 const Login = () => {
-  const URL = process.env.API_URL;
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -46,7 +46,7 @@ const Login = () => {
       return;
     }
     try {
-      const { status, data } = await axios.post(`${URL}/auth/login`, { email, password });
+      const { status, data } = await axios.post(`${API_URL}/auth/login`, { email, password });
       if (status === 200) {
         console.log('로그인 성공 data :', data);
         navigate('/');

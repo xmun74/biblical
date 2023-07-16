@@ -1,9 +1,9 @@
 import axios, { AxiosError } from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
+import { API_URL } from '@/config';
 
 const SignUp = () => {
-  const URL = process.env.API_URL;
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
@@ -63,7 +63,7 @@ const SignUp = () => {
     }
     try {
       const data = await axios.post(
-        `${URL}/auth/signup`,
+        `${API_URL}/auth/signup`,
         { email, nickname, password },
         {
           headers: {
