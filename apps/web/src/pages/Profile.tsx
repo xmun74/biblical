@@ -1,7 +1,9 @@
-import axios from 'axios';
 import { useEffect, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { axiosInstance } from '@/config/axiosConfig';
 
-const MyPage = () => {
+const Profile = () => {
+  const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [imgFile, setImgFile] = useState<File>();
@@ -9,20 +11,21 @@ const MyPage = () => {
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { userId } = useParams();
 
   useEffect(() => {
     const getUserInfo = async () => {
       try {
-        const res = await axios.get(`users/:userId`);
-        console.log(res);
-        setEmail(res?.data);
-        // setNickname()
+        const { data } = await axiosInstance.get(`users/${userId}`);
+        console.log('내정보조회', data);
+        setEmail(data?.email);
+        setNickname(data?.nickname);
       } catch (error) {
         console.error(error);
       }
     };
     getUserInfo();
-  }, []);
+  }, [userId]);
 
   const handelImgChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
@@ -46,20 +49,22 @@ const MyPage = () => {
     }
   };
 
-  const handleUserInfoEdit = () => {
+  const handleUserInfoEdit = async () => {
     const formData = new FormData();
     formData.append('file', imgFile);
     try {
-      // const res = axios.put(`/users/:userId`);
-      // console.log(res);
+      await axiosInstance.patch(`/users/${userId}`, { nickname });
     } catch (err) {
       console.log(err);
     }
   };
-  const handleUserDelete = () => {
+
+  const handleUserDelete = async () => {
     try {
-      const res = axios.delete(`/users/:userId`);
-      console.log(res);
+      const res = await axiosInstance.delete(`/users/${userId}`);
+      if (res.status === 200) {
+        navigate('/');
+      }
     } catch (err) {
       console.log(err);
     }
@@ -97,18 +102,18 @@ const MyPage = () => {
             type="text"
             className="sign_input"
             defaultValue={nickname}
-            onBlur={(e: React.FocusEvent<HTMLInputElement>) => setNickname(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNickname(e.target.value)}
           />
         </div>
       </div>
       <button
         type="submit"
         className="bg-accent-400 rounded-md text-white text-lg p-2 max-w-[100px] text-center font-semibold ml-[165px] mt-4"
-        onSubmit={handleUserInfoEdit}
+        onClick={handleUserInfoEdit}
       >
         정보 수정
       </button>
     </div>
   );
 };
-export default MyPage;
+export default Profile;

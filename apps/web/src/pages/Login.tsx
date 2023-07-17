@@ -1,8 +1,8 @@
-import axios, { AxiosError } from 'axios';
+import { AxiosError } from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import KakaoLoginBtn from '@/components/KakaoLoginBtn';
-import { API_URL } from '@/config';
+import { axiosInstance } from '@/config/axiosConfig';
 
 const Login = () => {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ const Login = () => {
     return isValid;
   };
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { type, value } = e.target;
     setLoginErrMsg('');
     if (type === 'email') {
@@ -46,14 +46,14 @@ const Login = () => {
       return;
     }
     try {
-      const { status, data } = await axios.post(`${API_URL}/auth/login`, { email, password });
+      const { status, data } = await axiosInstance.post(`/auth/login`, { email, password });
       if (status === 200) {
         console.log('로그인 성공 data :', data);
         navigate('/');
       }
     } catch (error) {
       const { response } = error as unknown as AxiosError;
-      setLoginErrMsg(`${response.data}`);
+      setLoginErrMsg(`${response?.data}`);
       console.log('에러다', error);
     }
   };
@@ -65,7 +65,7 @@ const Login = () => {
         <form className="flex justify-center mt-10" onSubmit={handleSubmit}>
           <div className="flex flex-col w-full max-w-xs">
             <label className="mt-4 text-xs">이메일</label>
-            <input type="email" placeholder="example@naver.com" className="sign_input" onBlur={handleBlur} />
+            <input type="email" placeholder="example@naver.com" className="sign_input" onChange={handleChange} />
             <div className="text-red-400 text-xs">{EmailErrMsg && '이메일 형식에 맞게 입력해주세요.'}</div>
 
             <label className="mt-4 text-xs">비밀번호</label>
@@ -75,7 +75,7 @@ const Login = () => {
               className="sign_input"
               minLength={6}
               maxLength={16}
-              onBlur={handleBlur}
+              onChange={handleChange}
             />
             <div className="flex justify-between">
               <div className="text-red-400 text-xs">{pwdErrMsg && '6-16자로 입력해주세요.'}</div>

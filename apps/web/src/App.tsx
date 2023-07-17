@@ -7,7 +7,7 @@ import Login from './pages/Login';
 import Main from './pages/Main';
 import MeetingDetail from './pages/MeetingDetail';
 import Meetings from './pages/Meetings';
-import MyPage from './pages/MyPage';
+import Profile from './pages/Profile';
 import SignUp from './pages/SignUp';
 
 function App() {
@@ -22,7 +22,7 @@ function App() {
         <Route path="/bible" element={<Bible />} />
         <Route path="/meetings" element={<Meetings />} />
         <Route path="/meetings:meetId" element={<MeetingDetail />} />
-        <Route path="/users/:userId/edit" element={<MyPage />} />
+        <Route path="/users/:userId" element={<Profile />} />
         <Route path="/users/:userId/history" element={<History />} />
       </Routes>
     </BrowserRouter>
