@@ -1,7 +1,5 @@
-import { useEffect } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
-import { axiosInstance } from './config/axiosConfig';
 import { PAGE_ROUTES } from './lib/constants';
 import Bible from './pages/Bible';
 import History from './pages/History';
@@ -14,13 +12,6 @@ import Profile from './pages/Profile';
 import SignUp from './pages/SignUp';
 
 function App() {
-  useEffect(() => {
-    const getCheck = async () => {
-      const res = await axiosInstance.get('/check');
-      console.log(res);
-    };
-    getCheck();
-  }, []);
   return (
     <BrowserRouter>
       <Header />

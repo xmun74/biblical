@@ -1,6 +1,8 @@
+import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { axiosInstance } from '@/config/axiosConfig';
+import { deleteUser, getUser, patchUser } from '@/lib/api';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -12,6 +14,8 @@ const Profile = () => {
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { userId } = useParams();
+  const { data } = useQuery(['userInfo'], () => getUser(Number(userId)));
+  console.log('프로필조회', data);
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -24,6 +28,7 @@ const Profile = () => {
         console.error(error);
       }
     };
+
     getUserInfo();
   }, [userId]);
 
@@ -53,7 +58,7 @@ const Profile = () => {
     const formData = new FormData();
     formData.append('file', imgFile);
     try {
-      await axiosInstance.patch(`/users/${userId}`, { nickname });
+      await patchUser(Number(userId), nickname);
     } catch (err) {
       console.log(err);
     }
@@ -61,8 +66,8 @@ const Profile = () => {
 
   const handleUserDelete = async () => {
     try {
-      const res = await axiosInstance.delete(`/users/${userId}`);
-      if (res.status === 200) {
+      const res = await deleteUser(Number(userId));
+      if (res?.status === 200) {
         navigate('/');
       }
     } catch (err) {

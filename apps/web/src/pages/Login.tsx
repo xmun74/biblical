@@ -1,11 +1,17 @@
-import { AxiosError } from 'axios';
+import axios from 'axios';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import KakaoLoginBtn from '@/components/KakaoLoginBtn';
-import { axiosInstance } from '@/config/axiosConfig';
+import { login } from '@/lib/api';
+import { useCheckAuth } from '@/utils/react-query';
 
 const Login = () => {
   const navigate = useNavigate();
+  // let userId: number;
+  // const [userId, setUserId] = useState<number>();
+  // const { data: userInfoData, refetch: userInfoRefetch } = useUserInfo(userId);
+  const { data: checkAuthData, refetch: checkAuthRefetch } = useCheckAuth();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [EmailErrMsg, setEmailErrMsg] = useState(false);
@@ -46,15 +52,22 @@ const Login = () => {
       return;
     }
     try {
-      const { status, data } = await axiosInstance.post(`/auth/login`, { email, password });
-      if (status === 200) {
-        console.log('로그인 성공 data :', data);
+      const { message, userInfo } = await login(email, password);
+      if (message === 'SUCCESS') {
+        console.log('로그인 성공 data :', userInfo);
+        checkAuthRefetch();
+        // userId = userInfo.userId;
+        // setUserId(userInfo?.userId);
+        // userInfoRefetch();
+        // const userInfo = await getUser(userInfo.userId);
+        console.log('로그인 후 checkAuthData :', checkAuthData);
         navigate('/');
       }
     } catch (error) {
-      const { response } = error as unknown as AxiosError;
-      setLoginErrMsg(`${response?.data}`);
-      console.log('에러다', error);
+      if (axios.isAxiosError(error)) {
+        console.log('로그인 에러 :', error.response?.data?.message);
+        setLoginErrMsg(`${error.response?.data?.message}`);
+      }
     }
   };
 
