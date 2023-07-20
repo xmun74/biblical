@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { axiosInstance } from '@/config/axiosConfig';
 import { deleteUser, getUser, patchUser } from '@/lib/api';
 
 const Profile = () => {
@@ -14,23 +13,13 @@ const Profile = () => {
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { userId } = useParams();
-  const { data } = useQuery(['userInfo'], () => getUser(Number(userId)));
-  console.log('프로필조회', data);
+  const { data: userInfoData } = useQuery(['userInfo'], () => getUser(Number(userId)));
 
   useEffect(() => {
-    const getUserInfo = async () => {
-      try {
-        const { data } = await axiosInstance.get(`users/${userId}`);
-        console.log('내정보조회', data);
-        setEmail(data?.email);
-        setNickname(data?.nickname);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-    getUserInfo();
-  }, [userId]);
+    setEmail(userInfoData?.email);
+    setNickname(userInfoData?.nickname);
+    console.log('프로필조회', userInfoData);
+  }, [userInfoData]);
 
   const handelImgChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();

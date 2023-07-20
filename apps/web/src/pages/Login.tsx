@@ -7,9 +7,6 @@ import { useCheckAuth } from '@/utils/react-query';
 
 const Login = () => {
   const navigate = useNavigate();
-  // let userId: number;
-  // const [userId, setUserId] = useState<number>();
-  // const { data: userInfoData, refetch: userInfoRefetch } = useUserInfo(userId);
   const { data: checkAuthData, refetch: checkAuthRefetch } = useCheckAuth();
 
   const [email, setEmail] = useState('');
@@ -56,11 +53,7 @@ const Login = () => {
       if (message === 'SUCCESS') {
         console.log('로그인 성공 data :', userInfo);
         checkAuthRefetch();
-        // userId = userInfo.userId;
-        // setUserId(userInfo?.userId);
-        // userInfoRefetch();
-        // const userInfo = await getUser(userInfo.userId);
-        console.log('로그인 후 checkAuthData :', checkAuthData);
+        // console.log('로그인 후 checkAuthData :', checkAuthData);
         navigate('/');
       }
     } catch (error) {
