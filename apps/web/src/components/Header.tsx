@@ -1,12 +1,16 @@
-import { useQueryClient } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { logout } from '@/lib/api';
-import { useCheckAuth } from '@/utils/react-query';
+import User from '@/interfaces/user';
+import { getMeAPI, logoutAPI } from '@/lib/api';
 
 const Header = () => {
   const queryClient = useQueryClient();
-  const { data: checkMeData } = useCheckAuth();
+  const { data: userInfo } = useQuery<User>(['userInfo'], getMeAPI, {
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  });
 
   const navigate = useNavigate();
   const { pathname } = useLocation();
@@ -17,10 +21,10 @@ const Header = () => {
   };
   const handleLogout = async () => {
     try {
-      const data = await logout();
+      const data = await logoutAPI();
       if (data?.message === 'SUCCESS') {
         // console.log('로그아웃', data);
-        queryClient.removeQueries(['checkAuth']);
+        queryClient.removeQueries(['userInfo']); //userInfo
         setIsModalOpen(false);
         navigate('/');
       }
@@ -47,7 +51,7 @@ const Header = () => {
           모임
         </Link>
       </div>
-      {checkMeData && checkMeData?.loggedIn ? (
+      {userInfo && userInfo?.id ? (
         <div className="relative flex items-center">
           <Link to={`/users/:userId/history`} className="font-bold text-accent-400 mr-4">
             MY 성경기록
@@ -55,7 +59,7 @@ const Header = () => {
           <div className="bg-slate-500 w-9 h-9 border rounded-3xl cursor-pointer" onClick={handleMenuClick}></div>
           {isModalOpen && (
             <div className="w-[184px] absolute right-0 z-20 top-[40px] p-2 rounded shadow-lg border">
-              <Link to={`/users/${checkMeData?.userInfo?.userId}`} className="block px-4 py-2 hover:bg-slate-50">
+              <Link to={`/users/${userInfo?.id}`} className="block px-4 py-2 hover:bg-slate-50">
                 내 정보 수정
               </Link>
               <div className="px-4 py-2 hover:bg-slate-50 cursor-pointer" onClick={handleLogout}>

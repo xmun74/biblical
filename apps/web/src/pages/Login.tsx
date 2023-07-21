@@ -1,19 +1,36 @@
-import axios from 'axios';
-import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import KakaoLoginBtn from '@/components/KakaoLoginBtn';
-import { login } from '@/lib/api';
-import { useCheckAuth } from '@/utils/react-query';
+import User from '@/interfaces/user';
+import { loginAPI } from '@/lib/api';
 
 const Login = () => {
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const { data: checkAuthData, refetch: checkAuthRefetch } = useCheckAuth();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [EmailErrMsg, setEmailErrMsg] = useState(false);
   const [pwdErrMsg, setPwdErrMsg] = useState(false);
   const [loginErrMsg, setLoginErrMsg] = useState('');
+  // const [loading, setLoading] = useState(false);
+
+  const { mutate } = useMutation<User, AxiosError, { email: string; password: string }>(['userInfo'], loginAPI, {
+    onMutate: () => {
+      // setLoading(true);
+    },
+    onError: error => {
+      setLoginErrMsg(`${error.response?.data}`);
+    },
+    onSuccess: user => {
+      queryClient.setQueryData(['userInfo'], user);
+      navigate('/');
+    },
+    onSettled: () => {
+      // setLoading(false);
+    },
+  });
 
   const emailValid = (value: string) => {
     const emailReg = RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,3}$/);
@@ -42,27 +59,17 @@ const Login = () => {
       }
     }
   };
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const isValid = emailValid(email);
-    if (!isValid) {
-      return;
-    }
-    try {
-      const { message, userInfo } = await login(email, password);
-      if (message === 'SUCCESS') {
-        console.log('로그인 성공 data :', userInfo);
-        checkAuthRefetch();
-        // console.log('로그인 후 checkAuthData :', checkAuthData);
-        navigate('/');
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const isValid = emailValid(email);
+      if (!isValid) {
+        return;
       }
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        console.log('로그인 에러 :', error.response?.data?.message);
-        setLoginErrMsg(`${error.response?.data?.message}`);
-      }
-    }
-  };
+      mutate({ email, password });
+    },
+    [email, password, mutate]
+  );
 
   return (
     <div className="flex flex-col items-center justify-center">

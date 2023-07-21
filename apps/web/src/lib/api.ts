@@ -10,31 +10,30 @@ export interface LoginResponse {
 }
 
 /** AUTH */
-export const login = async (email: string, password: string): Promise<LoginResponse | null> => {
-  const { data } = await axiosInstance.post(`/auth/login`, { email, password });
+export const loginAPI = async (loginData: { email: string; password: string }) => {
+  const { data } = await axiosInstance.post(`/auth/login`, loginData);
   return data;
 };
 
-export const logout = async (): Promise<{ message: string }> => {
+export const logoutAPI = async (): Promise<{ message: string }> => {
   const { data } = await axiosInstance.get(`/auth/logout`);
   return data;
 };
 
-export const getCheckAuth = async () => {
-  const { data } = await axiosInstance.get('/auth/check');
+/** USER */
+export const getMeAPI = async () => {
+  const { data } = await axiosInstance.get(`/users`);
   return data;
 };
-
-/** USER */
-export const getUser = async (userId: number) => {
+export const patchUserAPI = async (nickname: string) => {
+  const { data } = await axiosInstance.patch(`/users`, { nickname });
+  return data;
+};
+export const deleteUserAPI = async () => {
+  const res = await axiosInstance.delete(`/users`);
+  return res;
+};
+export const getUserAPI = async (userId: number) => {
   const { data } = await axiosInstance.get(`/users/${userId}`);
   return data;
-};
-export const patchUser = async (userId: number, nickname: string) => {
-  const { data } = await axiosInstance.patch(`/users/${userId}`, { nickname });
-  return data;
-};
-export const deleteUser = async (userId: number) => {
-  const res = await axiosInstance.delete(`/users/${userId}`);
-  return res;
 };

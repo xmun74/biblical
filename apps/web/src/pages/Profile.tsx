@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { deleteUser, getUser, patchUser } from '@/lib/api';
+import { deleteUserAPI, getUserAPI, patchUserAPI } from '@/lib/api';
 
 const Profile = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const Profile = () => {
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
   const { userId } = useParams();
-  const { data: userInfoData } = useQuery(['userInfo'], () => getUser(Number(userId)));
+  const { data: userInfoData } = useQuery(['userInfo'], () => getUserAPI(Number(userId)));
 
   useEffect(() => {
     setEmail(userInfoData?.email);
@@ -47,7 +47,7 @@ const Profile = () => {
     const formData = new FormData();
     formData.append('file', imgFile);
     try {
-      await patchUser(Number(userId), nickname);
+      await patchUserAPI(nickname);
     } catch (err) {
       console.log(err);
     }
@@ -55,7 +55,7 @@ const Profile = () => {
 
   const handleUserDelete = async () => {
     try {
-      const res = await deleteUser(Number(userId));
+      const res = await deleteUserAPI();
       if (res?.status === 200) {
         navigate('/');
       }
