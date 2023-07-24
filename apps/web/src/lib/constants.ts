@@ -8,5 +8,6 @@ export const PAGE_ROUTES = {
   MEETINGS: '/meetings',
   MEETINGS_DETAIL: '/meetings/:meetId',
   PROFILE: '/users/:userId',
+  PROFILE_EDIT: '/user/edit',
   HISTORY: '/users/:userId/history',
 } as const;

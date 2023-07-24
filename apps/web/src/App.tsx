@@ -1,32 +1,36 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import Authorization from './components/Authorization';
 import Header from './components/Header';
-import { PAGE_ROUTES } from './lib/constants';
-import Bible from './pages/Bible';
-import History from './pages/History';
-import KakaoLogin from './pages/KakaoLogin';
-import Login from './pages/Login';
-import Main from './pages/Main';
-import MeetingDetail from './pages/MeetingDetail';
-import Meetings from './pages/Meetings';
-import Profile from './pages/Profile';
-import SignUp from './pages/SignUp';
+import ErrorPage from './pages/ErrorPage';
+import { RouteInfo } from './utils/route';
+
+const appRoutes = createBrowserRouter(
+  RouteInfo.map(route => {
+    return route.withAuth
+      ? {
+          path: route.path,
+          errorElement: <ErrorPage />,
+          element: (
+            <Authorization>
+              <Header />
+              {route.element}
+            </Authorization>
+          ),
+        }
+      : {
+          path: route.path,
+          errorElement: <ErrorPage />,
+          element: (
+            <>
+              <Header />
+              {route.element}
+            </>
+          ),
+        };
+  })
+);
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path={`${PAGE_ROUTES.MAIN}`} element={<Main />} />
-        <Route path={`${PAGE_ROUTES.SIGNUP}`} element={<SignUp />} />
-        <Route path={`${PAGE_ROUTES.LOGIN}`} element={<Login />} />
-        <Route path={`${PAGE_ROUTES.OAUTH_KAKAO}`} element={<KakaoLogin />} />
-        <Route path={`${PAGE_ROUTES.BIBLE}`} element={<Bible />} />
-        <Route path={`${PAGE_ROUTES.MEETINGS}`} element={<Meetings />} />
-        <Route path={`${PAGE_ROUTES.MEETINGS_DETAIL}`} element={<MeetingDetail />} />
-        <Route path={`${PAGE_ROUTES.PROFILE}`} element={<Profile />} />
-        <Route path={`${PAGE_ROUTES.HISTORY}`} element={<History />} />
-      </Routes>
-    </BrowserRouter>
-  );
+  return <RouterProvider router={appRoutes} />;
 }
 export default App;

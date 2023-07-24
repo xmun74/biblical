@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import KakaoLoginBtn from '@/components/KakaoLoginBtn';
 import User from '@/interfaces/user';
 import { loginAPI } from '@/lib/api';
+import { setLocalStorage } from '@/utils/localStorage';
 
 const Login = () => {
   const queryClient = useQueryClient();
@@ -14,21 +15,15 @@ const Login = () => {
   const [EmailErrMsg, setEmailErrMsg] = useState(false);
   const [pwdErrMsg, setPwdErrMsg] = useState(false);
   const [loginErrMsg, setLoginErrMsg] = useState('');
-  // const [loading, setLoading] = useState(false);
 
   const { mutate } = useMutation<User, AxiosError, { email: string; password: string }>(['userInfo'], loginAPI, {
-    onMutate: () => {
-      // setLoading(true);
-    },
     onError: error => {
       setLoginErrMsg(`${error.response?.data}`);
     },
     onSuccess: user => {
+      setLocalStorage('isLoggedIn', true);
       queryClient.setQueryData(['userInfo'], user);
       navigate('/');
-    },
-    onSettled: () => {
-      // setLoading(false);
     },
   });
 

@@ -3,15 +3,19 @@ import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import User from '@/interfaces/user';
 import { getMeAPI, logoutAPI } from '@/lib/api';
+import { getLocalStorage, removeLocalStorage } from '@/utils/localStorage';
 
 const Header = () => {
   const queryClient = useQueryClient();
-  const { data: userInfo } = useQuery<User>(['userInfo'], getMeAPI, {
+  const loggedIn: boolean = getLocalStorage('isLoggedIn');
+
+  const { data: userInfo } = useQuery<User>(['userInfo', loggedIn], getMeAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
+    retry: 2,
+    enabled: Boolean(loggedIn), // 로그인했을 때만 fetch
   });
-
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -24,7 +28,9 @@ const Header = () => {
       const data = await logoutAPI();
       if (data?.message === 'SUCCESS') {
         // console.log('로그아웃', data);
-        queryClient.removeQueries(['userInfo']); //userInfo
+        queryClient.removeQueries(['userInfo']);
+        queryClient.invalidateQueries(['userInfo']);
+        removeLocalStorage('isLoggedIn');
         setIsModalOpen(false);
         navigate('/');
       }
@@ -33,7 +39,7 @@ const Header = () => {
     }
   };
   return (
-    <header className="flex justify-between items-center sticky top-0 z-20 h-[80px] px-[40px] bg-white/50 backdrop-blur lg:mx-auto lg:max-w-[1256px]">
+    <header className="flex justify-between items-center sticky top-0 z-20 h-[80px] bg-white/50 backdrop-blur px-[40px] lg:mx-auto lg:max-w-[1256px]">
       <div className="flex text-xl">
         <Link to="/" className="font-monda mr-10">
           Biblical
@@ -53,14 +59,14 @@ const Header = () => {
       </div>
       {userInfo && userInfo?.id ? (
         <div className="relative flex items-center">
-          <Link to={`/users/:userId/history`} className="font-bold text-accent-400 mr-4">
+          <Link to={`/users/${userInfo.id}/history`} className="font-bold text-accent-400 mr-4">
             MY 성경기록
           </Link>
           <div className="bg-slate-500 w-9 h-9 border rounded-3xl cursor-pointer" onClick={handleMenuClick}></div>
           {isModalOpen && (
             <div className="w-[184px] absolute right-0 z-20 top-[40px] p-2 rounded shadow-lg border">
               <Link to={`/users/${userInfo?.id}`} className="block px-4 py-2 hover:bg-slate-50">
-                내 정보 수정
+                내 프로필
               </Link>
               <div className="px-4 py-2 hover:bg-slate-50 cursor-pointer" onClick={handleLogout}>
                 로그아웃

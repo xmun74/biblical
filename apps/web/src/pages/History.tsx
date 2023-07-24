@@ -1,4 +1,18 @@
+import { useQuery } from '@tanstack/react-query';
+import User from '@/interfaces/user';
+import { getMeAPI } from '@/lib/api';
+
 const History = () => {
-  return <>History 페이지</>;
+  // const queryClient = new QueryClient();
+  // const loggedIn = queryClient.getQueryData(['loggedIn']);
+
+  const { data: myUserInfo } = useQuery<User>(['userInfo'], getMeAPI);
+
+  return (
+    <>
+      {myUserInfo && myUserInfo.nickname}
+      History 페이지
+    </>
+  );
 };
 export default History;
