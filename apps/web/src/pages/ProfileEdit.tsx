@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { deleteUserAPI, getUserAPI, patchUserAPI } from '@/lib/api';
+import { useNavigate } from 'react-router-dom';
+import User from '@/interfaces/user';
+import { deleteUserAPI, getMeAPI, patchUserAPI } from '@/lib/api';
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
@@ -12,13 +13,12 @@ const ProfileEdit = () => {
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
   );
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const { userId } = useParams();
-  const { data: userInfoData } = useQuery(['userInfo'], () => getUserAPI(Number(userId)));
+  const { data: userInfoData } = useQuery<User>(['userInfo'], getMeAPI);
 
   useEffect(() => {
     setEmail(userInfoData?.email);
     setNickname(userInfoData?.nickname);
-    console.log('프로필조회', userInfoData);
+    // console.log('프로필 수정', userInfoData);
   }, [userInfoData]);
 
   const handelImgChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
