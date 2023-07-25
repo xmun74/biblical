@@ -1,10 +1,14 @@
-import axios, { AxiosError } from 'axios';
-import { useState } from 'react';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
+import { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import KakaoLoginBtn from '@/components/KakaoLoginBtn';
+import User from '@/interfaces/user';
+import { loginAPI } from '@/lib/api';
+import { setLocalStorage } from '@/utils/localStorage';
 
 const Login = () => {
-  const URL = process.env.API_URL;
+  const queryClient = useQueryClient();
   const navigate = useNavigate();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -12,13 +16,24 @@ const Login = () => {
   const [pwdErrMsg, setPwdErrMsg] = useState(false);
   const [loginErrMsg, setLoginErrMsg] = useState('');
 
+  const { mutate } = useMutation<User, AxiosError, { email: string; password: string }>(['userInfo'], loginAPI, {
+    onError: error => {
+      setLoginErrMsg(`${error.response?.data}`);
+    },
+    onSuccess: user => {
+      setLocalStorage('isLoggedIn', true);
+      queryClient.setQueryData(['userInfo'], user);
+      navigate('/');
+    },
+  });
+
   const emailValid = (value: string) => {
     const emailReg = RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,3}$/);
     const isValid = emailReg.test(value);
     return isValid;
   };
 
-  const handleBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { type, value } = e.target;
     setLoginErrMsg('');
     if (type === 'email') {
@@ -39,24 +54,17 @@ const Login = () => {
       }
     }
   };
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const isValid = emailValid(email);
-    if (!isValid) {
-      return;
-    }
-    try {
-      const { status, data } = await axios.post(`${URL}/auth/login`, { email, password });
-      if (status === 200) {
-        console.log('로그인 성공 data :', data);
-        navigate('/');
+  const handleSubmit = useCallback(
+    (e: React.FormEvent<HTMLFormElement>) => {
+      e.preventDefault();
+      const isValid = emailValid(email);
+      if (!isValid) {
+        return;
       }
-    } catch (error) {
-      const { response } = error as unknown as AxiosError;
-      setLoginErrMsg(`${response.data}`);
-      console.log('에러다', error);
-    }
-  };
+      mutate({ email, password });
+    },
+    [email, password, mutate]
+  );
 
   return (
     <div className="flex flex-col items-center justify-center">
@@ -65,7 +73,7 @@ const Login = () => {
         <form className="flex justify-center mt-10" onSubmit={handleSubmit}>
           <div className="flex flex-col w-full max-w-xs">
             <label className="mt-4 text-xs">이메일</label>
-            <input type="email" placeholder="example@naver.com" className="sign_input" onBlur={handleBlur} />
+            <input type="email" placeholder="example@naver.com" className="sign_input" onChange={handleChange} />
             <div className="text-red-400 text-xs">{EmailErrMsg && '이메일 형식에 맞게 입력해주세요.'}</div>
 
             <label className="mt-4 text-xs">비밀번호</label>
@@ -75,7 +83,7 @@ const Login = () => {
               className="sign_input"
               minLength={6}
               maxLength={16}
-              onBlur={handleBlur}
+              onChange={handleChange}
             />
             <div className="flex justify-between">
               <div className="text-red-400 text-xs">{pwdErrMsg && '6-16자로 입력해주세요.'}</div>

@@ -1,26 +1,46 @@
-import axios from 'axios';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import User from '@/interfaces/user';
+import { getMeAPI, logoutAPI } from '@/lib/api';
+import { getLocalStorage, removeLocalStorage } from '@/utils/localStorage';
 
 const Header = () => {
-  const URL = process.env.API_URL;
-  const { pathname } = useLocation();
-  const isLoggedId = false; // 임시
-  const [isModalOpen, setIsModalOpen] = useState(true);
+  const queryClient = useQueryClient();
+  const loggedIn: boolean = getLocalStorage('isLoggedIn');
 
-  const handleMenuClick = () => {
-    setIsModalOpen(!isModalOpen);
+  const { data: userInfo } = useQuery<User>(['userInfo', loggedIn], getMeAPI, {
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    retry: 2,
+    enabled: Boolean(loggedIn), // 로그인했을 때만 fetch
+  });
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const onMenuItemClick = () => {
+    setIsModalOpen(false);
   };
+
   const handleLogout = async () => {
     try {
-      const data = await axios.get(`${URL}/auth/logout`);
-      console.log('로그아웃', data);
+      const data = await logoutAPI();
+      if (data?.message === 'SUCCESS') {
+        // console.log('로그아웃', data);
+        queryClient.removeQueries(['userInfo']);
+        queryClient.invalidateQueries(['userInfo']);
+        removeLocalStorage('isLoggedIn');
+        setIsModalOpen(false);
+        navigate('/');
+      }
     } catch (error) {
       console.log(error);
     }
   };
   return (
-    <header className="flex justify-between items-center sticky top-0 z-20 h-[80px] px-[40px] bg-white/50 backdrop-blur lg:mx-auto lg:max-w-[1256px]">
+    <header className="flex justify-between items-center sticky top-0 z-20 h-[80px] bg-white/50 backdrop-blur px-[40px] lg:mx-auto lg:max-w-[1256px]">
       <div className="flex text-xl">
         <Link to="/" className="font-monda mr-10">
           Biblical
@@ -38,21 +58,47 @@ const Header = () => {
           모임
         </Link>
       </div>
-      {isLoggedId ? (
-        <div className="relative flex items-center">
-          <Link to={`/users/:userId/history`} className="font-bold text-accent-400 mr-4">
+      {userInfo && userInfo?.id ? (
+        <div className="relative flex items-center h-full">
+          <Link to={`/users/${userInfo.id}/history`} className="font-bold text-accent-400 mr-4">
             MY 성경기록
           </Link>
-          <div className="bg-slate-500 w-9 h-9 border rounded-3xl cursor-pointer" onClick={handleMenuClick}></div>
+
+          <div
+            className="flex items-center w-9 h-full cursor-pointer"
+            onMouseEnter={() => setIsModalOpen(true)}
+            onMouseLeave={() => setIsModalOpen(false)}
+          >
+            <div
+              className="bg-slate-500 w-9 h-9 border rounded-3xl cursor-pointer"
+              onClick={() => navigate(`/users/${userInfo.id}`)}
+            />
+          </div>
           {isModalOpen && (
-            <div className="w-[184px] absolute right-0 z-20 top-[40px] p-2 rounded shadow-lg border">
-              <Link to={`/users/:userId/edit`} className="block px-4 py-2 hover:bg-slate-50">
+            <section
+              className="w-[184px] absolute right-[-5px] top-[75px] p-2 bg-white rounded shadow-lg border"
+              onMouseEnter={() => setIsModalOpen(true)}
+              onMouseLeave={() => setIsModalOpen(false)}
+            >
+              <div className="inline-block absolute right-3 top-[-11px] w-[20px] h-[20px] transform rotate-45 border bg-white border-solid border-r-0 border-b-0" />
+              <Link
+                to={`/users/${userInfo?.id}`}
+                className="inline-block px-4 py-2 font-semibold hover:font-extrabold"
+                onClick={onMenuItemClick}
+              >
+                {userInfo.nickname}
+              </Link>
+              <Link
+                to={`/user/edit`}
+                className="block px-4 py-2 hover:bg-slate-50 cursor-pointer"
+                onClick={onMenuItemClick}
+              >
                 내 정보 수정
               </Link>
               <div className="px-4 py-2 hover:bg-slate-50 cursor-pointer" onClick={handleLogout}>
                 로그아웃
               </div>
-            </div>
+            </section>
           )}
         </div>
       ) : (
