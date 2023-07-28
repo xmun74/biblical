@@ -5,6 +5,7 @@ export default interface User {
   email: string;
   nickname: string;
   password: string;
+  img?: string;
   Followings: User[];
   Followers: User[];
   Post?: Post[];

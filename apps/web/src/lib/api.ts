@@ -25,8 +25,14 @@ export const getMeAPI = async () => {
   const { data } = await axiosInstance.get(`/users`);
   return data;
 };
-export const patchUserAPI = async (nickname: string) => {
-  const { data } = await axiosInstance.patch(`/users`, { nickname });
+export const patchNicknameAPI = async (nickname: string) => {
+  const { data } = await axiosInstance.patch(`/users/nickname`, { nickname });
+  return data;
+};
+export const patchUserImgAPI = async (imgData: FormData) => {
+  const { data } = await axiosInstance.patch(`/users/image`, imgData, {
+    headers: { 'Content-Type': 'multipart/form-data; charset=UTF-8' },
+  });
   return data;
 };
 export const deleteUserAPI = async () => {
