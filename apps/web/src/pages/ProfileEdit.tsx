@@ -76,7 +76,8 @@ const ProfileEdit = () => {
     }
   };
 
-  const handleUserInfoEdit = async () => {
+  const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const formData = new FormData();
     formData.append(process.env.USER_IMG_FIELD, imgFile);
     try {
@@ -102,51 +103,65 @@ const ProfileEdit = () => {
   };
   return (
     <div className="py-14 px-10 md:py-12 md:mx-auto lg:max-w-[1256px]">
-      <div className="flex justify-between mb-14">
-        <div className="font-bold text-2xl">내 정보 수정</div>
-        <button className="text-red-400" onClick={handleUserDelete}>
+      <div className="flex justify-between mb-14 px-4 pb-4 border-b">
+        <div className="font-bold text-xl md:text-2xl">내 정보 수정</div>
+        <button className="text-red-400 underline" onClick={handleUserDelete}>
           회원탈퇴
         </button>
       </div>
 
-      <div className="flex">
-        <img
-          className="bg-slate-200 w-[125px] h-[125px] rounded-[42px] mr-[40px] object-cover cursor-pointer hover:opacity-70"
-          src={avatar}
-          alt="profile image"
-          onClick={() => fileInputRef.current?.click()}
-        />
-        <input
-          className="hidden bg-cover"
-          type="file"
-          name={`${process.env.USER_IMG_FIELD}`}
-          accept="image/jpg,image/png,image/jpeg"
-          ref={fileInputRef}
-          onChange={handelImgChange}
-        />
-
-        <div>
-          <div className="font-bold text-slate-400 text-sm">이메일 주소</div>
-          <div>{email && email}</div>
-          <div className="font-bold text-slate-400 text-sm mt-2">닉네임</div>
-          <input
-            ref={NickInputRef}
-            type="text"
-            className="sign_input"
-            defaultValue={nickname}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNickname(e.target.value)}
-          />
-          <div className="text-red-400 text-xs">{nickErrMsg}</div>
+      <form onSubmit={handleEdit} className="max-w-[650px]">
+        <div className="flex">
+          <label className="font-bold text-slate-500 w-[250px]">
+            프로필 사진
+            <div className="text-slate-400 font-thin text-sm">확장자: png, jpg, jpeg / 용량: 5MB 이하</div>
+          </label>
+          <div>
+            <img
+              className="bg-slate-200 w-[125px] h-[125px] rounded-[42px] object-cover cursor-pointer hover:opacity-70 mb-2"
+              src={avatar}
+              alt="profile image"
+              onClick={() => fileInputRef.current?.click()}
+            />
+            <input
+              className="hidden bg-cover"
+              type="file"
+              name={`${process.env.USER_IMG_FIELD}`}
+              accept="image/jpg,image/png,image/jpeg"
+              ref={fileInputRef}
+              onChange={handelImgChange}
+            />
+            <div className="text-red-400 h-[16px] text-xs">{imgerrMsg}</div>
+          </div>
         </div>
-      </div>
-      <div className="text-red-400 text-xs">{imgerrMsg}</div>
-      <button
-        type="submit"
-        className="bg-accent-400 rounded-md text-white text-lg p-2 max-w-[100px] text-center font-semibold ml-[165px] mt-4"
-        onClick={handleUserInfoEdit}
-      >
-        정보 수정
-      </button>
+
+        <div className="flex mt-8">
+          <label className="font-bold text-slate-500 min-w-[250px]">이메일 주소</label>
+          {email && email}
+        </div>
+        <div className="flex mt-8">
+          <label className="font-bold text-slate-500 w-[250px]">
+            닉네임
+            <div className="text-slate-400 font-thin text-sm">2~15자</div>
+          </label>
+          <div>
+            <input
+              ref={NickInputRef}
+              type="text"
+              className="sign_input w-full sm:max-w-[400px]"
+              defaultValue={nickname}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNickname(e.target.value)}
+            />
+            <div className="text-red-400 h-[16px] text-xs">{nickErrMsg}</div>
+          </div>
+        </div>
+        <button
+          type="submit"
+          className="bg-accent-400 rounded-md text-white text-lg p-2 w-full text-center font-semibold mt-10"
+        >
+          정보 수정
+        </button>
+      </form>
     </div>
   );
 };

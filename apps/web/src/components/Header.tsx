@@ -69,19 +69,19 @@ const Header = () => {
       </div>
       {userInfo && userInfo?.id ? (
         <div className="relative flex items-center h-full">
-          <Link to={`/users/${userInfo.id}/history`} className="font-bold text-accent-400 mr-4">
+          <Link to={`/users/${userInfo.id}/history`} className="font-bold text-accent-400 mr-2">
             MY 성경기록
           </Link>
 
           <div
-            className="flex items-center w-9 h-full cursor-pointer"
+            className="flex items-center pl-4 h-full cursor-pointer"
             onMouseEnter={() => setIsModalOpen(true)}
             onMouseLeave={() => setIsModalOpen(false)}
           >
             <img
               src={avatar}
               alt="user avatar image"
-              className="bg-slate-500 w-9 h-9 border rounded-3xl cursor-pointer object-cover"
+              className="w-9 h-9 border rounded-3xl cursor-pointer object-cover"
               onClick={() => navigate(`/users/${userInfo.id}`)}
             />
           </div>
