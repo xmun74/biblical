@@ -14,13 +14,17 @@ const ProfileEdit = () => {
   const [avatar, setAvatar] = useState(
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
   );
-  const [errMsg, setErrMsg] = useState('');
+  const [nickErrMsg, setNickErrMsg] = useState('');
+  const [imgerrMsg, setImgErrMsg] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const NickInputRef = useRef<HTMLInputElement>(null);
+
   const { data: userInfoData } = useQuery<User>(['userInfo'], getMeAPI);
 
   const { mutate: nickMutation } = useMutation<User, AxiosError, string>(['userInfo'], patchNicknameAPI, {
-    onError: error => {
-      setErrMsg(`닉네임 에러 ${error.response?.data}`);
+    onError: (error: AxiosError) => {
+      setNickErrMsg(`${error.response?.data}`);
+      NickInputRef.current.focus();
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['userInfo'] });
@@ -31,7 +35,7 @@ const ProfileEdit = () => {
     onError: (error: unknown) => {
       if (error instanceof AxiosError) {
         if (error?.response?.data === 'File too large') {
-          setErrMsg(`이미지 용량이 5MB 이하여야 합니다.`);
+          setImgErrMsg(`용량이 5MB 이하여야 합니다.`);
         }
       }
     },
@@ -41,6 +45,8 @@ const ProfileEdit = () => {
   });
 
   useEffect(() => {
+    setNickErrMsg('');
+    setImgErrMsg('');
     setEmail(userInfoData?.email);
     setNickname(userInfoData?.nickname);
     if (userInfoData?.img) {
@@ -105,7 +111,7 @@ const ProfileEdit = () => {
 
       <div className="flex">
         <img
-          className="bg-slate-200  w-[125px] h-[125px] rounded-3xl mr-[40px] object-cover cursor-pointer hover:opacity-70"
+          className="bg-slate-200 w-[125px] h-[125px] rounded-[42px] mr-[40px] object-cover cursor-pointer hover:opacity-70"
           src={avatar}
           alt="profile image"
           onClick={() => fileInputRef.current?.click()}
@@ -124,14 +130,16 @@ const ProfileEdit = () => {
           <div>{email && email}</div>
           <div className="font-bold text-slate-400 text-sm mt-2">닉네임</div>
           <input
+            ref={NickInputRef}
             type="text"
             className="sign_input"
             defaultValue={nickname}
             onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNickname(e.target.value)}
           />
+          <div className="text-red-400 text-xs">{nickErrMsg}</div>
         </div>
       </div>
-      <div className="text-red-400 text-xs">{errMsg}</div>
+      <div className="text-red-400 text-xs">{imgerrMsg}</div>
       <button
         type="submit"
         className="bg-accent-400 rounded-md text-white text-lg p-2 max-w-[100px] text-center font-semibold ml-[165px] mt-4"
