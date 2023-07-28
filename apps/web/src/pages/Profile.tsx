@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import User from '@/interfaces/user';
 import { getMeAPI, getUserAPI } from '@/lib/api';
@@ -19,14 +19,28 @@ const Profile = () => {
     refetchOnReconnect: false,
     retry: 2,
   });
-  const isMe: () => boolean = () => {
+
+  const isMe: () => boolean = useCallback(() => {
     return Number(userId) === MyInfoData?.id ? true : false;
-  };
+  }, [MyInfoData?.id, userId]);
+
   // 다른 유저
   const isMeId = isMe();
   const { data: otherInfoData } = useQuery<User>(['otherUserInfo'], () => getUserAPI(Number(userId)), {
     enabled: Boolean(!isMeId),
   });
+
+  useEffect(() => {
+    if (isMe()) {
+      if (MyInfoData?.img) {
+        setAvatar(`${process.env.API_URL}${MyInfoData?.img}`);
+      }
+    } else {
+      if (otherInfoData?.img) {
+        setAvatar(`${process.env.API_URL}${otherInfoData?.img}`);
+      }
+    }
+  }, [MyInfoData?.img, isMe, otherInfoData?.img]);
 
   return (
     <div className="md:grid grid-cols-3 gap-2 h-auto px-[40px] lg:mx-auto lg:max-w-[1256px]">

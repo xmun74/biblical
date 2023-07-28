@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import User from '@/interfaces/user';
 import { getMeAPI, logoutAPI } from '@/lib/api';
@@ -19,6 +19,15 @@ const Header = () => {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [avatar, setAvatar] = useState(
+    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
+  );
+
+  useEffect(() => {
+    if (userInfo?.img) {
+      setAvatar(`${process.env.API_URL}${userInfo?.img}`);
+    }
+  }, [userInfo?.img]);
 
   const onMenuItemClick = () => {
     setIsModalOpen(false);
@@ -60,17 +69,19 @@ const Header = () => {
       </div>
       {userInfo && userInfo?.id ? (
         <div className="relative flex items-center h-full">
-          <Link to={`/users/${userInfo.id}/history`} className="font-bold text-accent-400 mr-4">
+          <Link to={`/users/${userInfo.id}/history`} className="font-bold text-accent-400 mr-2">
             MY 성경기록
           </Link>
 
           <div
-            className="flex items-center w-9 h-full cursor-pointer"
+            className="flex items-center pl-4 h-full cursor-pointer"
             onMouseEnter={() => setIsModalOpen(true)}
             onMouseLeave={() => setIsModalOpen(false)}
           >
-            <div
-              className="bg-slate-500 w-9 h-9 border rounded-3xl cursor-pointer"
+            <img
+              src={avatar}
+              alt="user avatar image"
+              className="w-9 h-9 border rounded-3xl cursor-pointer object-cover"
               onClick={() => navigate(`/users/${userInfo.id}`)}
             />
           </div>

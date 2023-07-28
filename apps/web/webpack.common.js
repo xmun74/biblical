@@ -53,6 +53,6 @@ module.exports = {
     new webpack.ProvidePlugin({
       React: 'react',
     }),
-    new webpack.EnvironmentPlugin(['API_URL']),
+    new webpack.EnvironmentPlugin(['API_URL', 'USER_IMG_FIELD']),
   ],
 };

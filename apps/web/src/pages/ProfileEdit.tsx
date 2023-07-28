@@ -1,24 +1,57 @@
-import { useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { AxiosError } from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import User from '@/interfaces/user';
-import { deleteUserAPI, getMeAPI, patchUserAPI } from '@/lib/api';
+import { deleteUserAPI, getMeAPI, patchNicknameAPI, patchUserImgAPI } from '@/lib/api';
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [imgFile, setImgFile] = useState<File>();
   const [avatar, setAvatar] = useState(
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
   );
+  const [nickErrMsg, setNickErrMsg] = useState('');
+  const [imgerrMsg, setImgErrMsg] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const NickInputRef = useRef<HTMLInputElement>(null);
+
   const { data: userInfoData } = useQuery<User>(['userInfo'], getMeAPI);
 
+  const { mutate: nickMutation } = useMutation<User, AxiosError, string>(['userInfo'], patchNicknameAPI, {
+    onError: (error: AxiosError) => {
+      setNickErrMsg(`${error.response?.data}`);
+      NickInputRef.current.focus();
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userInfo'] });
+    },
+  });
+
+  const { mutate: imgMutation, data: imgRes } = useMutation(['userInfo'], patchUserImgAPI, {
+    onError: (error: unknown) => {
+      if (error instanceof AxiosError) {
+        if (error?.response?.data === 'File too large') {
+          setImgErrMsg(`용량이 5MB 이하여야 합니다.`);
+        }
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['userInfo'] });
+    },
+  });
+
   useEffect(() => {
+    setNickErrMsg('');
+    setImgErrMsg('');
     setEmail(userInfoData?.email);
     setNickname(userInfoData?.nickname);
-    // console.log('프로필 수정', userInfoData);
+    if (userInfoData?.img) {
+      setAvatar(`${process.env.API_URL}${userInfoData?.img}`);
+    }
   }, [userInfoData]);
 
   const handelImgChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -37,17 +70,22 @@ const ProfileEdit = () => {
       /* 이미지 state 저장 */
       const formData = new FormData();
       if (uploadFiles) {
-        formData.append('file', uploadFiles);
+        formData.append(process.env.USER_IMG_FIELD, uploadFiles);
       }
       setImgFile(uploadFiles);
     }
   };
 
-  const handleUserInfoEdit = async () => {
+  const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     const formData = new FormData();
-    formData.append('file', imgFile);
+    formData.append(process.env.USER_IMG_FIELD, imgFile);
     try {
-      await patchUserAPI(nickname);
+      nickMutation(nickname);
+      imgMutation(formData);
+      if (imgRes?.userImgUrl) {
+        setAvatar(`${process.env.API_URL}${imgRes?.userImgUrl}`);
+      }
     } catch (err) {
       console.log(err);
     }
@@ -65,48 +103,65 @@ const ProfileEdit = () => {
   };
   return (
     <div className="py-14 px-10 md:py-12 md:mx-auto lg:max-w-[1256px]">
-      <div className="flex justify-between mb-14">
-        <div className="font-bold text-2xl">내 정보 수정</div>
-        <button className="text-red-400" onClick={handleUserDelete}>
+      <div className="flex justify-between mb-14 px-4 pb-4 border-b">
+        <div className="font-bold text-xl md:text-2xl">내 정보 수정</div>
+        <button className="text-red-400 underline" onClick={handleUserDelete}>
           회원탈퇴
         </button>
       </div>
 
-      <div className="flex">
-        <img
-          className="bg-slate-200  w-[125px] h-[125px] rounded-3xl mr-[40px] object-cover cursor-pointer hover:opacity-70"
-          src={avatar}
-          alt="profile image"
-          onClick={() => fileInputRef.current?.click()}
-        />
-        <input
-          className="hidden bg-cover"
-          type="file"
-          name="profile_img"
-          accept="image/jpg,impge/png,image/jpeg"
-          ref={fileInputRef}
-          onChange={handelImgChange}
-        />
-
-        <div>
-          <div className="font-bold text-slate-400 text-sm">이메일 주소</div>
-          <div>{email && email}</div>
-          <div className="font-bold text-slate-400 text-sm mt-2">닉네임</div>
-          <input
-            type="text"
-            className="sign_input"
-            defaultValue={nickname}
-            onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNickname(e.target.value)}
-          />
+      <form onSubmit={handleEdit} className="max-w-[650px]">
+        <div className="flex">
+          <label className="font-bold text-slate-500 w-[250px]">
+            프로필 사진
+            <div className="text-slate-400 font-thin text-sm">확장자: png, jpg, jpeg / 용량: 5MB 이하</div>
+          </label>
+          <div>
+            <img
+              className="bg-slate-200 w-[125px] h-[125px] rounded-[42px] object-cover cursor-pointer hover:opacity-70 mb-2"
+              src={avatar}
+              alt="profile image"
+              onClick={() => fileInputRef.current?.click()}
+            />
+            <input
+              className="hidden bg-cover"
+              type="file"
+              name={`${process.env.USER_IMG_FIELD}`}
+              accept="image/jpg,image/png,image/jpeg"
+              ref={fileInputRef}
+              onChange={handelImgChange}
+            />
+            <div className="text-red-400 h-[16px] text-xs">{imgerrMsg}</div>
+          </div>
         </div>
-      </div>
-      <button
-        type="submit"
-        className="bg-accent-400 rounded-md text-white text-lg p-2 max-w-[100px] text-center font-semibold ml-[165px] mt-4"
-        onClick={handleUserInfoEdit}
-      >
-        정보 수정
-      </button>
+
+        <div className="flex mt-8">
+          <label className="font-bold text-slate-500 min-w-[250px]">이메일 주소</label>
+          {email && email}
+        </div>
+        <div className="flex mt-8">
+          <label className="font-bold text-slate-500 w-[250px]">
+            닉네임
+            <div className="text-slate-400 font-thin text-sm">2~15자</div>
+          </label>
+          <div>
+            <input
+              ref={NickInputRef}
+              type="text"
+              className="sign_input w-full sm:max-w-[400px]"
+              defaultValue={nickname}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) => setNickname(e.target.value)}
+            />
+            <div className="text-red-400 h-[16px] text-xs">{nickErrMsg}</div>
+          </div>
+        </div>
+        <button
+          type="submit"
+          className="bg-accent-400 rounded-md text-white text-lg p-2 w-full text-center font-semibold mt-10"
+        >
+          정보 수정
+        </button>
+      </form>
     </div>
   );
 };
