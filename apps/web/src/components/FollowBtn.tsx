@@ -9,8 +9,8 @@ const FollowBtn = ({
   setIsFollowers,
 }: {
   otherUserId: number;
-  isFollowers: number;
-  setIsFollowers: React.Dispatch<SetStateAction<number>>;
+  isFollowers?: number;
+  setIsFollowers?: React.Dispatch<SetStateAction<number>>;
 }) => {
   const { data: me } = useQuery<User>(['userInfo'], getMeAPI, {
     refetchOnWindowFocus: false,
@@ -44,7 +44,7 @@ const FollowBtn = ({
 
   return (
     <button
-      className={`w-[150px] border rounded-md mt-3 p-2 font-bold transition-all 
+      className={`w-full max-w-[150px] border rounded-md mt-3 p-2 font-bold transition-all 
       ${
         isFollow ? `border-slate-300 hover:bg-slate-50 text-slate-400` : `bg-accent-400 text-white hover:bg-accent-500`
       }`}
