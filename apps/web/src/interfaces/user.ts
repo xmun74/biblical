@@ -8,5 +8,5 @@ export default interface User {
   img?: string;
   Followings: User[];
   Followers: User[];
-  Post?: Post[];
+  Posts?: Post[];
 }

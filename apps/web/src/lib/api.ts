@@ -43,3 +43,11 @@ export const getUserAPI = async (userId: number) => {
   const { data } = await axiosInstance.get(`/users/${userId}`);
   return data;
 };
+export const postFollowAPI = async (userId: number) => {
+  const { data } = await axiosInstance.post(`/users/${userId}/follow`);
+  return data;
+};
+export const deleteUnFollowAPI = async (userId: number) => {
+  const { data } = await axiosInstance.delete(`/users/${userId}/follow`);
+  return data;
+};

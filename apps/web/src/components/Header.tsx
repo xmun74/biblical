@@ -51,30 +51,30 @@ const Header = () => {
   return (
     <header className="flex justify-between items-center sticky top-0 z-20 h-[80px] bg-white/50 backdrop-blur px-[40px] lg:mx-auto lg:max-w-[1256px]">
       <div className="flex text-xl">
-        <Link to="/" className="font-monda mr-10">
+        <Link to="/" className="font-monda mr-10 w-[75px] h-[28px]">
           Biblical
         </Link>
         <Link
           to="/bible"
-          className={`font-extrabold mr-6 hover:text-accent-350 ${pathname === '/bible' && 'text-accent-350'}`}
+          className={`font-extrabold mr-6 hover:text-accent-350 w-[70px] ${pathname === '/bible' && 'text-accent-350'}`}
         >
           성경읽기
         </Link>
         <Link
           to="/meetings"
-          className={`font-extrabold hover:text-accent-300 ${pathname === '/meetings' && 'text-accent-350'}`}
+          className={`font-extrabold hover:text-accent-300 w-[70px] ${pathname === '/meetings' && 'text-accent-350'}`}
         >
           모임
         </Link>
       </div>
       {userInfo && userInfo?.id ? (
         <div className="relative flex items-center h-full">
-          <Link to={`/users/${userInfo.id}/history`} className="font-bold text-accent-400 mr-2">
+          <Link to={`/users/${userInfo.id}/history`} className="font-bold text-accent-400 mr-2 w-[85px]">
             MY 성경기록
           </Link>
 
           <div
-            className="flex items-center pl-4 h-full cursor-pointer"
+            className="flex items-center pl-4 h-full cursor-pointer w-[52px]"
             onMouseEnter={() => setIsModalOpen(true)}
             onMouseLeave={() => setIsModalOpen(false)}
           >
