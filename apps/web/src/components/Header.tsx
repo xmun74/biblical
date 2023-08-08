@@ -49,7 +49,7 @@ const Header = () => {
     }
   };
   return (
-    <header className="flex justify-between items-center sticky top-0 z-20 h-[80px] bg-white/50 backdrop-blur px-[40px] lg:mx-auto lg:max-w-[1200px]">
+    <header className="flex justify-between items-center sticky top-0 z-10 h-[80px] bg-white/50 backdrop-blur px-[40px] lg:mx-auto lg:max-w-[1200px]">
       <div className="flex text-xl">
         <Link to="/" className="font-monda mr-10 w-[75px] h-[28px]">
           Biblical
