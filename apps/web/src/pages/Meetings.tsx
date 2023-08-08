@@ -2,7 +2,9 @@
 import { useModals } from '@biblical/react-ui';
 import { Link } from 'react-router-dom';
 import Layout from '@/components/Layout';
+import { MeetProps } from '@/components/Modal/MeetingCreateModal';
 import { modals } from '@/components/Modal/modals';
+import { postMeetingAPI } from '@/lib/api';
 
 const Meetings = () => {
   /*   const webSocket = new WebSocket('ws://localhost:0');
@@ -21,15 +23,18 @@ const Meetings = () => {
   }); */
 
   const { openModal } = useModals();
+  const handleMeetCreateDoneModal = () => {
+    openModal(modals.meetCreateDoneModal, {});
+  };
+
   const handleMeetCreateModal = () => {
     openModal(modals.meetCreateModal, {
-      onSubmit: async (value: string) => {
-        // value : 모달 컴포넌트에서넘겨준값
-        if (typeof value === 'string') {
-          setTimeout(() => {
-            console.log('3초 후, 모달컴포넌트에서 값받고 페이지에서 제출.', value);
-          }, 3000);
+      onSubmit: async (value: MeetProps) => {
+        const data = await postMeetingAPI(value);
+        if (data) {
+          handleMeetCreateDoneModal();
         }
+        console.log('data :', data);
       },
     });
   };
@@ -75,7 +80,17 @@ const Meetings = () => {
             <div className="font-bold">meetName</div>
             <div className="text-slate-400">00명</div>
           </div>
-          <div className="bg-accent-600 w-10 h-10 rounded-full flex justify-center items-center text-white">{`->`}</div>
+          <div className="bg-accent-600 w-10 h-10 rounded-full flex justify-center items-center text-white">
+            <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path
+                d="M15.8043 25.3507L24.9423 16.5821M24.9423 16.5821L16.1737 7.44422M24.9423 16.5821L7.03581 16.2128"
+                stroke="white"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </div>
         </Link>
       </div>
     </Layout>
