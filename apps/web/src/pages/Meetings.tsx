@@ -65,7 +65,7 @@ const Meetings = () => {
                     <div className="text-xs text-slate-400">팀원을 초대해 보세요!</div>
                   </div>
                   <div className="bg-accent-600 w-10 h-10 rounded-full flex justify-center items-center text-white">
-                    <Plus stroke="white" width="40px" height="40px" stroke-width="2.5" />
+                    <Plus stroke="white" width="40px" height="40px" strokeWidth="2.5" />
                   </div>
                 </button>
               </div>
@@ -83,7 +83,7 @@ const Meetings = () => {
             <div className="text-slate-400">00명</div>
           </div>
           <div className="bg-accent-600 w-10 h-10 rounded-full flex justify-center items-center text-white">
-            <ArrowRight stroke="white" width="40" height="40" stroke-width="1.3" />
+            <ArrowRight stroke="white" width="40" height="40" strokeWidth="1.3" />
           </div>
         </Link>
       </div>

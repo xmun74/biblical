@@ -19,7 +19,7 @@ const MeetingCreateDoneModal = ({ onClose }: { onClose?: () => void }) => {
       >
         <span className="font-bold">생성된 모임으로 이동하기</span>
         <div className="bg-white w-10 h-10 rounded-full flex justify-center items-center text-white">
-          <ArrowRight stroke="#2EE683" width="32" height="32" stroke-width="1.8" />
+          <ArrowRight stroke="#2EE683" width="32" height="32" strokeWidth="1.8" />
         </div>
       </button>
     </div>
