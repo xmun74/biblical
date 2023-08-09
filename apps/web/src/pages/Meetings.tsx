@@ -1,6 +1,8 @@
 // import io from 'socket.io-client';
 import { useModals } from '@biblical/react-ui';
 import { Link } from 'react-router-dom';
+import ArrowRight from '@/assets/svg/ArrowRight.svg';
+import Plus from '@/assets/svg/Plus.svg';
 import Layout from '@/components/Layout';
 import { MeetProps } from '@/components/Modal/MeetingCreateModal';
 import { modals } from '@/components/Modal/modals';
@@ -45,9 +47,9 @@ const Meetings = () => {
         <div className="font-bold text-xl my-6">모임에 참여하기</div>
         <div>
           <div className="relative">
-            <img src="/assets/images/meetingBg.png" alt="" className=" w-full h-[300px] rounded-[55px]" />
+            <img src="/images/meetingBg.png" alt="" className=" w-full h-[300px] rounded-[55px]" />
             <div className="absolute top-0 p-10 md:px-14 flex w-full h-full  justify-center md:justify-between items-center">
-              <img src="/assets/images/meetingImg.svg" alt="" className="hidden md:block md:h-3/5 lg:h-full z-10 " />
+              <img src="/images/meetingImg.svg" alt="" className="hidden md:block md:h-3/5 lg:h-full z-10 " />
               <div className="h-full flex flex-col justify-between md:ml-10">
                 <div className="text-white text-sm md:text-base">
                   모임에 참여한 멤버끼리만 모임 내용을 공유합니다. <br />
@@ -63,7 +65,7 @@ const Meetings = () => {
                     <div className="text-xs text-slate-400">팀원을 초대해 보세요!</div>
                   </div>
                   <div className="bg-accent-600 w-10 h-10 rounded-full flex justify-center items-center text-white">
-                    +
+                    <Plus stroke="white" width="40px" height="40px" stroke-width="2.5" />
                   </div>
                 </button>
               </div>
@@ -81,15 +83,7 @@ const Meetings = () => {
             <div className="text-slate-400">00명</div>
           </div>
           <div className="bg-accent-600 w-10 h-10 rounded-full flex justify-center items-center text-white">
-            <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M15.8043 25.3507L24.9423 16.5821M24.9423 16.5821L16.1737 7.44422M24.9423 16.5821L7.03581 16.2128"
-                stroke="white"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+            <ArrowRight stroke="white" width="40" height="40" stroke-width="1.3" />
           </div>
         </Link>
       </div>

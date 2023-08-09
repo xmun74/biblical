@@ -1,3 +1,5 @@
+import ArrowRight from '@/assets/svg/ArrowRight.svg';
+
 const MeetingCreateDoneModal = ({ onClose }: { onClose?: () => void }) => {
   const onClick = () => {
     window.history.pushState('', '', `/meetings`);
@@ -17,15 +19,7 @@ const MeetingCreateDoneModal = ({ onClose }: { onClose?: () => void }) => {
       >
         <span className="font-bold">생성된 모임으로 이동하기</span>
         <div className="bg-white w-10 h-10 rounded-full flex justify-center items-center text-white">
-          <svg width="32" height="33" viewBox="0 0 32 33" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path
-              d="M15.8043 25.3507L24.9423 16.5821M24.9423 16.5821L16.1737 7.44422M24.9423 16.5821L7.03581 16.2128"
-              stroke="#2EE683"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <ArrowRight stroke="#2EE683" width="32" height="32" stroke-width="1.8" />
         </div>
       </button>
     </div>

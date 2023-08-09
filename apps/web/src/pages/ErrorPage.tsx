@@ -14,7 +14,7 @@ export default function ErrorPage() {
     return (
       <div id="error-page" className="m-8">
         <Link to="/" className="flex items-center mb-8">
-          <img src="/assets/favicons/favicon-32x32.png" alt="logo" width={32} />
+          <img src="/favicons/favicon-32x32.png" alt="logo" width={32} />
           <span className="font-monda ml-4 text-3xl">Biblical</span>
         </Link>
         <h1 className="font-semibold">
@@ -32,7 +32,7 @@ export default function ErrorPage() {
     return (
       <div id="error-page" className="m-8">
         <Link to="/" className="flex items-center mb-8">
-          <img src="/assets/favicons/favicon-32x32.png" alt="logo" width={32} />
+          <img src="/favicons/favicon-32x32.png" alt="logo" width={32} />
           <span className="font-monda ml-4 text-3xl">Biblical</span>
         </Link>
         <h1 className="font-semibold">Unexpected Error</h1>
