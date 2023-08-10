@@ -1,8 +1,8 @@
 import ArrowRight from '@/assets/svg/ArrowRight.svg';
 
-const MeetingCreateDoneModal = ({ onClose }: { onClose?: () => void }) => {
-  const onClick = () => {
-    window.history.pushState('', '', `/meetings`);
+const MeetingCreateDoneModal = ({ onSubmit, onClose }: { onSubmit?: () => void; onClose?: () => void }) => {
+  const handleClick = () => {
+    onSubmit();
     onClose();
   };
   return (
@@ -14,8 +14,7 @@ const MeetingCreateDoneModal = ({ onClose }: { onClose?: () => void }) => {
       <button
         type="button"
         className="bg-accent-400 w-full rounded-xl hover_bg flex justify-between p-3 mt-4 items-center text-white"
-        // onClick={() => navigate(`/`)} // <Router> component안에 있는 게 아니라서 router-dom 안됨 에러남
-        onClick={onClick}
+        onClick={handleClick}
       >
         <span className="font-bold">생성된 모임으로 이동하기</span>
         <div className="bg-white w-10 h-10 rounded-full flex justify-center items-center text-white">

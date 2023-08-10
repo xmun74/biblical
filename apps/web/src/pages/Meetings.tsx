@@ -1,6 +1,6 @@
 // import io from 'socket.io-client';
 import { useModals } from '@biblical/react-ui';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import ArrowRight from '@/assets/svg/ArrowRight.svg';
 import Plus from '@/assets/svg/Plus.svg';
 import Layout from '@/components/Layout';
@@ -24,19 +24,23 @@ const Meetings = () => {
     socket.emit('reply', '헬로 고고');
   }); */
 
+  const navigate = useNavigate();
   const { openModal } = useModals();
-  const handleMeetCreateDoneModal = () => {
-    openModal(modals.meetCreateDoneModal, {});
-  };
-
   const handleMeetCreateModal = () => {
     openModal(modals.meetCreateModal, {
       onSubmit: async (value: MeetProps) => {
-        const data = await postMeetingAPI(value);
-        if (data) {
-          handleMeetCreateDoneModal();
+        const { meetId, message } = await postMeetingAPI(value);
+        if (meetId) {
+          handleMeetCreateDoneModal(meetId);
         }
-        console.log('data :', data);
+        console.log('meetId :', meetId, message);
+      },
+    });
+  };
+  const handleMeetCreateDoneModal = (meetId: number) => {
+    openModal(modals.meetCreateDoneModal, {
+      onSubmit: () => {
+        navigate(`/meetings/${meetId}`);
       },
     });
   };
