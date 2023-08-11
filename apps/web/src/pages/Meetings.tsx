@@ -1,4 +1,3 @@
-// import io from 'socket.io-client';
 import { useModals } from '@biblical/react-ui';
 import { Link, useNavigate } from 'react-router-dom';
 import ArrowRight from '@/assets/svg/ArrowRight.svg';
@@ -7,35 +6,27 @@ import Layout from '@/components/Layout';
 import { MeetProps } from '@/components/Modal/MeetingCreateModal';
 import { modals } from '@/components/Modal/modals';
 import { postMeetingAPI } from '@/lib/api';
+import { useMyInfo } from '@/utils/react-query';
 
 const Meetings = () => {
-  /*   const webSocket = new WebSocket('ws://localhost:0');
-  webSocket.onopen = function () {
-    console.log('✅서버와 웹 소켓 연결 성공');
-  };
-  webSocket.onmessage = function (event) {
-    console.log(event.data);
-    webSocket.send('FE에서 서버로 답장 보냅니다!');
- */
-
-  /* const socket = io('http://localhost:0', { path: '/socket.io' });
-  socket.on('news', function (data) {
-    console.log(data);
-    socket.emit('reply', '헬로 고고');
-  }); */
-
+  // 내 모임 전체 조회 API
+  const { data: isMe } = useMyInfo();
   const navigate = useNavigate();
   const { openModal } = useModals();
   const handleMeetCreateModal = () => {
-    openModal(modals.meetCreateModal, {
-      onSubmit: async (value: MeetProps) => {
-        const { meetId, message } = await postMeetingAPI(value);
-        if (meetId) {
-          handleMeetCreateDoneModal(meetId);
-        }
-        console.log('meetId :', meetId, message);
-      },
-    });
+    if (isMe?.id) {
+      openModal(modals.meetCreateModal, {
+        onSubmit: async (value: MeetProps) => {
+          const { meetId, message } = await postMeetingAPI(value);
+          if (meetId) {
+            handleMeetCreateDoneModal(meetId);
+          }
+          console.log('meetId :', meetId, message);
+        },
+      });
+    } else {
+      navigate('/auth/login');
+    }
   };
   const handleMeetCreateDoneModal = (meetId: number) => {
     openModal(modals.meetCreateDoneModal, {
