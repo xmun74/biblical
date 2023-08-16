@@ -17,11 +17,14 @@ const Meetings = () => {
     if (isMe?.id) {
       openModal(modals.meetCreateModal, {
         onSubmit: async (value: MeetProps) => {
-          const { meetId, message } = await postMeetingAPI(value);
+          const {
+            message,
+            meeting: { meetId, name },
+          } = await postMeetingAPI(value);
           if (meetId) {
             handleMeetCreateDoneModal(meetId);
           }
-          console.log('meetId :', meetId, message);
+          console.log(message, meetId, name);
         },
       });
     } else {

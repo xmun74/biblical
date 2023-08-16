@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import Layout from './Layout';
 import Back from '@/assets/svg/Back.svg';
+import { getMeetingAPI } from '@/lib/api';
 
 const MeetingNav = () => {
   const { meetId } = useParams();
@@ -17,21 +18,13 @@ const MeetingNav = () => {
     },
   ]);
 
-  // test용
-  const MeetingData = {
-    meetId: 1,
-    name: '유치원부 교사',
-    members: ['하동훈', '유재석', '박명수', '정준하'],
-    posts: [
-      { postId: 2, title: '성경학교 공지', content: '내용입니다.', createdAt: '2023.09.08', author: '정준하' },
-      { postId: 2, title: '티셔츠 사전조사', content: '내용2입니다.', createdAt: '2023.06.08', author: '명수' },
-    ],
-  };
   useEffect(() => {
-    const fetchApi = () => {
+    const fetchApi = async () => {
+      const { meeting } = await getMeetingAPI(Number(meetId));
+      console.log('모임조회 :', meeting);
       setNavName([
         {
-          name: MeetingData.name, // 모임 API GET
+          name: meeting?.name, // 모임 API GET
           href: `/meetings/${meetId}`,
         },
         ...navName,

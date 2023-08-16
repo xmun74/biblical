@@ -55,15 +55,15 @@ export const deleteUnFollowAPI = async (userId: number) => {
 
 /** MEETING */
 export const postMeetingAPI = async (meetData: MeetProps) => {
-  const { data } = await axiosInstance.post(`/meeting`, meetData);
+  const { data } = await axiosInstance.post(`/meetings`, meetData);
   return data;
 };
 export const getMeetingAPI = async (meetId: number) => {
-  const { data } = await axiosInstance.get(`/meeting/${meetId}`);
+  const { data } = await axiosInstance.get(`/meetings/${meetId}`);
   return data;
 };
 export const deleteMeetingAPI = async (meetId: number) => {
-  const { data } = await axiosInstance.delete(`/meeting/${meetId}`);
+  const { data } = await axiosInstance.delete(`/meetings/${meetId}`);
   return data;
 };
 export const getMeetingsAPI = async () => {

@@ -1,13 +1,13 @@
 import { useState } from 'react';
 
 export interface MeetProps {
-  title: string;
+  name: string;
   introduce: string;
 }
 
 const MeetingCreateModal = ({ onSubmit, onClose }: { onSubmit?: (value: MeetProps) => void; onClose?: () => void }) => {
   const [meet, setMeet] = useState<MeetProps>({
-    title: '',
+    name: '',
     introduce: '',
   });
   const [errMsg, setErrMsg] = useState(false);
@@ -22,7 +22,7 @@ const MeetingCreateModal = ({ onSubmit, onClose }: { onSubmit?: (value: MeetProp
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (meet.introduce.length <= 0 || meet.title.length <= 0) {
+    if (meet.introduce.length <= 0 || meet.name.length <= 0) {
       setErrMsg(true);
       return;
     }
@@ -34,13 +34,13 @@ const MeetingCreateModal = ({ onSubmit, onClose }: { onSubmit?: (value: MeetProp
 
   return (
     <div className="w-full h-full md:w-[500px] md:h-[330px] block" role="document" tabIndex={-1}>
-      <label className="font-bold text-xl" id="title-dialog">
+      <label className="font-bold text-xl" id="name-dialog">
         모임생성
       </label>
       <form className="flex flex-col mt-6" onSubmit={handleSubmit}>
         <input
           type="text"
-          name="title"
+          name="name"
           placeholder="모임명을 간단하게 작성해보세요."
           className="h-[40px] text-2xl font-bold placeholder:text-2xl placeholder:font-bold focus:outline focus:outline-accent-400 rounded-sm mb-4"
           onChange={onChangeMeet}
