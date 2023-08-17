@@ -3,8 +3,8 @@ import { AxiosError } from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/Layout';
-import User from '@/interfaces/user';
 import { deleteUserAPI, getMeAPI, patchNicknameAPI, patchUserImgAPI } from '@/lib/api';
+import User from '@/types/user';
 
 const ProfileEdit = () => {
   const navigate = useNavigate();

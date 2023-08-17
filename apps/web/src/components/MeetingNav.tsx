@@ -1,12 +1,15 @@
+import { useModals } from '@biblical/react-ui';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useParams } from 'react-router-dom';
 import Layout from './Layout';
+import { modals } from './Modal/modals';
 import Back from '@/assets/svg/Back.svg';
-import { getMeetingAPI } from '@/lib/api';
+import { getMeetingAPI, postMeetingInviteLinkAPI } from '@/lib/api';
 
 const MeetingNav = () => {
   const { meetId } = useParams();
   const { pathname } = useLocation();
+  const { openModal } = useModals();
   const [navName, setNavName] = useState([
     {
       name: '멤버',
@@ -34,6 +37,17 @@ const MeetingNav = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const handleInviteClick = async () => {
+    const { inviteLink } = await postMeetingInviteLinkAPI(Number(meetId));
+    const inviteUrl = `${process.env.API_URL}/meetings/${Number(meetId)}/invite/${inviteLink}`;
+    openModal(modals.meetInviteModal, {
+      onSubmit: async (value: string) => {
+        console.log('링크 복사 :', value);
+      },
+      inviteUrl,
+    });
+  };
+
   return (
     <Layout>
       <Link to={`/meetings`} className="flex w-[120px] items-center text-slate-500/[0.6]">
@@ -56,7 +70,10 @@ const MeetingNav = () => {
               </Link>
             ))}
         </div>
-        <button className="text-sm min-w-[40px] sm:w-[70px] h-[35px] rounded-md text-white font-bold hover_bg">
+        <button
+          className="text-sm min-w-[40px] sm:w-[70px] h-[35px] rounded-md text-white font-bold hover_bg"
+          onClick={handleInviteClick}
+        >
           초대
         </button>
       </nav>

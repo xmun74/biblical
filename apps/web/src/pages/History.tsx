@@ -1,6 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
-import User from '@/interfaces/user';
 import { getMeAPI } from '@/lib/api';
+import User from '@/types/user';
 
 const History = () => {
   // const queryClient = new QueryClient();

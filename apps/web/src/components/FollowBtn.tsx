@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { SetStateAction, useCallback, useEffect, useState } from 'react';
-import User from '@/interfaces/user';
 import { deleteUnFollowAPI, getMeAPI, postFollowAPI } from '@/lib/api';
+import User from '@/types/user';
 
 const FollowBtn = ({
   otherUserId,

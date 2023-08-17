@@ -3,9 +3,9 @@ import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import FollowBtn from '@/components/FollowBtn';
 import Layout from '@/components/Layout';
-import User from '@/interfaces/user';
 import { getMeAPI, getUserAPI } from '@/lib/api';
 import { PAGE_ROUTES } from '@/lib/constants';
+import User from '@/types/user';
 
 const Profile = () => {
   const navigate = useNavigate();
