@@ -1,30 +1,48 @@
 import { useModals } from '@biblical/react-ui';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
 import ArrowRight from '@/assets/svg/ArrowRight.svg';
 import Plus from '@/assets/svg/Plus.svg';
 import Layout from '@/components/Layout';
 import { MeetProps } from '@/components/Modal/MeetingCreateModal';
 import { modals } from '@/components/Modal/modals';
-import { postMeetingAPI } from '@/lib/api';
+import { getMeetingsAPI, postMeetingAPI } from '@/lib/api';
+import { getLocalStorage } from '@/utils/localStorage';
 import { useMyInfo } from '@/utils/react-query';
 
 const Meetings = () => {
-  // 내 모임 전체 조회 API
-  const { data: isMe } = useMyInfo();
   const navigate = useNavigate();
   const { openModal } = useModals();
+  const queryClient = useQueryClient();
+  const { data: isMe } = useMyInfo();
+  const loggedIn: boolean = getLocalStorage('isLoggedIn');
+  const { data: myMeetings } = useQuery<{ meetings: Meetings[] }>(['myMeetings'], getMeetingsAPI, {
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+    enabled: Boolean(loggedIn),
+  });
+  const { mutate: meetingMutation, data: postMeetingData } = useMutation(['myMeetings'], postMeetingAPI, {
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['myMeetings'] });
+    },
+  });
+
   const handleMeetCreateModal = () => {
     if (isMe?.id) {
       openModal(modals.meetCreateModal, {
         onSubmit: async (value: MeetProps) => {
-          const {
-            message,
-            meeting: { meetId, name },
-          } = await postMeetingAPI(value);
-          if (meetId) {
-            handleMeetCreateDoneModal(meetId);
+          meetingMutation(value);
+          if (postMeetingData) {
+            const {
+              message,
+              meeting: { meetId, name },
+            } = postMeetingData;
+            if (meetId) {
+              handleMeetCreateDoneModal(meetId);
+            }
+            console.log(message, meetId, name);
           }
-          console.log(message, meetId, name);
         },
       });
     } else {
@@ -42,12 +60,20 @@ const Meetings = () => {
   return (
     <Layout>
       <div className=" lg:px-32">
-        <div className="font-bold text-xl my-6">모임에 참여하기</div>
+        <div className="font-bold text-lg my-6">모임에 참여하기</div>
         <div>
           <div className="relative">
-            <img src="/images/meetingBg.png" alt="" className=" w-full h-[300px] rounded-[55px]" />
+            <img
+              src="/images/meetingBg.png"
+              alt="meeting creator background"
+              className="w-full h-[300px] rounded-[55px]"
+            />
             <div className="absolute top-0 p-10 md:px-14 flex w-full h-full  justify-center md:justify-between items-center">
-              <img src="/images/meetingImg.svg" alt="" className="hidden md:block md:h-3/5 lg:h-full z-10 " />
+              <img
+                src="/images/meetingImg.svg"
+                alt="meeting creator image"
+                className="hidden md:block md:h-3/5 lg:h-full"
+              />
               <div className="h-full flex flex-col justify-between md:ml-10">
                 <div className="text-white text-sm md:text-base">
                   모임에 참여한 멤버끼리만 모임 내용을 공유합니다. <br />
@@ -71,19 +97,35 @@ const Meetings = () => {
           </div>
         </div>
 
-        <div className="font-bold text-xl mt-12 mb-6">내 모임</div>
-        <Link
-          to={`/`}
-          className="flex justify-between items-center border-b p-4 bg-orange-50 rounded-xl border border-orange-100 hover:border-orange-200"
-        >
-          <div>
-            <div className="font-bold">meetName</div>
-            <div className="text-slate-400">00명</div>
+        {myMeetings && (
+          <div className="mb-20">
+            <div className="font-bold text-lg mt-12 mb-6">내 모임</div>
+
+            {myMeetings?.meetings?.length > 0 ? (
+              <>
+                {myMeetings?.meetings?.map(meeting => (
+                  <Link
+                    key={meeting?.name}
+                    to={`/meetings/${meeting.MeetingUser?.MeetingId}`}
+                    className="flex justify-between items-center border-b p-4 bg-orange-50/50 rounded-xl border border-orange-100 hover:border-orange-200 mb-2"
+                  >
+                    <div>
+                      <div className="font-bold">{meeting?.name}</div>
+                      <div className="text-slate-400 text-xs">00명</div>
+                    </div>
+                    <div className="bg-accent-600 w-10 h-10 rounded-full flex justify-center items-center text-white">
+                      <ArrowRight stroke="white" width="40" height="40" strokeWidth="1.3" />
+                    </div>
+                  </Link>
+                ))}
+              </>
+            ) : (
+              <>
+                <div className="mt-10 text-sm text-center">참여 중인 모임이 없습니다.</div>
+              </>
+            )}
           </div>
-          <div className="bg-accent-600 w-10 h-10 rounded-full flex justify-center items-center text-white">
-            <ArrowRight stroke="white" width="40" height="40" strokeWidth="1.3" />
-          </div>
-        </Link>
+        )}
       </div>
     </Layout>
   );

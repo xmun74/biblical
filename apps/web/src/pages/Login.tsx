@@ -3,8 +3,8 @@ import { AxiosError } from 'axios';
 import { useCallback, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import KakaoLoginBtn from '@/components/KakaoLoginBtn';
-import User from '@/interfaces/user';
 import { loginAPI } from '@/lib/api';
+import User from '@/types/user';
 import { setLocalStorage } from '@/utils/localStorage';
 
 const Login = () => {

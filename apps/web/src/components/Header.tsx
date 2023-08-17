@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import MenuBar from '@/assets/svg/MenuBar.svg';
 import MenuClose from '@/assets/svg/MenuClose.svg';
-import User from '@/interfaces/user';
 import { getMeAPI, logoutAPI } from '@/lib/api';
+import User from '@/types/user';
 import { getLocalStorage, removeLocalStorage } from '@/utils/localStorage';
 
 const Header = () => {
@@ -39,9 +39,7 @@ const Header = () => {
     try {
       const data = await logoutAPI();
       if (data?.message === 'SUCCESS') {
-        // console.log('로그아웃', data);
-        queryClient.removeQueries(['userInfo']);
-        queryClient.invalidateQueries(['userInfo']);
+        queryClient.clear();
         removeLocalStorage('isLoggedIn');
         setIsModalOpen(false);
         setIsOpenMenu(false);
