@@ -74,7 +74,7 @@ export const postMeetingInviteLinkAPI = async (meetId: number) => {
   const { data } = await axiosInstance.post(`/meetings/${meetId}/invite`);
   return data;
 };
-export const postMeetingInviteAPI = async (meetId: number, uuid: number) => {
-  const { data } = await axiosInstance.post(`/meetings/${meetId}/invite/${uuid}`);
+export const postMeetingInviteAPI = async (meetId: number, inviteLink: string) => {
+  const { data } = await axiosInstance.post(`/meetings/${meetId}/invite/${inviteLink}`);
   return data;
 };

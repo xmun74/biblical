@@ -27,7 +27,7 @@ const MeetingNav = () => {
       console.log('모임조회 :', meeting);
       setNavName([
         {
-          name: meeting?.name, // 모임 API GET
+          name: meeting?.name,
           href: `/meetings/${meetId}`,
         },
         ...navName,
@@ -39,9 +39,12 @@ const MeetingNav = () => {
 
   const handleInviteClick = async () => {
     const { inviteLink } = await postMeetingInviteLinkAPI(Number(meetId));
-    const inviteUrl = `${process.env.API_URL}/meetings/${Number(meetId)}/invite/${inviteLink}`;
+    const inviteUrl = `${process.env.CLIENT_URL}/meetings/${Number(meetId)}/invite/${inviteLink}`;
+
     openModal(modals.meetInviteModal, {
       onSubmit: async (value: string) => {
+        await navigator.clipboard.writeText(inviteUrl);
+        alert('복사 성공'); // 임시
         console.log('링크 복사 :', value);
       },
       inviteUrl,

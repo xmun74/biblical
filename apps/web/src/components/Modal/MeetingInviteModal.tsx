@@ -20,10 +20,10 @@ const MeetingInviteModal = ({
         <input readOnly value={inviteUrl} placeholder="초대링크" className="flex-1 sign_input text-sm text-slate-400" />
         <button
           type="button"
-          className="bg-accent-400 rounded-md hover_bg flex justify-center items-center p-2 ml-2 text-white"
+          className="bg-accent-400 rounded-md hover_bg flex justify-center items-center p-2 ml-2 text-white font-bold"
           onClick={handleClick}
         >
-          <span className="font-bold">링크 복사</span>
+          링크 복사
         </button>
       </div>
     </div>

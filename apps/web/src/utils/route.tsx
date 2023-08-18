@@ -6,6 +6,7 @@ import KakaoLogin from '@/pages/KakaoLogin';
 import Login from '@/pages/Login';
 import Main from '@/pages/Main';
 import MeetingDetail from '@/pages/MeetingDetail';
+import MeetingInvite from '@/pages/MeetingInvite';
 import MeetingMember from '@/pages/MeetingMember';
 import MeetingPosts from '@/pages/MeetingPosts';
 import Meetings from '@/pages/Meetings';
@@ -83,7 +84,6 @@ export const RouteInfo: RouteInfoProp[] = [
   },
   {
     path: PAGE_ROUTES.MEETINGS_POST,
-
     element: (
       <>
         <MeetingNav />
@@ -92,6 +92,12 @@ export const RouteInfo: RouteInfoProp[] = [
     ),
     withAuth: true,
     label: '모임 게시글',
+  },
+  {
+    path: PAGE_ROUTES.MEETINGS_INVITE,
+    element: <MeetingInvite />,
+    withAuth: false,
+    label: '모임 초대',
   },
   {
     path: PAGE_ROUTES.PROFILE,
