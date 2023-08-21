@@ -30,7 +30,7 @@ const MeetingMember = () => {
       {members &&
         members?.map(member => (
           <div className="flex items-center mb-6" key={member.id}>
-            <AvatarImg src={member.img} userId={member.id} width={50} height={50} />
+            <AvatarImg src={member.img} userId={member.id} width={'50px'} height={'50px'} />
             <div
               onClick={() => navigate(`/users/${member.id}`)}
               className="flex-1 font-semibold text-sm ml-4 cursor-pointer"

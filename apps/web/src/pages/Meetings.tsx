@@ -16,7 +16,7 @@ const Meetings = () => {
   const queryClient = useQueryClient();
   const { data: isMe } = useMyInfo();
   const loggedIn: boolean = getLocalStorage('isLoggedIn');
-  const { data: myMeetings } = useQuery<{ meetings: Meetings[] }>(['myMeetings'], getMeetingsAPI, {
+  const { data: myMeetings } = useQuery<{ meetings: MeetingsProps[] }>(['myMeetings'], getMeetingsAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,

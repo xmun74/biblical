@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 interface ImgProps {
   src: null | string;
   userId: number;
-  width?: number;
-  height?: number;
+  width?: string;
+  height?: string;
 }
 
 const AvatarImg = ({ src, userId, width, height }: ImgProps) => {
@@ -25,9 +25,7 @@ const AvatarImg = ({ src, userId, width, height }: ImgProps) => {
     <img
       src={avatar}
       alt="user avatar image"
-      width={width}
-      height={height}
-      className="border rounded-full cursor-pointer object-cover"
+      className={`w-[${width}] h-[${height}] border rounded-full cursor-pointer object-cover`}
       onClick={() => navigate(`/users/${userId}`)}
     />
   );

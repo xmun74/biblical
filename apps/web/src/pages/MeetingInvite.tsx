@@ -18,6 +18,7 @@ const MeetingInvite = () => {
           console.log('모임 가입 :', data);
           navigate(`/meetings/${meetId}`);
         },
+        meetId,
       });
     } else {
       navigate('/auth/login', { state: path });
