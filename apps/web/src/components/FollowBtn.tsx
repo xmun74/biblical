@@ -1,5 +1,6 @@
 import { useQuery } from '@tanstack/react-query';
 import { SetStateAction, useCallback, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import { deleteUnFollowAPI, getMeAPI, postFollowAPI } from '@/lib/api';
 import User from '@/types/user';
 
@@ -12,6 +13,7 @@ const FollowBtn = ({
   isFollowers?: number;
   setIsFollowers?: React.Dispatch<SetStateAction<number>>;
 }) => {
+  const { userId } = useParams();
   const { data: me } = useQuery<User>(['userInfo'], getMeAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -20,11 +22,16 @@ const FollowBtn = ({
   const [isFollow, setIsFollow] = useState(false);
 
   useEffect(() => {
-    const isFollowed = me?.Followings?.find(el => el.id === otherUserId);
+    let isFollowed;
+    if (userId) {
+      isFollowed = me?.Followings?.find(el => el.id === Number(userId));
+    } else {
+      isFollowed = me?.Followings?.find(el => el.id === otherUserId);
+    }
     if (isFollowed) {
       setIsFollow(true);
     }
-  }, [me?.Followings, otherUserId]);
+  }, [me?.Followings, otherUserId, userId]);
 
   const onClickBtn = useCallback(async () => {
     if (isFollow) {

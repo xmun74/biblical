@@ -1,34 +1,46 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import { useQuery } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import AvatarImg from '@/components/AvatarImg';
+import FollowBtn from '@/components/FollowBtn';
 import Layout from '@/components/Layout';
+import { getMeAPI, getMeetingMembersAPI } from '@/lib/api';
+import User from '@/types/user';
 
 const MeetingMember = () => {
-  // 모임 멤버 api GET
-  const MemberData = {
-    meetId: 1,
-    members: [
-      {
-        memberId: 1,
-        memberImg: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-        memberNickname: '원피스',
-        isFollow: false,
-      },
-      {
-        memberId: 2,
-        memberImg: 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png',
-        memberNickname: '루피',
-        isFollow: false,
-      },
-    ],
-  };
+  const { meetId } = useParams();
+  const navigate = useNavigate();
+  const [members, setMembers] = useState<MemberProps[]>([]);
+  const [isFollowers, setIsFollowers] = useState(0);
+  const { data: me } = useQuery<User>(['userInfo'], getMeAPI);
+
+  useEffect(() => {
+    const fetchMembers = async () => {
+      const { Members } = await getMeetingMembersAPI(Number(meetId));
+      setMembers(Members);
+      // console.log('멤버 :', Members);
+    };
+    fetchMembers();
+  }, []);
 
   return (
     <Layout>
-      <div className="text-xl font-bold mb-8">{MemberData.members.length} Members</div>
-      {MemberData &&
-        MemberData.members.map(member => (
-          <div className="flex items-center mb-6" key={member.memberId}>
-            <img src={member.memberImg} alt="멤버 이미지" width={50} height={50} className="rounded-full mr-4" />
-            <div className="flex-1 font-semibold text-sm">{member.memberNickname}</div>
-            <button>{`팔로우`}</button>
+      <div className="text-xl font-bold mb-8">{members.length} Members</div>
+      {members &&
+        members?.map(member => (
+          <div className="flex items-center mb-6" key={member.id}>
+            <AvatarImg src={member.img} userId={member.id} width={50} height={50} />
+            <div
+              onClick={() => navigate(`/users/${member.id}`)}
+              className="flex-1 font-semibold text-sm ml-4 cursor-pointer"
+            >
+              {member.nickname}
+            </div>
+            {/* 나는 팔로우버튼 없애기 */}
+            {me?.id !== member?.id && (
+              <FollowBtn otherUserId={member.id} isFollowers={isFollowers} setIsFollowers={setIsFollowers} />
+            )}
           </div>
         ))}
     </Layout>

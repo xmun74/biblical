@@ -25,9 +25,8 @@ const Profile = () => {
   const isMe: () => boolean = useCallback(() => {
     return Number(userId) === MyInfoData?.id ? true : false;
   }, [MyInfoData?.id, userId]);
-
   // 다른 유저
-  const { data: otherInfoData } = useQuery<User>(['otherUserInfo'], () => getUserAPI(Number(userId)), {
+  const { data: otherInfoData, refetch } = useQuery<User>(['otherUserInfo'], () => getUserAPI(Number(userId)), {
     enabled: Boolean(!isMe()),
   });
 
@@ -40,6 +39,7 @@ const Profile = () => {
         setAvatar(`https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`);
       }
     } else {
+      refetch();
       setIsFollowers(otherInfoData?.Followers.length);
       if (otherInfoData?.img) {
         setAvatar(`${process.env.API_URL}${otherInfoData?.img}`);
@@ -53,6 +53,7 @@ const Profile = () => {
     isMe,
     otherInfoData?.Followers.length,
     otherInfoData?.img,
+    refetch,
     userId,
   ]);
 

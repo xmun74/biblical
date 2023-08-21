@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useCallback, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import KakaoLoginBtn from '@/components/KakaoLoginBtn';
 import { loginAPI } from '@/lib/api';
 import User from '@/types/user';
@@ -10,6 +10,7 @@ import { setLocalStorage } from '@/utils/localStorage';
 const Login = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { state } = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [EmailErrMsg, setEmailErrMsg] = useState(false);
@@ -23,7 +24,11 @@ const Login = () => {
     onSuccess: user => {
       setLocalStorage('isLoggedIn', true);
       queryClient.setQueryData(['userInfo'], user);
-      navigate('/');
+      if (state) {
+        navigate(state);
+      } else {
+        navigate('/');
+      }
     },
   });
 

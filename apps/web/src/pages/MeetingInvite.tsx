@@ -1,17 +1,26 @@
-import { useNavigate, useParams } from 'react-router-dom';
+import { useModals } from '@biblical/react-ui';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { modals } from '@/components/Modal/modals';
 import { postMeetingInviteAPI } from '@/lib/api';
 import { useMyInfo } from '@/utils/react-query';
 
 const MeetingInvite = () => {
   const { meetId, inviteLink } = useParams();
+  const path = useLocation();
   const navigate = useNavigate();
   const { data: me } = useMyInfo();
+  const { openModal } = useModals();
   const handleClick = async () => {
     if (me?.id) {
-      const data = await postMeetingInviteAPI(Number(meetId), inviteLink);
-      console.log('모임 가입 :', data);
+      openModal(modals.meetInviteAcceptModal, {
+        onSubmit: async () => {
+          const data = await postMeetingInviteAPI(Number(meetId), inviteLink);
+          console.log('모임 가입 :', data);
+          navigate(`/meetings/${meetId}`);
+        },
+      });
     } else {
-      navigate('/auth/login');
+      navigate('/auth/login', { state: path });
     }
   };
   return (
