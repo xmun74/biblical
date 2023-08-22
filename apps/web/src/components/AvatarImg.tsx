@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 
 interface ImgProps {
   src: null | string;
-  userId: number;
+  userId?: number;
   size: string;
   rounded?: string;
 }
@@ -14,6 +14,7 @@ type ImgConfigTypes = {
 };
 const imgConfig: ImgConfigTypes = {
   size: {
+    xs: 'w-[24px] h-[24px]',
     sm: 'w-[36px] h-[36px]',
     md: 'w-[50px] h-[50px]',
     lg: 'w-[75px] h-[75px]',
@@ -52,11 +53,11 @@ const AvatarImg = ({ src, userId, size, rounded }: ImgProps) => {
     <img
       src={avatar}
       alt="user avatar image"
-      className={`border cursor-pointer object-cover
+      className={`cursor-pointer object-cover
       ${imgConfig['size'][size]}
       ${imgConfig['rounded'][rounded]}
       `}
-      onClick={() => navigate(`/users/${userId}`)}
+      onClick={() => userId && navigate(`/users/${userId}`)}
     />
   );
 };

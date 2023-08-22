@@ -1,21 +1,20 @@
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import AvatarImg from '@/components/AvatarImg';
 import FollowBtn from '@/components/FollowBtn';
 import Layout from '@/components/Layout';
 import { getMeAPI, getUserAPI } from '@/lib/api';
-import { PAGE_ROUTES } from '@/lib/constants';
+import { PAGE_ROUTES, QUERY_KEYS } from '@/lib/constants';
 import User from '@/types/user';
 
 const Profile = () => {
   const navigate = useNavigate();
   const { userId } = useParams();
-  const [avatar, setAvatar] = useState(
-    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-  );
+  const [avatar, setAvatar] = useState('');
   const [isFollowers, setIsFollowers] = useState(0);
   // me
-  const { data: MyInfoData } = useQuery<User>(['userInfo'], getMeAPI, {
+  const { data: MyInfoData } = useQuery<User>([QUERY_KEYS.MY_INFO], getMeAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -26,7 +25,7 @@ const Profile = () => {
     return Number(userId) === MyInfoData?.id ? true : false;
   }, [MyInfoData?.id, userId]);
   // 다른 유저
-  const { data: otherInfoData, refetch } = useQuery<User>(['otherUserInfo'], () => getUserAPI(Number(userId)), {
+  const { data: otherInfoData, refetch } = useQuery<User>([QUERY_KEYS.OTHER_INFO], () => getUserAPI(Number(userId)), {
     enabled: Boolean(!isMe()),
   });
 
@@ -34,17 +33,17 @@ const Profile = () => {
     if (isMe()) {
       setIsFollowers(MyInfoData?.Followers.length);
       if (MyInfoData?.img) {
-        setAvatar(`${process.env.API_URL}${MyInfoData?.img}`);
+        setAvatar(`${MyInfoData?.img}`);
       } else {
-        setAvatar(`https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`);
+        setAvatar('');
       }
     } else {
       refetch();
       setIsFollowers(otherInfoData?.Followers.length);
       if (otherInfoData?.img) {
-        setAvatar(`${process.env.API_URL}${otherInfoData?.img}`);
+        setAvatar(`${otherInfoData?.img}`);
       } else {
-        setAvatar(`https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png`);
+        setAvatar('');
       }
     }
   }, [
@@ -62,13 +61,9 @@ const Profile = () => {
       <div className="md:grid grid-cols-3 gap-2 ">
         {/* 왼쪽 */}
         <div className="md:sticky md:rounded-3xl md:mr-4 md:shadow-lg md:px-4 top-20 h-fit py-10 border-b mb-10 flex md:flex-col md:justify-center items-center">
-          <img
-            className="justify-center bg-slate-100 w-[125px] h-[125px] rounded-[42px] object-cover mb-6 mr-6 md:mr-0"
-            src={avatar}
-            alt="profile image"
-          />
+          <AvatarImg src={avatar} size="xl" rounded="lg" />
 
-          <div>
+          <div className="mb-6 md:mb-0 md:mt-6 ml-6 md:ml-0">
             <div className="font-bold text-xl md:text-2xl md:text-center mb-2">
               {isMe() ? MyInfoData?.nickname : otherInfoData?.nickname}
             </div>
