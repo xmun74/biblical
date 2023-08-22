@@ -7,6 +7,7 @@ import Layout from '@/components/Layout';
 import { MeetProps } from '@/components/Modal/MeetingCreateModal';
 import { modals } from '@/components/Modal/modals';
 import { getMeetingsAPI, postMeetingAPI } from '@/lib/api';
+import { QUERY_KEYS } from '@/lib/constants';
 import { getLocalStorage } from '@/utils/localStorage';
 import { useMyInfo } from '@/utils/react-query';
 
@@ -16,15 +17,15 @@ const Meetings = () => {
   const queryClient = useQueryClient();
   const { data: isMe } = useMyInfo();
   const loggedIn: boolean = getLocalStorage('isLoggedIn');
-  const { data: myMeetings } = useQuery<{ meetings: MeetingsProps[] }>(['myMeetings'], getMeetingsAPI, {
+  const { data: myMeetings } = useQuery<{ meetings: MeetingsProps[] }>([QUERY_KEYS.MY_MEETINGS], getMeetingsAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
     enabled: Boolean(loggedIn),
   });
-  const { mutate: meetingMutation, data: postMeetingData } = useMutation(['myMeetings'], postMeetingAPI, {
+  const { mutate: meetingMutation, data: postMeetingData } = useMutation([QUERY_KEYS.MY_MEETINGS], postMeetingAPI, {
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['myMeetings'] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MY_MEETINGS] });
     },
   });
 

@@ -14,3 +14,9 @@ export const PAGE_ROUTES = {
   PROFILE_EDIT: '/user/edit',
   HISTORY: '/users/:userId/history',
 } as const;
+
+export const QUERY_KEYS = {
+  MY_MEETINGS: 'myMeetings',
+  MY_INFO: 'userInfo',
+  OTHER_INFO: 'otherUserInfo',
+};

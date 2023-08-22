@@ -10,6 +10,7 @@ const MeetingInvite = () => {
   const navigate = useNavigate();
   const { data: me } = useMyInfo();
   const { openModal } = useModals();
+
   const handleClick = async () => {
     if (me?.id) {
       openModal(modals.meetInviteAcceptModal, {
@@ -19,6 +20,7 @@ const MeetingInvite = () => {
           navigate(`/meetings/${meetId}`);
         },
         meetId,
+        inviteLink,
       });
     } else {
       navigate('/auth/login', { state: path });
@@ -26,7 +28,9 @@ const MeetingInvite = () => {
   };
   return (
     <div className="w-full h-screen flex flex-col justify-center items-center">
-      당신을 모임으로 초대합니다.
+      당신을 모임으로 초대했습니다.
+      <br />
+      초대장을 확인하시겠습니까?
       <button onClick={handleClick} className="mt-10 hover_bg p-2 text-white rounded-md font-bold">
         초대장 확인
       </button>
