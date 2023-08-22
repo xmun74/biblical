@@ -64,8 +64,9 @@ export const RouteInfo: RouteInfoProp[] = [
     path: PAGE_ROUTES.MEETINGS_DETAIL,
     element: (
       <>
-        <MeetingNav />
-        <MeetingDetail />
+        <MeetingNav>
+          <MeetingDetail />
+        </MeetingNav>
       </>
     ),
     withAuth: true,
@@ -75,8 +76,9 @@ export const RouteInfo: RouteInfoProp[] = [
     path: PAGE_ROUTES.MEETINGS_MEMBER,
     element: (
       <>
-        <MeetingNav />
-        <MeetingMember />
+        <MeetingNav>
+          <MeetingMember />
+        </MeetingNav>
       </>
     ),
     withAuth: true,
@@ -86,8 +88,9 @@ export const RouteInfo: RouteInfoProp[] = [
     path: PAGE_ROUTES.MEETINGS_POST,
     element: (
       <>
-        <MeetingNav />
-        <MeetingPosts />
+        <MeetingNav>
+          <MeetingPosts />
+        </MeetingNav>
       </>
     ),
     withAuth: true,

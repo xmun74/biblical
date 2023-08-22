@@ -1,37 +1,49 @@
 import { useModals } from '@biblical/react-ui';
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useParams } from 'react-router-dom';
-import Layout from './Layout';
+import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { modals } from './Modal/modals';
-import Back from '@/assets/svg/Back.svg';
-import { getMeetingAPI, postMeetingInviteLinkAPI } from '@/lib/api';
+import Plus from '@/assets/svg/Plus.svg';
+import Setting from '@/assets/svg/Setting.svg';
+import { deleteWithdrawAPI, getMeetingAPI, postMeetingInviteLinkAPI } from '@/lib/api';
 
-const MeetingNav = () => {
+interface MeetingProps {
+  name: string;
+  introduce: string;
+}
+
+const MeetingNav = ({ children }: { children: React.ReactNode }) => {
   const { meetId } = useParams();
   const { pathname } = useLocation();
+  const navigate = useNavigate();
   const { openModal } = useModals();
-  const [navName, setNavName] = useState([
+  const [meetingInfo, setMeetingInfo] = useState<MeetingProps>({
+    name: '',
+    introduce: '',
+  });
+  const navName = [
     {
-      name: '멤버',
-      href: `/meetings/${meetId}/member`,
+      name: '통독 기록',
+      href: `/meetings/${meetId}`,
     },
     {
       name: '게시글',
       href: `/meetings/${meetId}/posts`,
     },
-  ]);
+    {
+      name: '멤버',
+      href: `/meetings/${meetId}/member`,
+    },
+  ];
 
   useEffect(() => {
     const fetchApi = async () => {
       const { meeting } = await getMeetingAPI(Number(meetId));
       console.log('모임조회 :', meeting);
-      setNavName([
-        {
-          name: meeting?.name,
-          href: `/meetings/${meetId}`,
-        },
-        ...navName,
-      ]);
+      setMeetingInfo({
+        ...meetingInfo,
+        name: meeting?.name,
+        introduce: meeting?.introduce,
+      });
     };
     fetchApi();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -51,36 +63,73 @@ const MeetingNav = () => {
     });
   };
 
-  return (
-    <Layout>
-      <Link to={`/meetings`} className="flex w-[120px] items-center text-slate-500/[0.6]">
-        <Back width={16} height={16} fill="rgb(100 116 139)" />
-        <div className="pl-2 hover:text-slate-500">내 모임 목록</div>
-      </Link>
+  const handleSetting = () => {
+    openModal(modals.meetSettingModal, {
+      onClick: async () => {
+        const data = await deleteWithdrawAPI(Number(meetId));
+        if (data?.code === 'SUCC') {
+          navigate('/meetings');
+        }
+      },
+    });
+  };
 
-      <nav className="flex my-2 sm:my-6 justify-between items-center border-b border-slate-200">
-        <div className="flex md:text-xl font-semibold">
-          {navName &&
-            navName?.map(nav => (
-              <Link
-                key={nav.name}
-                to={nav.href}
-                className={`px-3 sm:px-4 py-3 hover:text-orange-400 ${
-                  pathname === nav.href && 'text-orange-400 font-extrabold border-b-2 border-b-orange-400'
-                }`}
-              >
-                {nav?.name}
-              </Link>
-            ))}
-        </div>
-        <button
-          className="text-sm min-w-[40px] sm:w-[70px] h-[35px] rounded-md text-white font-bold hover_bg"
-          onClick={handleInviteClick}
-        >
-          초대
-        </button>
-      </nav>
-    </Layout>
+  return (
+    <div className="px-4 sm:px-[40px] my-0 mx-auto w-full lg:max-w-[1200px]">
+      <>
+        <div className="lg:hidden mt-3 font-bold text-lg flex items-center">{meetingInfo.name}</div>
+
+        <nav className="flex my-2 justify-between items-center border-b border-slate-200">
+          <ul className="flex font-semibold text-sm gap-6">
+            {navName &&
+              navName?.map(nav => (
+                <Link
+                  key={nav.name}
+                  to={nav.href}
+                  className={` py-2 hover:text-orange-400 ${
+                    pathname === nav.href && 'text-orange-400 font-extrabold border-b-2 border-b-orange-400'
+                  }`}
+                >
+                  <li>{nav?.name}</li>
+                </Link>
+              ))}
+          </ul>
+          <div className="flex lg:hidden">
+            <button
+              className="text-sm min-w-[40px] text-accent-400 font-bold flex items-center justify-center mr-3"
+              onClick={handleInviteClick}
+            >
+              <Plus stroke="rgba(46, 230, 131)" width="18px" height="18px" strokeWidth="6" />
+              초대
+            </button>
+            <button type="button" onClick={handleSetting}>
+              <Setting fill="gray" width="18px" height="18px" />
+            </button>
+          </div>
+        </nav>
+      </>
+
+      <div className="lg:grid lg:grid-cols-[1fr_4fr] mx-auto lg:gap-8 lg:max-w-[1280px] pt-3 lg:py-3 ">
+        <aside className="hidden lg:block border rounded-xl h-[250px] p-4 bg-white">
+          <div className="flex justify-between">
+            <span className="font-bold text-xl">{meetingInfo.name}</span>
+            <button type="button" onClick={handleSetting}>
+              <Setting fill="gray" width="18px" height="18px" />
+            </button>
+          </div>
+          <div className="text-xs my-2 text-slate-400 line-clamp-2">{meetingInfo?.introduce}</div>
+          <button
+            className="text-xs min-w-[40px] text-accent-400 font-bold flex items-center justify-center mr-3"
+            onClick={handleInviteClick}
+          >
+            <Plus stroke="rgba(46, 230, 131)" width="18px" height="18px" strokeWidth="6" />
+            초대
+          </button>
+          <div className="text-xs mt-2 pt-2 text-slate-400 border-t">모임은 초대를 통해서만 가입할 수 있습니다.</div>
+        </aside>
+        {children}
+      </div>
+    </div>
   );
 };
 export default MeetingNav;

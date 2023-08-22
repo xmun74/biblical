@@ -67,7 +67,7 @@ const Profile = () => {
             <div className="font-bold text-xl md:text-2xl md:text-center mb-2">
               {isMe() ? MyInfoData?.nickname : otherInfoData?.nickname}
             </div>
-            <div className="flex items-center text-sm md:justify-center">
+            <div className="flex items-center text-sm md:justify-center mb-3">
               <div className="text-slate-400 font-light">팔로워 &nbsp;</div>
               <div className="font-semibold text-slate-600 min-w-[30px]">{isFollowers} &nbsp;</div>
               <div className="text-slate-400 font-light">팔로잉 &nbsp;</div>
@@ -80,7 +80,7 @@ const Profile = () => {
             {Number(userId) === MyInfoData?.id ? (
               <button
                 type="submit"
-                className="w-[150px] border bg-accent-500 rounded-md text-white mt-3 text-md p-2 text-center font-semibold"
+                className="w-[150px] border bg-accent-500 rounded-md text-white text-md p-2 text-center font-semibold"
                 onClick={() => navigate(PAGE_ROUTES.PROFILE_EDIT)}
               >
                 정보 수정

@@ -1,5 +1,3 @@
-import Layout from '@/components/Layout';
-
 const MeetingDetail = () => {
   // 모임 통계 test
   const testParticipant = [
@@ -14,7 +12,7 @@ const MeetingDetail = () => {
   ];
 
   return (
-    <Layout>
+    <main>
       <div className="flex flex-col lg:flex-row">
         <div className="flex w-full h-[300px] bg-orange-400 rounded-xl p-4">
           <div className="h-full flex flex-col text-white">
@@ -58,7 +56,7 @@ const MeetingDetail = () => {
           </button>
         </div>
       </div>
-    </Layout>
+    </main>
   );
 };
 export default MeetingDetail;

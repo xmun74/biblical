@@ -1,5 +1,4 @@
 import { Link, useParams } from 'react-router-dom';
-import Layout from '@/components/Layout';
 
 const MeetingPosts = () => {
   const { meetId } = useParams();
@@ -22,7 +21,7 @@ const MeetingPosts = () => {
   ];
 
   return (
-    <Layout>
+    <main>
       <div className="flex justify-between mb-4">
         <div className="font-bold text-lg">게시글</div>
         <button>글쓰기</button>
@@ -42,7 +41,7 @@ const MeetingPosts = () => {
             </li>
           ))}
       </ul>
-    </Layout>
+    </main>
   );
 };
 export default MeetingPosts;

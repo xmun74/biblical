@@ -3,7 +3,6 @@ import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import AvatarImg from '@/components/AvatarImg';
 import FollowBtn from '@/components/FollowBtn';
-import Layout from '@/components/Layout';
 import { getMeAPI, getMeetingMembersAPI } from '@/lib/api';
 import { QUERY_KEYS } from '@/lib/constants';
 import User from '@/types/user';
@@ -24,7 +23,7 @@ const MeetingMember = () => {
   }, [meetId]);
 
   return (
-    <Layout>
+    <main>
       <div className="text-xl font-bold mb-8">{members.length} Members</div>
       {members &&
         members?.map(member => (
@@ -41,7 +40,7 @@ const MeetingMember = () => {
             )}
           </div>
         ))}
-    </Layout>
+    </main>
   );
 };
 export default MeetingMember;

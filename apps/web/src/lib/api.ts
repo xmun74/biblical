@@ -66,6 +66,10 @@ export const deleteMeetingAPI = async (meetId: number) => {
   const { data } = await axiosInstance.delete(`/meetings/${meetId}`);
   return data;
 };
+export const deleteWithdrawAPI = async (meetId: number) => {
+  const { data } = await axiosInstance.delete(`/meetings/${meetId}/withdraw`);
+  return data;
+};
 export const getMeetingsAPI = async () => {
   const { data } = await axiosInstance.get(`/meetings`);
   return data;
