@@ -90,3 +90,9 @@ export const getMeetingMembersAPI = async (meetId: number) => {
   const { data } = await axiosInstance.get(`/meetings/${meetId}/members`);
   return data;
 };
+
+/** POST */
+export const uploadPostAPI = async (post: PostFormProps) => {
+  const { data } = await axiosInstance.post(`/post`, post);
+  return data;
+};
