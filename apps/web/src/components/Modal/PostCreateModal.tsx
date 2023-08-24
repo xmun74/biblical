@@ -1,7 +1,16 @@
 import { useState } from 'react';
 
-const PostCreateModal = ({ onClose, onSubmit }: { onClose?: () => void; onSubmit?: (post: PostFormProps) => void }) => {
+const PostCreateModal = ({
+  onClose,
+  onSubmit,
+  meetId,
+}: {
+  onClose?: () => void;
+  onSubmit?: (post: PostFormProps) => void;
+  meetId?: string;
+}) => {
   const [post, setPost] = useState<PostFormProps>({
+    meetId,
     title: '',
     content: '',
   });

@@ -19,4 +19,5 @@ export const QUERY_KEYS = {
   MY_MEETINGS: 'myMeetings',
   MY_INFO: 'userInfo',
   OTHER_INFO: 'otherUserInfo',
+  MEET_POSTS: 'meetPosts',
 };

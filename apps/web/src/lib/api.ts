@@ -96,3 +96,9 @@ export const uploadPostAPI = async (post: PostFormProps) => {
   const { data } = await axiosInstance.post(`/post`, post);
   return data;
 };
+export const getPostsAPI = async (meetId: number) => {
+  const {
+    data: { posts },
+  } = await axiosInstance.get(`/posts/?meetId=${meetId}`);
+  return posts;
+};

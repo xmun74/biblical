@@ -1,9 +1,23 @@
 interface PostFormProps {
+  meetId: string;
   title: string;
   content: string;
   img?: string;
   tags?: string[];
 }
-interface PostProps extends PostFormProps {
+interface PostProps {
   id: number;
+  title: string;
+  content: string;
+  views: null | number;
+  tags: null | string;
+  img: null | string;
+  createdAt: string;
+  MeetingId: number;
+  userId: number;
+  User: {
+    id: number;
+    nickname: string;
+    img: null | string;
+  };
 }

@@ -1,28 +1,28 @@
 import { useModals } from '@biblical/react-ui';
+import { useQuery } from '@tanstack/react-query';
+import { useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import AvatarImg from '@/components/AvatarImg';
 import { modals } from '@/components/Modal/modals';
-import { uploadPostAPI } from '@/lib/api';
+import { getPostsAPI, uploadPostAPI } from '@/lib/api';
+import { QUERY_KEYS } from '@/lib/constants';
 
 const MeetingPosts = () => {
   const { meetId } = useParams();
   const { openModal } = useModals();
-  // 게시글 조회 API
-  const testPosts = [
+
+  const { data: meetPosts, refetch } = useQuery<PostProps[]>(
+    [QUERY_KEYS.MEET_POSTS],
+    () => getPostsAPI(Number(meetId)),
     {
-      postId: 1,
-      title: '제목입니다',
-      content: '내용입니다',
-      author: '닉네임',
-      createdAt: '2023.09.09',
-    },
-    {
-      postId: 2,
-      title: '2제목입니다',
-      content: '내용입니다',
-      author: '닉네임',
-      createdAt: '2023.09.09',
-    },
-  ];
+      refetchOnWindowFocus: false,
+      refetchOnMount: false,
+      refetchOnReconnect: false,
+    }
+  );
+  useEffect(() => {
+    refetch();
+  }, [meetId, refetch]);
 
   const handleCreatePost = () => {
     openModal(modals.postCreateModal, {
@@ -30,7 +30,12 @@ const MeetingPosts = () => {
         const data = await uploadPostAPI(value);
         console.log('글쓰기 제출', data);
       },
+      meetId,
     });
+  };
+
+  const handleClickPost = (postId: number) => {
+    console.log('클릭 :', postId);
   };
 
   return (
@@ -42,17 +47,25 @@ const MeetingPosts = () => {
         </button>
       </div>
       <ul>
-        {testPosts &&
-          testPosts?.map(post => (
-            <li className="py-6 m border-b" key={post.postId}>
-              <Link to={`/meetings/${meetId}/posts/${post.postId}`}>
-                <div className="font-semibold mb-2">{post.title}</div>
-                <div className="text-slate-500 text-sm mb-2 line-clamp-1">{post.content}</div>
-                <div className="text-slate-400 flex text-xs">
-                  <div className="">{post.author}&nbsp; · &nbsp;</div>
-                  <div className="">{post.createdAt}</div>
+        {meetPosts &&
+          meetPosts?.map((post: PostProps) => (
+            <li className="py-6 m border-b" key={post.id}>
+              <div className="flex">
+                <AvatarImg src={post?.User?.img} userId={post.User?.id} size="sm" rounded="full" />
+                <div className="flex flex-col justify-between text-xs ml-3">
+                  <Link
+                    to={`/users/${post?.User?.id}`}
+                    className="w-fit font-bold cursor-pointer hover:text-accent-400 mb-1 transition-all"
+                  >
+                    {post?.User?.nickname}
+                  </Link>
+                  <div className="text-slate-400">{post.createdAt}</div>
+                  <div className="mt-4 cursor-pointer" onClick={() => handleClickPost(post.id)}>
+                    <div className="font-semibold mb-2 text-xl">{post.title}</div>
+                    <div className="text-slate-500 text-sm line-clamp-6">{post.content}</div>
+                  </div>
                 </div>
-              </Link>
+              </div>
             </li>
           ))}
       </ul>
