@@ -1,12 +1,13 @@
 import { useState } from 'react';
 
-export interface MeetProps {
-  name: string;
-  introduce: string;
-}
-
-const MeetingCreateModal = ({ onSubmit, onClose }: { onSubmit?: (value: MeetProps) => void; onClose?: () => void }) => {
-  const [meet, setMeet] = useState<MeetProps>({
+const MeetingCreateModal = ({
+  onSubmit,
+  onClose,
+}: {
+  onSubmit?: (value: MeetFormProps) => void;
+  onClose?: () => void;
+}) => {
+  const [meet, setMeet] = useState<MeetFormProps>({
     name: '',
     introduce: '',
   });

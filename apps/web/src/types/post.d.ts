@@ -1,7 +1,7 @@
 interface PostFormProps {
-  meetId: string;
   title: string;
   content: string;
+  meetId?: string;
   img?: string;
   tags?: string[];
 }

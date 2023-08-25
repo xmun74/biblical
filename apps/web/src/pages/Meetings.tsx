@@ -4,7 +4,6 @@ import { Link, useNavigate } from 'react-router-dom';
 import ArrowRight from '@/assets/svg/ArrowRight.svg';
 import Plus from '@/assets/svg/Plus.svg';
 import Layout from '@/components/Layout';
-import { MeetProps } from '@/components/Modal/MeetingCreateModal';
 import { modals } from '@/components/Modal/modals';
 import { getMeetingsAPI, postMeetingAPI } from '@/lib/api';
 import { QUERY_KEYS } from '@/lib/constants';
@@ -32,7 +31,7 @@ const Meetings = () => {
   const handleMeetCreateModal = () => {
     if (isMe?.id) {
       openModal(modals.meetCreateModal, {
-        onSubmit: async (value: MeetProps) => {
+        onSubmit: async (value: MeetFormProps) => {
           meetingMutation(value);
           if (postMeetingData) {
             const {

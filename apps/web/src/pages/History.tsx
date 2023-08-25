@@ -1,12 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { getMeAPI } from '@/lib/api';
-import User from '@/types/user';
 
 const History = () => {
   // const queryClient = new QueryClient();
   // const loggedIn = queryClient.getQueryData(['loggedIn']);
 
-  const { data: myUserInfo } = useQuery<User>(['userInfo'], getMeAPI);
+  const { data: myUserInfo } = useQuery<UserProps>(['userInfo'], getMeAPI);
 
   return (
     <>

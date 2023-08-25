@@ -1,15 +1,23 @@
 import { useModals } from '@biblical/react-ui';
-import { useQuery } from '@tanstack/react-query';
-import { useEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { useEffect, useState } from 'react';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import MoreOption from '@/assets/svg/MoreOption.svg';
 import AvatarImg from '@/components/AvatarImg';
 import { modals } from '@/components/Modal/modals';
-import { getPostsAPI, uploadPostAPI } from '@/lib/api';
+
+import { deletePostAPI, getPostAPI, getPostsAPI, patchPostAPI, uploadPostAPI } from '@/lib/api';
 import { QUERY_KEYS } from '@/lib/constants';
 
 const MeetingPosts = () => {
   const { meetId } = useParams();
+  const navigate = useNavigate();
+  const [optionOpen, setOptionOpen] = useState(false);
+  const [clickItem, setClickItem] = useState<number>();
   const { openModal } = useModals();
+  const queryClient = useQueryClient();
+  const me = queryClient.getQueryData<UserProps>([QUERY_KEYS.MY_INFO]);
+  // console.log('me :', me); // fe에서 비교할지 아니면 posts조회에서 isMe:true로 내려서 알려줄지
 
   const { data: meetPosts, refetch } = useQuery<PostProps[]>(
     [QUERY_KEYS.MEET_POSTS],
@@ -28,14 +36,54 @@ const MeetingPosts = () => {
     openModal(modals.postCreateModal, {
       onSubmit: async (value: PostFormProps) => {
         const data = await uploadPostAPI(value);
+        if (data.code === 201) {
+          queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MEET_POSTS] });
+        }
         console.log('글쓰기 제출', data);
       },
       meetId,
     });
   };
 
-  const handleClickPost = (postId: number) => {
-    console.log('클릭 :', postId);
+  const handlePostDetail = async (userId: number, postId: number) => {
+    const post = await getPostAPI(postId);
+    openModal(modals.postReadModal, {
+      onAvatarClick: () => {
+        navigate(`/users/${userId}`);
+      },
+      post,
+    });
+  };
+  const handlePostUpdate = async (postId: number, meetId: number, preTitle: string, preContent: string) => {
+    openModal(modals.postUpdateModal, {
+      onSubmit: async (value: PostFormProps) => {
+        const data = await patchPostAPI(postId, value);
+        if (data.code === 200) {
+          queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MEET_POSTS] });
+          console.log('수정 :', data);
+        }
+      },
+      meetId,
+      preTitle,
+      preContent,
+    });
+  };
+
+  const handlePostDelete = async (postId: number, meetId: number) => {
+    openModal(modals.postDeleteModal, {
+      onClick: async () => {
+        const data = await deletePostAPI(postId, meetId);
+        if (data.code === 200) {
+          queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MEET_POSTS] });
+          console.log('삭제', data);
+        }
+      },
+    });
+  };
+
+  const handleClickItem = (e: React.MouseEvent<HTMLElement>, id: number) => {
+    setClickItem(id);
+    setOptionOpen(!optionOpen);
   };
 
   return (
@@ -51,18 +99,49 @@ const MeetingPosts = () => {
           meetPosts?.map((post: PostProps) => (
             <li className="py-6 m border-b" key={post.id}>
               <div className="flex">
-                <AvatarImg src={post?.User?.img} userId={post.User?.id} size="sm" rounded="full" />
-                <div className="flex flex-col justify-between text-xs ml-3">
-                  <Link
-                    to={`/users/${post?.User?.id}`}
-                    className="w-fit font-bold cursor-pointer hover:text-accent-400 mb-1 transition-all"
-                  >
-                    {post?.User?.nickname}
-                  </Link>
-                  <div className="text-slate-400">{post.createdAt}</div>
-                  <div className="mt-4 cursor-pointer" onClick={() => handleClickPost(post.id)}>
+                <AvatarImg
+                  src={post?.User?.img}
+                  size="sm"
+                  rounded="full"
+                  onClick={() => navigate(`/users/${post.User?.id}`)}
+                />
+                <div className="w-full flex flex-col justify-between ml-3">
+                  <div className="flex justify-between">
+                    <div className="flex flex-col text-xs">
+                      <Link
+                        to={`/users/${post?.User?.id}`}
+                        className="w-fit font-bold cursor-pointer hover:text-accent-400 mb-1 transition-all"
+                      >
+                        {post?.User?.nickname}
+                      </Link>
+                      <div className="text-slate-400">{post.createdAt.slice(0, -3)}</div>
+                    </div>
+
+                    {me?.id === post?.User?.id && (
+                      <button className="relative" onClick={e => handleClickItem(e, post?.id)}>
+                        <MoreOption fill="gray" width="20px" height="20px" />
+                        {clickItem === post?.id && optionOpen && (
+                          <div className="absolute right-0 p-1 w-[120px] bg-white rounded shadow-lg border tex">
+                            <div
+                              className="p-2 hover:bg-slate-50"
+                              onClick={() => handlePostUpdate(post?.id, post?.MeetingId, post?.title, post?.content)}
+                            >
+                              수정하기
+                            </div>
+                            <div
+                              className="p-2 hover:bg-slate-50"
+                              onClick={() => handlePostDelete(post?.id, post?.MeetingId)}
+                            >
+                              삭제하기
+                            </div>
+                          </div>
+                        )}
+                      </button>
+                    )}
+                  </div>
+                  <div className="mt-4 cursor-pointer" onClick={() => handlePostDetail(post?.User?.id, post.id)}>
                     <div className="font-semibold mb-2 text-xl">{post.title}</div>
-                    <div className="text-slate-500 text-sm line-clamp-6">{post.content}</div>
+                    <div className="text-xs text-slate-500 line-clamp-6">{post.content}</div>
                   </div>
                 </div>
               </div>

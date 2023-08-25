@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { deleteUnFollowAPI, getMeAPI, postFollowAPI } from '@/lib/api';
-import User from '@/types/user';
+import { QUERY_KEYS } from '@/lib/constants';
 
 const FollowBtn = ({
   otherUserId,
@@ -14,7 +14,7 @@ const FollowBtn = ({
   setIsFollowers?: React.Dispatch<SetStateAction<number>>;
 }) => {
   const { userId } = useParams();
-  const { data: me } = useQuery<User>(['userInfo'], getMeAPI, {
+  const { data: me } = useQuery<UserProps>([QUERY_KEYS.MY_INFO], getMeAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,

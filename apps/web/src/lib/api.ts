@@ -1,4 +1,3 @@
-import { MeetProps } from '@/components/Modal/MeetingCreateModal';
 import { axiosInstance } from '@/config/axiosConfig';
 
 export interface LoginResponse {
@@ -54,7 +53,7 @@ export const deleteUnFollowAPI = async (userId: number) => {
 };
 
 /** MEETING */
-export const postMeetingAPI = async (meetData: MeetProps) => {
+export const postMeetingAPI = async (meetData: MeetFormProps) => {
   const { data } = await axiosInstance.post(`/meetings`, meetData);
   return data;
 };
@@ -101,4 +100,16 @@ export const getPostsAPI = async (meetId: number) => {
     data: { posts },
   } = await axiosInstance.get(`/posts/?meetId=${meetId}`);
   return posts;
+};
+export const getPostAPI = async (postId: number) => {
+  const { data } = await axiosInstance.get(`/post/${postId}`);
+  return data;
+};
+export const patchPostAPI = async (postId: number, post: PostFormProps) => {
+  const { data } = await axiosInstance.patch(`/post/${postId}`, post);
+  return data;
+};
+export const deletePostAPI = async (postId: number, meetId: number) => {
+  const { data } = await axiosInstance.delete(`/post/${postId}/?meetId=${meetId}`);
+  return data;
 };

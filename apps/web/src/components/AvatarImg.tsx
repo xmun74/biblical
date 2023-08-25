@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
 
 interface ImgProps {
   src: null | string;
-  userId?: number;
   size: string;
   rounded?: string;
+  onClick?: () => void;
 }
 type ImgConfigTypes = {
   [key: string]: {
@@ -29,15 +28,14 @@ const imgConfig: ImgConfigTypes = {
 
 /**
  * AvatarImg Component
- * @type {function(src, userId, size, rounded): HTMLImageElement}
+ * @type {function(src, size, rounded, onClick): HTMLImageElement}
  * @param {null|string} src - null | string
- * @param {number} userId - number
  * @param {string} size - sm, md, lg, xl
- * @param {string} rounded - md, lg, full
+ * @param {string} rounded - md, lg, full (optional)
+ * @param {function} onClick - Click handler (optional)
  * @returns HTMLImageElement
  */
-const AvatarImg = ({ src, userId, size, rounded }: ImgProps) => {
-  const navigate = useNavigate();
+const AvatarImg = ({ src, size, rounded, onClick }: ImgProps) => {
   const [avatar, setAvatar] = useState(
     'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
   );
@@ -55,9 +53,9 @@ const AvatarImg = ({ src, userId, size, rounded }: ImgProps) => {
       alt="user avatar image"
       className={`cursor-pointer object-cover
       ${imgConfig['size'][size]}
-      ${imgConfig['rounded'][rounded]}
+      ${rounded && imgConfig['rounded'][rounded]}
       `}
-      onClick={() => userId && navigate(`/users/${userId}`)}
+      onClick={onClick}
     />
   );
 };

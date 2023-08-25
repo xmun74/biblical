@@ -5,14 +5,13 @@ import AvatarImg from '@/components/AvatarImg';
 import FollowBtn from '@/components/FollowBtn';
 import { getMeAPI, getMeetingMembersAPI } from '@/lib/api';
 import { QUERY_KEYS } from '@/lib/constants';
-import User from '@/types/user';
 
 const MeetingMember = () => {
   const { meetId } = useParams();
   const navigate = useNavigate();
   const [members, setMembers] = useState<MemberProps[]>([]);
   const [isFollowers, setIsFollowers] = useState(0);
-  const { data: me } = useQuery<User>([QUERY_KEYS.MY_INFO], getMeAPI);
+  const { data: me } = useQuery<UserProps>([QUERY_KEYS.MY_INFO], getMeAPI);
 
   useEffect(() => {
     const fetchMembers = async () => {
@@ -28,7 +27,7 @@ const MeetingMember = () => {
       {members &&
         members?.map(member => (
           <div className="flex items-center mb-6" key={member.id}>
-            <AvatarImg src={member.img} userId={member.id} size="sm" rounded="full" />
+            <AvatarImg src={member.img} size="sm" rounded="full" onClick={() => navigate(`/users/${member.id}`)} />
             <div
               onClick={() => navigate(`/users/${member.id}`)}
               className="flex-1 font-semibold text-sm ml-4 cursor-pointer"

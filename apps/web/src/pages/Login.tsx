@@ -4,7 +4,7 @@ import { useCallback, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import KakaoLoginBtn from '@/components/KakaoLoginBtn';
 import { loginAPI } from '@/lib/api';
-import User from '@/types/user';
+import { QUERY_KEYS } from '@/lib/constants';
 import { setLocalStorage } from '@/utils/localStorage';
 
 const Login = () => {
@@ -17,20 +17,24 @@ const Login = () => {
   const [pwdErrMsg, setPwdErrMsg] = useState(false);
   const [loginErrMsg, setLoginErrMsg] = useState('');
 
-  const { mutate } = useMutation<User, AxiosError, { email: string; password: string }>(['userInfo'], loginAPI, {
-    onError: error => {
-      setLoginErrMsg(`${error.response?.data}`);
-    },
-    onSuccess: user => {
-      setLocalStorage('isLoggedIn', true);
-      queryClient.setQueryData(['userInfo'], user);
-      if (state) {
-        navigate(state);
-      } else {
-        navigate('/');
-      }
-    },
-  });
+  const { mutate } = useMutation<UserProps, AxiosError, { email: string; password: string }>(
+    [QUERY_KEYS.MY_INFO],
+    loginAPI,
+    {
+      onError: error => {
+        setLoginErrMsg(`${error.response?.data}`);
+      },
+      onSuccess: user => {
+        setLocalStorage('isLoggedIn', true);
+        queryClient.setQueryData([QUERY_KEYS.MY_INFO], user);
+        if (state) {
+          navigate(state);
+        } else {
+          navigate('/');
+        }
+      },
+    }
+  );
 
   const emailValid = (value: string) => {
     const emailReg = RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,3}$/);

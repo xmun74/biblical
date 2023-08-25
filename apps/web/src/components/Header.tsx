@@ -5,13 +5,13 @@ import AvatarImg from './AvatarImg';
 import MenuBar from '@/assets/svg/MenuBar.svg';
 import MenuClose from '@/assets/svg/MenuClose.svg';
 import { getMeAPI, logoutAPI } from '@/lib/api';
-import User from '@/types/user';
+import { QUERY_KEYS } from '@/lib/constants';
 import { getLocalStorage, removeLocalStorage } from '@/utils/localStorage';
 
 const Header = () => {
   const queryClient = useQueryClient();
   const loggedIn: boolean = getLocalStorage('isLoggedIn');
-  const { data: userInfo } = useQuery<User>(['userInfo', loggedIn], getMeAPI, {
+  const { data: userInfo } = useQuery<UserProps>([QUERY_KEYS.MY_INFO], getMeAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -86,7 +86,12 @@ const Header = () => {
               onMouseEnter={() => setIsModalOpen(true)}
               onMouseLeave={() => setIsModalOpen(false)}
             >
-              <AvatarImg src={userInfo?.img} userId={userInfo?.id} size="sm" rounded="full" />
+              <AvatarImg
+                src={userInfo?.img}
+                size="sm"
+                rounded="full"
+                onClick={() => navigate(`/users/${userInfo?.id}`)}
+              />
             </div>
             {isModalOpen && (
               <section
@@ -156,7 +161,12 @@ const Header = () => {
         {userInfo && userInfo?.id ? (
           <div onClick={() => setIsOpenMenu(false)}>
             <Link to={`/users/${userInfo?.id}`} className="flex items-center pt-4 pb-4 mb-4 border-b text-sm">
-              <AvatarImg src={userInfo?.img} userId={userInfo?.id} size="xs" rounded="full" />
+              <AvatarImg
+                src={userInfo?.img}
+                size="xs"
+                rounded="full"
+                onClick={() => navigate(`/users/${userInfo?.id}`)}
+              />
               <span className="ml-2">{userInfo?.nickname}</span>
             </Link>
           </div>

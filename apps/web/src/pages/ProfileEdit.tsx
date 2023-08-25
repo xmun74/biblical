@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Layout from '@/components/Layout';
 import { deleteUserAPI, getMeAPI, patchNicknameAPI, patchUserImgAPI } from '@/lib/api';
-import User from '@/types/user';
+import { QUERY_KEYS } from '@/lib/constants';
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
@@ -20,19 +20,19 @@ const ProfileEdit = () => {
   const fileInputRef = useRef<HTMLInputElement>(null);
   const NickInputRef = useRef<HTMLInputElement>(null);
 
-  const { data: userInfoData } = useQuery<User>(['userInfo'], getMeAPI);
+  const { data: userInfoData } = useQuery<UserProps>([QUERY_KEYS.MY_INFO], getMeAPI);
 
-  const { mutate: nickMutation } = useMutation<User, AxiosError, string>(['userInfo'], patchNicknameAPI, {
+  const { mutate: nickMutation } = useMutation<UserProps, AxiosError, string>([QUERY_KEYS.MY_INFO], patchNicknameAPI, {
     onError: (error: AxiosError) => {
       setNickErrMsg(`${error.response?.data}`);
       NickInputRef.current.focus();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userInfo'] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MY_INFO] });
     },
   });
 
-  const { mutate: imgMutation, data: imgRes } = useMutation(['userInfo'], patchUserImgAPI, {
+  const { mutate: imgMutation, data: imgRes } = useMutation([QUERY_KEYS.MY_INFO], patchUserImgAPI, {
     onError: (error: unknown) => {
       if (error instanceof AxiosError) {
         if (error?.response?.data === 'File too large') {
@@ -41,7 +41,7 @@ const ProfileEdit = () => {
       }
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['userInfo'] });
+      queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MY_INFO] });
     },
   });
 

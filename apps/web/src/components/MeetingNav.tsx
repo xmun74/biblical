@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { modals } from './Modal/modals';
 import Plus from '@/assets/svg/Plus.svg';
 import Setting from '@/assets/svg/Setting.svg';
-import { deleteWithdrawAPI, getMeetingAPI, postMeetingInviteLinkAPI } from '@/lib/api';
+import { deleteWithdrawAPI, getMeetingAPI, postMeetingInviteLinkAPI, uploadPostAPI } from '@/lib/api';
 
 interface MeetingProps {
   name: string;
@@ -74,12 +74,22 @@ const MeetingNav = ({ children }: { children: React.ReactNode }) => {
     });
   };
 
-  return (
-    <div className="px-4 sm:px-[40px] my-0 mx-auto w-full lg:max-w-[1200px]">
-      <>
-        <div className="lg:hidden mt-3 font-bold text-lg flex items-center">{meetingInfo.name}</div>
+  const handleCreatePost = () => {
+    openModal(modals.postCreateModal, {
+      onSubmit: async (value: PostFormProps) => {
+        const data = await uploadPostAPI(value);
+        console.log('글쓰기 제출', data);
+      },
+      meetId,
+    });
+  };
 
-        <nav className="flex my-2 justify-between items-center border-b border-slate-200">
+  return (
+    <div className="my-0 mx-auto w-full lg:max-w-[1200px]">
+      <>
+        <div className="px-4 sm:px-[40px] lg:hidden mt-3 font-bold text-lg flex items-center">{meetingInfo.name}</div>
+
+        <nav className="px-4 sm:px-0 sm:mx-[40px] sticky top-[70px] md:top-[80px] flex my-2 justify-between items-center border-b border-slate-200 bg-white/50 backdrop-blur border-t lg:border-t-0">
           <ul className="flex font-semibold text-sm gap-6">
             {navName &&
               navName?.map(nav => (
@@ -109,8 +119,8 @@ const MeetingNav = ({ children }: { children: React.ReactNode }) => {
         </nav>
       </>
 
-      <div className="lg:grid lg:grid-cols-[1fr_4fr] mx-auto lg:gap-8 lg:max-w-[1280px] pt-3 lg:py-3 ">
-        <aside className="hidden lg:block border rounded-xl h-[250px] p-4 bg-white">
+      <div className="px-4 sm:px-[40px] lg:grid lg:grid-cols-[1fr_4fr] mx-auto lg:gap-8 lg:max-w-[1280px] pt-3 lg:py-3">
+        <aside className="lg:sticky top-[140px] hidden lg:block border rounded-xl h-[250px] p-4">
           <div className="flex justify-between">
             <span className="font-bold text-xl">{meetingInfo.name}</span>
             <button type="button" onClick={handleSetting}>
@@ -125,6 +135,11 @@ const MeetingNav = ({ children }: { children: React.ReactNode }) => {
             <Plus stroke="rgba(46, 230, 131)" width="18px" height="18px" strokeWidth="6" />
             초대
           </button>
+
+          <button className="w-full hover_bg font-bold text-white px-3 py-2 mt-2 rounded-md" onClick={handleCreatePost}>
+            글쓰기
+          </button>
+
           <div className="text-xs mt-2 pt-2 text-slate-400 border-t">모임은 초대를 통해서만 가입할 수 있습니다.</div>
         </aside>
         {children}

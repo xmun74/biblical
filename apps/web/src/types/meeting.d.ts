@@ -15,3 +15,8 @@ interface MemberProps {
   img: string | null;
   nickname: string;
 }
+
+interface MeetFormProps {
+  name: string;
+  introduce: string;
+}
