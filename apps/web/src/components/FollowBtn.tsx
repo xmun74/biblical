@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { deleteUnFollowAPI, getMeAPI, postFollowAPI } from '@/lib/api';
-import { QUERY_KEYS } from '@/lib/constants';
+import { deleteUnFollowAPI, getMeAPI, postFollowAPI } from '@/apis';
+import { QUERY_KEYS } from '@/constants';
 
 const FollowBtn = ({
   otherUserId,

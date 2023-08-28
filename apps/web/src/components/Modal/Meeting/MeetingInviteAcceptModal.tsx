@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { getMeetingInviteInfoAPI } from '@/lib/api';
+import { getMeetingInviteInfoAPI } from '@/apis';
 import { getLocalStorage } from '@/utils/localStorage';
 import { useMyMeetings } from '@/utils/react-query';
 

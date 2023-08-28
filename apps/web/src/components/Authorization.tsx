@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { PAGE_ROUTES } from '@/lib/constants';
+import { PAGE_ROUTES } from '@/constants';
 import { getLocalStorage } from '@/utils/localStorage';
 
 export interface AuthProps {

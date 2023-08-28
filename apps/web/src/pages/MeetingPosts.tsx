@@ -2,12 +2,12 @@ import { useModals } from '@biblical/react-ui';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { deletePostAPI, getPostAPI, getPostsAPI, patchPostAPI, uploadPostAPI } from '@/apis';
 import MoreOption from '@/assets/svg/MoreOption.svg';
 import AvatarImg from '@/components/AvatarImg';
 import { modals } from '@/components/Modal/modals';
 
-import { deletePostAPI, getPostAPI, getPostsAPI, patchPostAPI, uploadPostAPI } from '@/lib/api';
-import { QUERY_KEYS } from '@/lib/constants';
+import { QUERY_KEYS } from '@/constants';
 
 const MeetingPosts = () => {
   const { meetId } = useParams();

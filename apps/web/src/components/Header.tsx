@@ -2,10 +2,10 @@ import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import AvatarImg from './AvatarImg';
+import { getMeAPI, logoutAPI } from '@/apis';
 import MenuBar from '@/assets/svg/MenuBar.svg';
 import MenuClose from '@/assets/svg/MenuClose.svg';
-import { getMeAPI, logoutAPI } from '@/lib/api';
-import { QUERY_KEYS } from '@/lib/constants';
+import { QUERY_KEYS } from '@/constants';
 import { getLocalStorage, removeLocalStorage } from '@/utils/localStorage';
 
 const Header = () => {

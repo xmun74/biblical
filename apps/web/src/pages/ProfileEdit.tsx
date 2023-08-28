@@ -2,9 +2,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { deleteUserAPI, getMeAPI, patchNicknameAPI, patchUserImgAPI } from '@/apis';
 import Layout from '@/components/Layout';
-import { deleteUserAPI, getMeAPI, patchNicknameAPI, patchUserImgAPI } from '@/lib/api';
-import { QUERY_KEYS } from '@/lib/constants';
+import { QUERY_KEYS } from '@/constants';
 
 const ProfileEdit = () => {
   const navigate = useNavigate();

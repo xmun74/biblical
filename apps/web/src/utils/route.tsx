@@ -1,5 +1,5 @@
 import MeetingNav from '@/components/MeetingNav';
-import { PAGE_ROUTES } from '@/lib/constants';
+import { PAGE_ROUTES } from '@/constants';
 import Bible from '@/pages/Bible';
 import History from '@/pages/History';
 import KakaoLogin from '@/pages/KakaoLogin';

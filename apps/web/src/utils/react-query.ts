@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { getLocalStorage } from './localStorage';
-import { getMeAPI, getMeetingsAPI } from '@/lib/api';
-import { QUERY_KEYS } from '@/lib/constants';
+import { getMeAPI, getMeetingsAPI } from '@/apis';
+import { QUERY_KEYS } from '@/constants';
 
 const loggedIn: boolean = getLocalStorage('isLoggedIn');
 export const useMyInfo = () =>

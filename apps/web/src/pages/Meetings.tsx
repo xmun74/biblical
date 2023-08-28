@@ -1,12 +1,12 @@
 import { useModals } from '@biblical/react-ui';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { Link, useNavigate } from 'react-router-dom';
+import { getMeetingsAPI, postMeetingAPI } from '@/apis';
 import ArrowRight from '@/assets/svg/ArrowRight.svg';
 import Plus from '@/assets/svg/Plus.svg';
 import Layout from '@/components/Layout';
 import { modals } from '@/components/Modal/modals';
-import { getMeetingsAPI, postMeetingAPI } from '@/lib/api';
-import { QUERY_KEYS } from '@/lib/constants';
+import { QUERY_KEYS } from '@/constants';
 import { getLocalStorage } from '@/utils/localStorage';
 import { useMyInfo } from '@/utils/react-query';
 

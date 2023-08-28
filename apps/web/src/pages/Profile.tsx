@@ -1,11 +1,11 @@
 import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getMeAPI, getUserAPI } from '@/apis';
 import AvatarImg from '@/components/AvatarImg';
 import FollowBtn from '@/components/FollowBtn';
 import Layout from '@/components/Layout';
-import { getMeAPI, getUserAPI } from '@/lib/api';
-import { PAGE_ROUTES, QUERY_KEYS } from '@/lib/constants';
+import { PAGE_ROUTES, QUERY_KEYS } from '@/constants';
 
 const Profile = () => {
   const navigate = useNavigate();

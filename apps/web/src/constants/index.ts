@@ -21,3 +21,5 @@ export const QUERY_KEYS = {
   OTHER_INFO: 'otherUserInfo',
   MEET_POSTS: 'meetPosts',
 };
+
+export const API_URL = process.env.API_URL;

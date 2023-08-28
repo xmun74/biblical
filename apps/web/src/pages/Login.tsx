@@ -2,9 +2,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useCallback, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { loginAPI } from '@/apis';
 import KakaoLoginBtn from '@/components/KakaoLoginBtn';
-import { loginAPI } from '@/lib/api';
-import { QUERY_KEYS } from '@/lib/constants';
+import { QUERY_KEYS } from '@/constants';
 import { setLocalStorage } from '@/utils/localStorage';
 
 const Login = () => {
