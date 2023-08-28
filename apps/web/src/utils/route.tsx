@@ -1,3 +1,4 @@
+import MeetingNav from '@/components/MeetingNav';
 import { PAGE_ROUTES } from '@/lib/constants';
 import Bible from '@/pages/Bible';
 import History from '@/pages/History';
@@ -5,6 +6,9 @@ import KakaoLogin from '@/pages/KakaoLogin';
 import Login from '@/pages/Login';
 import Main from '@/pages/Main';
 import MeetingDetail from '@/pages/MeetingDetail';
+import MeetingInvite from '@/pages/MeetingInvite';
+import MeetingMember from '@/pages/MeetingMember';
+import MeetingPosts from '@/pages/MeetingPosts';
 import Meetings from '@/pages/Meetings';
 import Profile from '@/pages/Profile';
 import ProfileEdit from '@/pages/ProfileEdit';
@@ -58,9 +62,45 @@ export const RouteInfo: RouteInfoProp[] = [
   },
   {
     path: PAGE_ROUTES.MEETINGS_DETAIL,
-    element: <MeetingDetail />,
+    element: (
+      <>
+        <MeetingNav>
+          <MeetingDetail />
+        </MeetingNav>
+      </>
+    ),
     withAuth: true,
     label: '모임 상세',
+  },
+  {
+    path: PAGE_ROUTES.MEETINGS_MEMBER,
+    element: (
+      <>
+        <MeetingNav>
+          <MeetingMember />
+        </MeetingNav>
+      </>
+    ),
+    withAuth: true,
+    label: '모임 멤버',
+  },
+  {
+    path: PAGE_ROUTES.MEETINGS_POST,
+    element: (
+      <>
+        <MeetingNav>
+          <MeetingPosts />
+        </MeetingNav>
+      </>
+    ),
+    withAuth: true,
+    label: '모임 게시글',
+  },
+  {
+    path: PAGE_ROUTES.MEETINGS_INVITE,
+    element: <MeetingInvite />,
+    withAuth: false,
+    label: '모임 초대',
   },
   {
     path: PAGE_ROUTES.PROFILE,

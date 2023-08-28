@@ -48,11 +48,11 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './public/index.html'),
-      favicon: './public/assets/favicons/favicon.ico',
+      favicon: './public/favicons/favicon.ico',
     }),
     new webpack.ProvidePlugin({
       React: 'react',
     }),
-    new webpack.EnvironmentPlugin(['API_URL', 'USER_IMG_FIELD']),
+    new webpack.EnvironmentPlugin(['API_URL', 'USER_IMG_FIELD', 'CLIENT_URL']),
   ],
 };

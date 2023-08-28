@@ -23,7 +23,7 @@ module.exports = {
         },
       },
       backgroundImage: {
-        'kakao-login': "url('../public/assets/images/kakao_login_medium_narrow.png')",
+        'kakao-login': "url('../public/images/kakao_login_medium_narrow.png')",
       },
     },
   },

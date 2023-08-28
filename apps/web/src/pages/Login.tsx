@@ -1,31 +1,40 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useCallback, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import KakaoLoginBtn from '@/components/KakaoLoginBtn';
-import User from '@/interfaces/user';
 import { loginAPI } from '@/lib/api';
+import { QUERY_KEYS } from '@/lib/constants';
 import { setLocalStorage } from '@/utils/localStorage';
 
 const Login = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
+  const { state } = useLocation();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [EmailErrMsg, setEmailErrMsg] = useState(false);
   const [pwdErrMsg, setPwdErrMsg] = useState(false);
   const [loginErrMsg, setLoginErrMsg] = useState('');
 
-  const { mutate } = useMutation<User, AxiosError, { email: string; password: string }>(['userInfo'], loginAPI, {
-    onError: error => {
-      setLoginErrMsg(`${error.response?.data}`);
-    },
-    onSuccess: user => {
-      setLocalStorage('isLoggedIn', true);
-      queryClient.setQueryData(['userInfo'], user);
-      navigate('/');
-    },
-  });
+  const { mutate } = useMutation<UserProps, AxiosError, { email: string; password: string }>(
+    [QUERY_KEYS.MY_INFO],
+    loginAPI,
+    {
+      onError: error => {
+        setLoginErrMsg(`${error.response?.data}`);
+      },
+      onSuccess: user => {
+        setLocalStorage('isLoggedIn', true);
+        queryClient.setQueryData([QUERY_KEYS.MY_INFO], user);
+        if (state) {
+          navigate(state);
+        } else {
+          navigate('/');
+        }
+      },
+    }
+  );
 
   const emailValid = (value: string) => {
     const emailReg = RegExp(/^[\w-.]+@([\w-]+\.)+[\w-]{2,3}$/);

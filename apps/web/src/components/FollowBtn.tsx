@@ -1,7 +1,8 @@
 import { useQuery } from '@tanstack/react-query';
 import { SetStateAction, useCallback, useEffect, useState } from 'react';
-import User from '@/interfaces/user';
+import { useParams } from 'react-router-dom';
 import { deleteUnFollowAPI, getMeAPI, postFollowAPI } from '@/lib/api';
+import { QUERY_KEYS } from '@/lib/constants';
 
 const FollowBtn = ({
   otherUserId,
@@ -12,7 +13,8 @@ const FollowBtn = ({
   isFollowers?: number;
   setIsFollowers?: React.Dispatch<SetStateAction<number>>;
 }) => {
-  const { data: me } = useQuery<User>(['userInfo'], getMeAPI, {
+  const { userId } = useParams();
+  const { data: me } = useQuery<UserProps>([QUERY_KEYS.MY_INFO], getMeAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -20,11 +22,16 @@ const FollowBtn = ({
   const [isFollow, setIsFollow] = useState(false);
 
   useEffect(() => {
-    const isFollowed = me?.Followings?.find(el => el.id === otherUserId);
+    let isFollowed;
+    if (userId) {
+      isFollowed = me?.Followings?.find(el => el.id === Number(userId));
+    } else {
+      isFollowed = me?.Followings?.find(el => el.id === otherUserId);
+    }
     if (isFollowed) {
       setIsFollow(true);
     }
-  }, [me?.Followings, otherUserId]);
+  }, [me?.Followings, otherUserId, userId]);
 
   const onClickBtn = useCallback(async () => {
     if (isFollow) {
@@ -44,7 +51,7 @@ const FollowBtn = ({
 
   return (
     <button
-      className={`w-full max-w-[150px] border rounded-md mt-3 p-2 font-bold transition-all 
+      className={`w-full max-w-[150px] border rounded-md p-2 font-bold transition-all 
       ${
         isFollow ? `border-slate-300 hover:bg-slate-50 text-slate-400` : `bg-accent-400 text-white hover:bg-accent-500`
       }`}
