@@ -106,7 +106,7 @@ export const deletePostAPI = async (postId: number, meetId: number) => {
 };
 
 /** BIBLE */
-export const getBibleAPI = async (book: string, chapter: string) => {
+export const getBibleAPI = async (book: number, chapter: number) => {
   const { data } = await axiosInstance.get(`/bible?book=${book}&chapter=${chapter}`);
   return data;
 };
