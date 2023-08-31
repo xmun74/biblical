@@ -1,6 +1,6 @@
-type BibleProps = {
+interface BibleProps {
   book: number;
   chapter: number;
   verse: number;
-  content: string;
-};
+  content?: string;
+}

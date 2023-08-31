@@ -107,6 +107,18 @@ export const deletePostAPI = async (postId: number, meetId: number) => {
 
 /** BIBLE */
 export const getBibleAPI = async (book: number, chapter: number) => {
-  const { data } = await axiosInstance.get(`/bible?book=${book}&chapter=${chapter}`);
+  const {
+    data: { data },
+  } = await axiosInstance.get(`/bible?book=${book}&chapter=${chapter}`);
+  return data;
+};
+export const getBibleTotalCntAPI = async () => {
+  const {
+    data: { chapterCount },
+  } = await axiosInstance.get(`/bible/count/chapter`);
+  return chapterCount;
+};
+export const getVerseTotalCntAPI = async (book: number, chapter: number) => {
+  const { data } = await axiosInstance.get(`/bible/count/verse?book=${book}&chapter=${chapter}`);
   return data;
 };

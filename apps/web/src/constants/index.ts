@@ -20,6 +20,8 @@ export const QUERY_KEYS = {
   MY_INFO: 'userInfo',
   OTHER_INFO: 'otherUserInfo',
   MEET_POSTS: 'meetPosts',
+  BIBLE_CHAPTER_CNT: 'chapterCount',
+  BIBLE: 'bible',
 };
 
 export const API_URL = process.env.API_URL;

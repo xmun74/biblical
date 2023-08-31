@@ -22,6 +22,10 @@ module.exports = {
           600: 'rgba(14, 132, 68)',
         },
       },
+      boxShadow: {
+        sm: '0px 0px 7px rgba(63,71,77,0.3)',
+        md: '0px 0px 10px rgba(63,71,77,0.3)',
+      },
       backgroundImage: {
         'kakao-login': "url('../public/images/kakao_login_medium_narrow.png')",
       },
