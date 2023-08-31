@@ -10,6 +10,7 @@ module.exports = {
       fontFamily: {
         sans: ['Inter var', ...defaultTheme.fontFamily.sans],
         monda: ['Monda', 'sans-serif'],
+        noto_serif: ['Noto Serif KR', 'serif'],
       },
       colors: {
         accent: {

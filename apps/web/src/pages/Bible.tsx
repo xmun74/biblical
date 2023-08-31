@@ -98,13 +98,13 @@ const Bible = () => {
 
   return (
     <>
-      <nav className="sticky top-[70px] md:top-[80px] flex justify-center p-3 border-b border-t border-slate-200 bg-white/50 backdrop-blur-xl">
+      <nav className="sticky top-[70px] md:top-[80px] flex justify-center items-center h-[50px] p-3 sm:p-1 border-b border-t border-slate-200 bg-white/70 backdrop-blur-xl">
         <div className="w-[640px] flex justify-between">
           <button className="relative flex items-center" onClick={toggleIndexBtn}>
-            <span className="font-bold text-xl mr-4">
+            <span className="font-bold md:text-lg mr-4">
               {BIBLE_BOOKS[searchQuery.book - 1]} {searchQuery.chapter}장
             </span>
-            <div className="-rotate-90">
+            <div className={`${indexOpen ? 'rotate-90' : '-rotate-90'} transition-all	`}>
               <Back fill="black" width="18px" height="18px" />
             </div>
           </button>
@@ -121,8 +121,8 @@ const Bible = () => {
             />
           )}
 
-          <button className="flex justify-center items-center border rounded-full p-2.5">
-            <Search stroke="black" width="14px" height="14px" strokeWidth="8" />
+          <button className="w-[35px] h-[35px] flex justify-center items-center">
+            <Search stroke="black" width="17px" height="17px" strokeWidth="8" />
           </button>
         </div>
       </nav>
@@ -150,9 +150,9 @@ const Bible = () => {
             bibleData?.map((v, i) => (
               <div key={i} className="flex leading-7 mb-2">
                 <div>
-                  <span className="align-top text-xs py-1 mr-2 text-slate-500">{v.verse}</span>
+                  <span className="align-top text-xs py-1 mr-2 text-slate-400 font-semibold">{v.verse}</span>
                 </div>
-                <span className="text-lg">{v.content}</span>
+                <span className="text-lg font-noto_serif">{v.content}</span>
               </div>
             ))}
         </div>

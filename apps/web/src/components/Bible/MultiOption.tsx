@@ -26,7 +26,7 @@ const MultiOption = ({
   onVerseClick,
 }: MultiOptionProps) => {
   return (
-    <div className="absolute top-14 w-[350px] bg-white rounded-md shadow-sm">
+    <div className="absolute top-11 w-[350px] bg-white rounded-md shadow-sm">
       <div className="px-3 py-1.5 flex justify-between items-center bg-gradient-to-r bg-accent-600/60 rounded-t-md">
         <span className="font-bold text-white text-sm">목차 검색</span>
         <button onClick={() => setIndexOpen(false)}>
