@@ -15,8 +15,8 @@ const MeetingMember = () => {
 
   useEffect(() => {
     const fetchMembers = async () => {
-      const { Members } = await getMeetingMembersAPI(Number(meetId));
-      setMembers(Members);
+      const { Member } = await getMeetingMembersAPI(Number(meetId));
+      setMembers(Member);
     };
     fetchMembers();
   }, [meetId]);

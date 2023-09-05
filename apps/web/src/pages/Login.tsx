@@ -17,12 +17,12 @@ const Login = () => {
   const [pwdErrMsg, setPwdErrMsg] = useState(false);
   const [loginErrMsg, setLoginErrMsg] = useState('');
 
-  const { mutate } = useMutation<UserProps, AxiosError, { email: string; password: string }>(
+  const { mutate } = useMutation<UserProps, AxiosError<{ message: string }>, { email: string; password: string }>(
     [QUERY_KEYS.MY_INFO],
     loginAPI,
     {
       onError: error => {
-        setLoginErrMsg(`${error.response?.data}`);
+        setLoginErrMsg(`${error.response?.data?.message}`);
       },
       onSuccess: user => {
         setLocalStorage('isLoggedIn', true);
