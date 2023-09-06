@@ -122,14 +122,14 @@ const Bible = () => {
           )}
 
           <button className="w-[35px] h-[35px] flex justify-center items-center">
-            <Search stroke="black" width="17px" height="17px" strokeWidth="8" />
+            <Search stroke="black" width="25px" height="25px" strokeWidth="5" />
           </button>
         </div>
       </nav>
 
       {isFirst || (
         <button
-          className="fixed top-[90%] md:top-[50%] left-3 md:left-9 w-[40px] h-[40px] md:w-[48px] md:h-[48px] rounded-full bg-white shadow-md flex justify-center items-center"
+          className="fixed top-[90%] md:top-[50%] left-3 md:left-5 w-[40px] h-[40px] md:w-[48px] md:h-[48px] rounded-full bg-white shadow-sm flex justify-center items-center hover:shadow-md"
           onClick={handleClickPre}
         >
           <Back fill="black" width="18px" height="18px" />
@@ -137,14 +137,14 @@ const Bible = () => {
       )}
       {isLast || (
         <button
-          className="fixed top-[90%] md:top-[50%] right-3 md:right-9 w-[40px] h-[40px] md:w-[48px] md:h-[48px] rounded-full bg-white shadow-md flex justify-center items-center rotate-180"
+          className="fixed top-[90%] md:top-[50%] right-3 md:right-5 w-[40px] h-[40px] md:w-[48px] md:h-[48px] rounded-full bg-white shadow-sm flex justify-center items-center rotate-180 hover:shadow-md"
           onClick={handleClickNext}
         >
           <Back fill="black" width="18px" height="18px" />
         </button>
       )}
 
-      <div className="flex flex-col items-center px-3 xs:p-0 my-7">
+      <div className="flex flex-col items-center px-3 xs:p-0 mt-7">
         <div className="w-full md:w-[640px]">
           {bibleData &&
             bibleData?.map((v, i) => (
@@ -157,6 +157,9 @@ const Bible = () => {
             ))}
         </div>
       </div>
+      <footer className="mt-28 py-16 border-t flex justify-center text-xs text-slate-500">
+        이 곳에서 사용한 「 성경전서 개역한글판 」 의 저작권은 재단법인 대한성서공회 소유입니다.
+      </footer>
     </>
   );
 };
