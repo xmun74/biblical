@@ -4,7 +4,7 @@ const common = require('./webpack.common.js');
 
 module.exports = merge(common, {
   mode: 'development',
-  devtool: 'eval',
+  devtool: 'eval-cheap-module-source-map',
   devServer: {
     port: 3000,
     open: true, // 개발 서버 실행하면 브라우저 자동 오픈

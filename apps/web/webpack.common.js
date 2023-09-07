@@ -2,14 +2,18 @@
 const path = require('path');
 const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const webpack = require('webpack');
 
+const smp = new SpeedMeasurePlugin();
+
 dotenv.config();
-module.exports = {
+module.exports = smp.wrap({
   entry: `${path.resolve(__dirname, './src')}/index.tsx`,
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: '[name].bundle.js',
+    filename: '[name].[contenthash].bundle.js',
+    chunkFilename: '[name].[contenthash].chunk.bundle.js',
     clean: true,
     publicPath: '/',
   },
@@ -50,9 +54,6 @@ module.exports = {
       template: path.resolve(__dirname, './public/index.html'),
       favicon: './public/favicons/favicon.ico',
     }),
-    new webpack.ProvidePlugin({
-      React: 'react',
-    }),
     new webpack.EnvironmentPlugin(['API_URL', 'USER_IMG_FIELD', 'CLIENT_URL']),
   ],
-};
+});
