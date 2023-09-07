@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
 const dotenv = require('dotenv');
+const { EsbuildPlugin } = require('esbuild-loader');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
 const webpack = require('webpack');
@@ -26,9 +27,12 @@ module.exports = smp.wrap({
   module: {
     rules: [
       {
-        test: /\.(js|jsx|tsx|ts)$/,
+        test: /\.[jt]sx?$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: 'esbuild-loader',
+        options: {
+          target: 'es2015',
+        },
       },
       {
         test: /\.(png|jpe?g|gif|ico|webp)$/,
@@ -56,4 +60,13 @@ module.exports = smp.wrap({
     }),
     new webpack.EnvironmentPlugin(['API_URL', 'USER_IMG_FIELD', 'CLIENT_URL']),
   ],
+  // JS 축소
+  optimization: {
+    minimizer: [
+      new EsbuildPlugin({
+        target: 'es2015',
+        css: true, // CSS assets 축소
+      }),
+    ],
+  },
 });
