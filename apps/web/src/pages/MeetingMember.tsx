@@ -1,10 +1,10 @@
 import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { getMeAPI, getMeetingMembersAPI } from '@/apis';
 import AvatarImg from '@/components/AvatarImg';
 import FollowBtn from '@/components/FollowBtn';
-import { getMeAPI, getMeetingMembersAPI } from '@/lib/api';
-import { QUERY_KEYS } from '@/lib/constants';
+import { QUERY_KEYS } from '@/constants';
 
 const MeetingMember = () => {
   const { meetId } = useParams();
@@ -15,8 +15,8 @@ const MeetingMember = () => {
 
   useEffect(() => {
     const fetchMembers = async () => {
-      const { Members } = await getMeetingMembersAPI(Number(meetId));
-      setMembers(Members);
+      const { Member } = await getMeetingMembersAPI(Number(meetId));
+      setMembers(Member);
     };
     fetchMembers();
   }, [meetId]);

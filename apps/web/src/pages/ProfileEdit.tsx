@@ -2,9 +2,9 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { deleteUserAPI, getMeAPI, patchNicknameAPI, patchUserImgAPI } from '@/apis';
 import Layout from '@/components/Layout';
-import { deleteUserAPI, getMeAPI, patchNicknameAPI, patchUserImgAPI } from '@/lib/api';
-import { QUERY_KEYS } from '@/lib/constants';
+import { QUERY_KEYS } from '@/constants';
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
@@ -29,6 +29,7 @@ const ProfileEdit = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MY_INFO] });
+      navigate(`/users/${userInfoData.id}`);
     },
   });
 
@@ -42,6 +43,7 @@ const ProfileEdit = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MY_INFO] });
+      navigate(`/users/${userInfoData.id}`);
     },
   });
 
@@ -79,11 +81,13 @@ const ProfileEdit = () => {
 
   const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append(process.env.USER_IMG_FIELD, imgFile);
+    const imgFormData = new FormData();
+    imgFormData.append(process.env.USER_IMG_FIELD, imgFile);
     try {
       nickMutation(nickname);
-      imgMutation(formData);
+      if (imgFormData.get(process.env.USER_IMG_FIELD) !== 'undefined') {
+        imgMutation(imgFormData);
+      }
       if (imgRes?.userImgUrl) {
         setAvatar(`${process.env.API_URL}${imgRes?.userImgUrl}`);
       }
@@ -112,7 +116,7 @@ const ProfileEdit = () => {
           </button>
         </div>
 
-        <form onSubmit={handleEdit} className="max-w-[650px]">
+        <form onSubmit={handleEdit} className="max-w-[650px]" encType="multipart/form-data" action="/upload">
           <div className="flex">
             <label className="font-bold text-slate-500 w-[250px]">
               프로필 사진

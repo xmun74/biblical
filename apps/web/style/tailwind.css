@@ -15,6 +15,17 @@
   @apply bg-accent-400 hover:bg-accent-500;
 }
 
+@layer utilities {
+  .scrollbar_option::-webkit-scrollbar {
+    width: 3px;
+  }
+  .scrollbar_option::-webkit-scrollbar-thumb {
+    background-color: lightGray;
+    border-radius: 15px;
+    scrollbar-width: thin;
+  }
+}
+
 /* Modal */
 .modal {
   z-index: 11;

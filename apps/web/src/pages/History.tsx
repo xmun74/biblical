@@ -1,5 +1,5 @@
 import { useQuery } from '@tanstack/react-query';
-import { getMeAPI } from '@/lib/api';
+import { getMeAPI } from '@/apis';
 
 const History = () => {
   // const queryClient = new QueryClient();

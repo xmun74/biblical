@@ -1,7 +1,7 @@
 import { useModals } from '@biblical/react-ui';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { postMeetingInviteAPI } from '@/apis';
 import { modals } from '@/components/Modal/modals';
-import { postMeetingInviteAPI } from '@/lib/api';
 import { useMyInfo } from '@/utils/react-query';
 
 const MeetingInvite = () => {

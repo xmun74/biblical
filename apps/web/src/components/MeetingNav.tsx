@@ -2,9 +2,9 @@ import { useModals } from '@biblical/react-ui';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { modals } from './Modal/modals';
+import { deleteWithdrawAPI, getMeetingAPI, postMeetingInviteLinkAPI, uploadPostAPI } from '@/apis';
 import Plus from '@/assets/svg/Plus.svg';
 import Setting from '@/assets/svg/Setting.svg';
-import { deleteWithdrawAPI, getMeetingAPI, postMeetingInviteLinkAPI, uploadPostAPI } from '@/lib/api';
 
 interface MeetingProps {
   name: string;

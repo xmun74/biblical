@@ -1,14 +1,5 @@
 import { axiosInstance } from '@/config/axiosConfig';
 
-export interface LoginResponse {
-  message: string;
-  userInfo?: {
-    userId: number;
-    nickname: string;
-    email: string;
-  };
-}
-
 /** AUTH */
 export const loginAPI = async (loginData: { email: string; password: string }) => {
   const { data } = await axiosInstance.post(`/auth/login`, loginData);
@@ -111,5 +102,23 @@ export const patchPostAPI = async (postId: number, post: PostFormProps) => {
 };
 export const deletePostAPI = async (postId: number, meetId: number) => {
   const { data } = await axiosInstance.delete(`/post/${postId}/?meetId=${meetId}`);
+  return data;
+};
+
+/** BIBLE */
+export const getBibleAPI = async (book: number, chapter: number) => {
+  const {
+    data: { data },
+  } = await axiosInstance.get(`/bible?book=${book}&chapter=${chapter}`);
+  return data;
+};
+export const getBibleTotalCntAPI = async () => {
+  const {
+    data: { chapterCount },
+  } = await axiosInstance.get(`/bible/count/chapter`);
+  return chapterCount;
+};
+export const getVerseTotalCntAPI = async (book: number, chapter: number) => {
+  const { data } = await axiosInstance.get(`/bible/count/verse?book=${book}&chapter=${chapter}`);
   return data;
 };
