@@ -12,4 +12,7 @@ module.exports = merge(common, {
     historyApiFallback: true, //spa에서 react-router-dom 사용할 때 404에러 발생 방지
     compress: true, // gzip 압축
   },
+  optimization: {
+    minimize: false,
+  },
 });
