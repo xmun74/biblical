@@ -8,7 +8,7 @@
     "outDir": "./dist",
     "sourceMap": true,
     "target": "ES5",
-    "module": "ES6",
+    "module": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
@@ -18,7 +18,7 @@
     "strictNullChecks": false,
     "incremental": true,
     "lib": ["es2015", "dom", "dom.iterable"],
-    "removeComments": true,
+    "removeComments": false,
     "jsx": "react-jsx",
     "declaration": true
   },
