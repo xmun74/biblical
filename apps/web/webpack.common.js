@@ -59,4 +59,16 @@ module.exports = smp.wrap({
     }),
     new webpack.EnvironmentPlugin(['API_URL', 'USER_IMG_FIELD', 'CLIENT_URL']),
   ],
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        reactVendor: {
+          test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,
+          name: 'vendor-react',
+          chunks: 'all',
+        },
+      },
+    },
+  },
 });
