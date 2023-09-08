@@ -1,18 +1,8 @@
+import { lazy } from 'react';
 import MeetingNav from '@/components/MeetingNav';
 import { PAGE_ROUTES } from '@/constants';
-import Bible from '@/pages/Bible';
 import History from '@/pages/History';
 import KakaoLogin from '@/pages/KakaoLogin';
-import Login from '@/pages/Login';
-import Main from '@/pages/Main';
-import MeetingDetail from '@/pages/MeetingDetail';
-import MeetingInvite from '@/pages/MeetingInvite';
-import MeetingMember from '@/pages/MeetingMember';
-import MeetingPosts from '@/pages/MeetingPosts';
-import Meetings from '@/pages/Meetings';
-import Profile from '@/pages/Profile';
-import ProfileEdit from '@/pages/ProfileEdit';
-import SignUp from '@/pages/SignUp';
 
 interface RouteInfoProp {
   path: string;
@@ -22,6 +12,17 @@ interface RouteInfoProp {
   label?: string;
   children?: RouteInfoProp[];
 }
+const SignUp = lazy(() => import(/* webpackChunkName: "sign" */ '@/pages/SignUp'));
+const Login = lazy(() => import(/* webpackChunkName: "login" */ '@/pages/Login'));
+const Main = lazy(() => import(/* webpackChunkName: "home" */ '@/pages/Main'));
+const Bible = lazy(() => import(/* webpackChunkName: "bible" */ '@/pages/Bible'));
+const Meetings = lazy(() => import(/* webpackChunkName: "meetings" */ '@/pages/Meetings'));
+const MeetingDetail = lazy(() => import(/* webpackChunkName: "meeting-detail" */ '@/pages/MeetingDetail'));
+const MeetingInvite = lazy(() => import(/* webpackChunkName: "meeting-invite" */ '@/pages/MeetingInvite'));
+const MeetingMember = lazy(() => import(/* webpackChunkName: "meeting-member" */ '@/pages/MeetingMember'));
+const MeetingPosts = lazy(() => import(/* webpackChunkName: "meeting-posts" */ '@/pages/MeetingPosts'));
+const Profile = lazy(() => import(/* webpackChunkName: "profile" */ '@/pages/Profile'));
+const ProfileEdit = lazy(() => import(/* webpackChunkName: "profile-edit" */ '@/pages/ProfileEdit'));
 
 export const RouteInfo: RouteInfoProp[] = [
   {

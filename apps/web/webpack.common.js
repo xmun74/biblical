@@ -34,7 +34,7 @@ module.exports = smp.wrap({
         },
       },
       {
-        test: /\.(png|jpe?g|gif|ico|webp)$/,
+        test: /\.(png|jpe?g|gif|ico|webp|woff|woff2|ttf)$/,
         type: 'asset/resource',
         generator: {
           filename: 'images/[hash][ext][query]',
@@ -55,13 +55,12 @@ module.exports = smp.wrap({
   plugins: [
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './public/index.html'),
-      favicon: './public/favicons/favicon.ico',
+      favicon: path.join(__dirname, 'public/favicons/favicon.ico'),
     }),
     new webpack.EnvironmentPlugin(['API_URL', 'USER_IMG_FIELD', 'CLIENT_URL']),
   ],
   optimization: {
     splitChunks: {
-      chunks: 'all',
       cacheGroups: {
         reactVendor: {
           test: /[\\/]node_modules[\\/](react|react-dom|react-router-dom)[\\/]/,

@@ -1,3 +1,4 @@
+import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import Authorization from './components/Authorization';
 import Header from './components/Header';
@@ -31,6 +32,10 @@ const appRoutes = createBrowserRouter(
 );
 
 function App() {
-  return <RouterProvider router={appRoutes} />;
+  return (
+    <React.Suspense fallback={<div>Loading</div>}>
+      <RouterProvider router={appRoutes} />
+    </React.Suspense>
+  );
 }
 export default App;
