@@ -1,7 +1,8 @@
-interface PostsProps {
+type PostsType = {
   id: number;
-}
-interface UserProps {
+};
+
+type User = {
   id: number;
   email: string;
   nickname: string;
@@ -10,5 +11,5 @@ interface UserProps {
   Followers: User[];
   img?: string | null;
   snsId?: string | null;
-  Posts?: PostsProps[];
-}
+  Posts?: PostsType[];
+};

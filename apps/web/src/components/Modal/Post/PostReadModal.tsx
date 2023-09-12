@@ -7,7 +7,7 @@ const PostReadModal = ({
 }: {
   onClose?: () => void;
   onAvatarClick?: () => void;
-  post?: PostProps;
+  post?: Post;
 }) => {
   const handleAvatarClick = () => {
     onAvatarClick();

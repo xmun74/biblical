@@ -6,17 +6,12 @@ import { deleteWithdrawAPI, getMeetingAPI, postMeetingInviteLinkAPI, uploadPostA
 import Plus from '@/assets/svg/Plus.svg';
 import Setting from '@/assets/svg/Setting.svg';
 
-interface MeetingProps {
-  name: string;
-  introduce: string;
-}
-
 const MeetingNav = ({ children }: { children: React.ReactNode }) => {
   const { meetId } = useParams();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { openModal } = useModals();
-  const [meetingInfo, setMeetingInfo] = useState<MeetingProps>({
+  const [meetingInfo, setMeetingInfo] = useState({
     name: '',
     introduce: '',
   });

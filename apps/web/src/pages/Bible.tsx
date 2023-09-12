@@ -15,7 +15,7 @@ const Bible = () => {
     verse: 1,
   });
 
-  const { data: bibleData, refetch: bibleRefetch } = useQuery<BibleProps[]>(
+  const { data: bibleData, refetch: bibleRefetch } = useQuery<Bible[]>(
     [QUERY_KEYS.BIBLE],
     () => getBibleAPI(searchQuery.book, searchQuery.chapter),
     {
@@ -29,7 +29,7 @@ const Bible = () => {
   const [totalChapterCnt, setTotalChapterCnt] = useState<number[]>([]);
   const [totalVerseCnt, setTotalVerseCnt] = useState<number[]>([]);
   // 66권 각각의 총 장수 ex) 창세기 50장
-  const { data: maxChapter } = useQuery<BibleProps[]>([QUERY_KEYS.BIBLE_CHAPTER_CNT], getBibleTotalCntAPI, {
+  const { data: maxChapter } = useQuery<Bible[]>([QUERY_KEYS.BIBLE_CHAPTER_CNT], getBibleTotalCntAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,

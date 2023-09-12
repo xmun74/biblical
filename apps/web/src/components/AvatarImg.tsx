@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 
-interface ImgProps {
+type ImgProps = {
   src: null | string;
   size: string;
   rounded?: string;
   onClick?: () => void;
-}
+};
 type ImgConfigTypes = {
   [key: string]: {
     [key: string]: string;

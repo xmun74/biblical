@@ -13,7 +13,7 @@ const Profile = () => {
   const [avatar, setAvatar] = useState('');
   const [isFollowers, setIsFollowers] = useState(0);
   // me
-  const { data: MyInfoData } = useQuery<UserProps>([QUERY_KEYS.MY_INFO], getMeAPI, {
+  const { data: MyInfoData } = useQuery<User>([QUERY_KEYS.MY_INFO], getMeAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -24,13 +24,9 @@ const Profile = () => {
     return Number(userId) === MyInfoData?.id ? true : false;
   }, [MyInfoData?.id, userId]);
   // 다른 유저
-  const { data: otherInfoData, refetch } = useQuery<UserProps>(
-    [QUERY_KEYS.OTHER_INFO],
-    () => getUserAPI(Number(userId)),
-    {
-      enabled: Boolean(!isMe()),
-    }
-  );
+  const { data: otherInfoData, refetch } = useQuery<User>([QUERY_KEYS.OTHER_INFO], () => getUserAPI(Number(userId)), {
+    enabled: Boolean(!isMe()),
+  });
 
   useEffect(() => {
     if (isMe()) {

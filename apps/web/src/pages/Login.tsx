@@ -17,7 +17,7 @@ const Login = () => {
   const [pwdErrMsg, setPwdErrMsg] = useState(false);
   const [loginErrMsg, setLoginErrMsg] = useState('');
 
-  const { mutate } = useMutation<UserProps, AxiosError<{ message: string }>, { email: string; password: string }>(
+  const { mutate } = useMutation<User, AxiosError<{ message: string }>, { email: string; password: string }>(
     [QUERY_KEYS.MY_INFO],
     loginAPI,
     {

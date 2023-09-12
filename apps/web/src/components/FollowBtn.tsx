@@ -14,7 +14,7 @@ const FollowBtn = ({
   setIsFollowers?: React.Dispatch<SetStateAction<number>>;
 }) => {
   const { userId } = useParams();
-  const { data: me } = useQuery<UserProps>([QUERY_KEYS.MY_INFO], getMeAPI, {
+  const { data: me } = useQuery<User>([QUERY_KEYS.MY_INFO], getMeAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,

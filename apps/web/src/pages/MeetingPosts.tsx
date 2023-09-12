@@ -16,18 +16,13 @@ const MeetingPosts = () => {
   const [clickItem, setClickItem] = useState<number>();
   const { openModal } = useModals();
   const queryClient = useQueryClient();
-  const me = queryClient.getQueryData<UserProps>([QUERY_KEYS.MY_INFO]);
-  // console.log('me :', me); // fe에서 비교할지 아니면 posts조회에서 isMe:true로 내려서 알려줄지
+  const me = queryClient.getQueryData<User>([QUERY_KEYS.MY_INFO]);
 
-  const { data: meetPosts, refetch } = useQuery<PostProps[]>(
-    [QUERY_KEYS.MEET_POSTS],
-    () => getPostsAPI(Number(meetId)),
-    {
-      refetchOnWindowFocus: false,
-      refetchOnMount: false,
-      refetchOnReconnect: false,
-    }
-  );
+  const { data: meetPosts, refetch } = useQuery<Post[]>([QUERY_KEYS.MEET_POSTS], () => getPostsAPI(Number(meetId)), {
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+    refetchOnReconnect: false,
+  });
   useEffect(() => {
     refetch();
   }, [meetId, refetch]);
@@ -96,7 +91,7 @@ const MeetingPosts = () => {
       </div>
       <ul>
         {meetPosts &&
-          meetPosts?.map((post: PostProps) => (
+          meetPosts?.map((post: Post) => (
             <li className="py-6 m border-b" key={post.id}>
               <div className="flex">
                 <AvatarImg

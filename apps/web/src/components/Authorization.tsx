@@ -3,10 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { PAGE_ROUTES } from '@/constants';
 import { getLocalStorage } from '@/utils/localStorage';
 
-export interface AuthProps {
-  children: React.ReactNode;
-}
-const Authorization = ({ children }: AuthProps) => {
+const Authorization = ({ children }: { children: React.ReactNode }) => {
   const navigate = useNavigate();
   const loggedIn = getLocalStorage('isLoggedIn');
 
