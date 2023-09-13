@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { DEFAULT_IMG_URL } from '@/constants';
 
 type ImgProps = {
   src: null | string;
@@ -6,12 +7,10 @@ type ImgProps = {
   rounded?: string;
   onClick?: () => void;
 };
-type ImgConfigTypes = {
-  [key: string]: {
-    [key: string]: string;
-  };
-};
-const imgConfig: ImgConfigTypes = {
+
+type ImgConfigType = Record<'size' | 'rounded', Record<string, string>>;
+
+const imgConfig: ImgConfigType = {
   size: {
     xs: 'w-[24px] h-[24px]',
     sm: 'w-[36px] h-[36px]',
@@ -28,23 +27,17 @@ const imgConfig: ImgConfigTypes = {
 
 /**
  * AvatarImg Component
- * @type {function(src, size, rounded, onClick): HTMLImageElement}
+ * @type {function(src, size, rounded, onClick): JSX.Element}
  * @param {null|string} src - null | string
  * @param {string} size - sm, md, lg, xl
- * @param {string} rounded - md, lg, full (optional)
- * @param {function} onClick - Click handler (optional)
- * @returns HTMLImageElement
+ * @param {string} rounded - md, lg, full (Optional)
+ * @param {function} onClick - Click handler (Optional)
+ * @returns JSX.Element that represents an avatar image
  */
-const AvatarImg = ({ src, size, rounded, onClick }: ImgProps) => {
-  const [avatar, setAvatar] = useState(
-    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-  );
+const AvatarImg = ({ src, size, rounded, onClick }: ImgProps): JSX.Element => {
+  const [avatar, setAvatar] = useState(DEFAULT_IMG_URL);
   useEffect(() => {
-    if (!src) {
-      setAvatar('https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png');
-    } else {
-      setAvatar(`${process.env.API_URL}${src}`);
-    }
+    setAvatar(src ? `${process.env.API_URL}${src}` : DEFAULT_IMG_URL);
   }, [src]);
 
   return (

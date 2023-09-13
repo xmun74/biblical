@@ -4,8 +4,7 @@ const PostReadModal = ({
   onAvatarClick,
   onClose,
   post,
-}: {
-  onClose?: () => void;
+}: ModalProps & {
   onAvatarClick?: () => void;
   post?: Post;
 }) => {

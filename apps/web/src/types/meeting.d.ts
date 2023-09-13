@@ -21,8 +21,3 @@ type MeetFormProps = {
   name: string;
   introduce: string;
 };
-
-type MeetModalProps = {
-  onSubmit?: () => void;
-  onClose?: () => void;
-};

@@ -8,9 +8,7 @@ const MeetingInviteAcceptModal = ({
   onClose,
   meetId,
   inviteLink,
-}: {
-  onSubmit?: () => void;
-  onClose?: () => void;
+}: ModalProps & {
   meetId?: string;
   inviteLink?: string;
 }) => {

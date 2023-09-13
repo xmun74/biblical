@@ -1,6 +1,6 @@
 import ArrowRight from '@/assets/svg/ArrowRight.svg';
 
-const MeetingCreateDoneModal = ({ onSubmit, onClose }: { onSubmit?: () => void; onClose?: () => void }) => {
+const MeetingCreateDoneModal = ({ onSubmit, onClose }: ModalProps) => {
   const handleClick = () => {
     onSubmit();
     onClose();

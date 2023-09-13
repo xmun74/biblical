@@ -1,4 +1,4 @@
-const MeetingSettingModal = ({ onClose, onClick }: { onClose?: () => void; onClick?: () => void }) => {
+const MeetingSettingModal = ({ onClose, onClick }: ModalProps & { onClick?: () => void }) => {
   const handleWithDraw = async () => {
     onClick();
     onClose();
