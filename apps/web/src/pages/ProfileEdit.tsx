@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteUserAPI, getMeAPI, patchNicknameAPI, patchUserImgAPI } from '@/apis';
 import Layout from '@/components/Layout';
-import { QUERY_KEYS } from '@/constants';
+import { DEFAULT_IMG_URL, QUERY_KEYS } from '@/constants';
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
@@ -12,9 +12,7 @@ const ProfileEdit = () => {
   const [email, setEmail] = useState('');
   const [nickname, setNickname] = useState('');
   const [imgFile, setImgFile] = useState<File>();
-  const [avatar, setAvatar] = useState(
-    'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png'
-  );
+  const [avatar, setAvatar] = useState(DEFAULT_IMG_URL);
   const [nickErrMsg, setNickErrMsg] = useState('');
   const [imgerrMsg, setImgErrMsg] = useState('');
   const fileInputRef = useRef<HTMLInputElement>(null);
