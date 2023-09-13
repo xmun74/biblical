@@ -5,7 +5,7 @@ const History = () => {
   // const queryClient = new QueryClient();
   // const loggedIn = queryClient.getQueryData(['loggedIn']);
 
-  const { data: myUserInfo } = useQuery<UserProps>(['userInfo'], getMeAPI);
+  const { data: myUserInfo } = useQuery<User>(['userInfo'], getMeAPI);
 
   return (
     <>

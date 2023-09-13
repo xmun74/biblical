@@ -25,3 +25,5 @@ export const QUERY_KEYS = {
 };
 
 export const API_URL = process.env.API_URL;
+
+export const DEFAULT_IMG_URL = 'https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png';

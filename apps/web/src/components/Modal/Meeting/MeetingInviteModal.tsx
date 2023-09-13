@@ -2,9 +2,7 @@ const MeetingInviteModal = ({
   onSubmit,
   onClose,
   inviteUrl,
-}: {
-  onSubmit?: (inviteUrl: string) => void;
-  onClose?: () => void;
+}: ModalProps<string> & {
   inviteUrl?: string;
 }) => {
   const handleClick = () => {

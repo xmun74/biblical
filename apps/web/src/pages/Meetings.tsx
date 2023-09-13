@@ -16,7 +16,7 @@ const Meetings = () => {
   const queryClient = useQueryClient();
   const { data: isMe } = useMyInfo();
   const loggedIn: boolean = getLocalStorage('isLoggedIn');
-  const { data: myMeetings } = useQuery<{ meetings: MeetingsProps[] }>([QUERY_KEYS.MY_MEETINGS], getMeetingsAPI, {
+  const { data: myMeetings } = useQuery<{ meetings: Meetings[] }>([QUERY_KEYS.MY_MEETINGS], getMeetingsAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
@@ -27,7 +27,6 @@ const Meetings = () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MY_MEETINGS] });
     },
   });
-
   const handleMeetCreateModal = () => {
     if (isMe?.id) {
       openModal(modals.meetCreateModal, {
@@ -111,7 +110,6 @@ const Meetings = () => {
                   >
                     <div>
                       <div className="font-bold">{meeting?.name}</div>
-                      <div className="text-slate-400 text-xs">00명</div>
                     </div>
                     <div className="bg-accent-600 w-10 h-10 rounded-full flex justify-center items-center text-white">
                       <ArrowRight stroke="white" width="40" height="40" strokeWidth="1.3" />

@@ -1,22 +1,23 @@
-interface MeetingUserProps {
+type MeetingUserType = {
   MeetingId: number;
   UserId: number;
   createdAt: string;
   updatedAt: string;
-}
+};
 
-interface MeetingsProps {
-  MeetingUser: MeetingUserProps;
+type Meetings = {
+  MeetingUser: MeetingUserType;
   name: string;
-}
-interface MemberProps {
-  MeetingUser: MeetingUserProps;
+};
+
+type Member = {
+  MeetingUser: MeetingUserType;
   id: number;
   img: string | null;
   nickname: string;
-}
+};
 
-interface MeetFormProps {
+type MeetFormProps = {
   name: string;
   introduce: string;
-}
+};

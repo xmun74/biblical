@@ -6,9 +6,7 @@ const PostUpdateModal = ({
   meetId,
   preTitle,
   preContent,
-}: {
-  onClose?: () => void;
-  onSubmit?: (post: PostFormProps) => void;
+}: ModalProps<PostFormProps> & {
   meetId?: string;
   preTitle?: string;
   preContent?: string;

@@ -9,9 +9,9 @@ import { QUERY_KEYS } from '@/constants';
 const MeetingMember = () => {
   const { meetId } = useParams();
   const navigate = useNavigate();
-  const [members, setMembers] = useState<MemberProps[]>([]);
+  const [members, setMembers] = useState<Member[]>([]);
   const [isFollowers, setIsFollowers] = useState(0);
-  const { data: me } = useQuery<UserProps>([QUERY_KEYS.MY_INFO], getMeAPI);
+  const { data: me } = useQuery<User>([QUERY_KEYS.MY_INFO], getMeAPI);
 
   useEffect(() => {
     const fetchMembers = async () => {

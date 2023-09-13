@@ -4,9 +4,7 @@ const PostCreateModal = ({
   onClose,
   onSubmit,
   meetId,
-}: {
-  onClose?: () => void;
-  onSubmit?: (post: PostFormProps) => void;
+}: ModalProps<PostFormProps> & {
   meetId?: string;
 }) => {
   const [post, setPost] = useState<PostFormProps>({

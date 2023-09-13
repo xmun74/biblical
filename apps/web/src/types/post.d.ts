@@ -1,11 +1,12 @@
-interface PostFormProps {
+type PostFormProps = {
   title: string;
   content: string;
   meetId?: string;
   img?: string;
   tags?: string[];
-}
-interface PostProps {
+};
+
+type Post = {
   id: number;
   title: string;
   content: string;
@@ -20,4 +21,4 @@ interface PostProps {
     nickname: string;
     img: null | string;
   };
-}
+};

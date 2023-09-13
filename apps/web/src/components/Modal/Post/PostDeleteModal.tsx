@@ -1,4 +1,4 @@
-const PostDeleteModal = ({ onClick, onClose }: { onClick?: () => void; onClose?: () => void }) => {
+const PostDeleteModal = ({ onClick, onClose }: ModalProps & { onClick?: () => void }) => {
   const handleClick = () => {
     onClick();
     onClose();

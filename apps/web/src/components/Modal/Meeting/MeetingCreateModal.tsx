@@ -1,12 +1,6 @@
 import { useState } from 'react';
 
-const MeetingCreateModal = ({
-  onSubmit,
-  onClose,
-}: {
-  onSubmit?: (value: MeetFormProps) => void;
-  onClose?: () => void;
-}) => {
+const MeetingCreateModal = ({ onSubmit, onClose }: ModalProps<MeetFormProps>) => {
   const [meet, setMeet] = useState<MeetFormProps>({
     name: '',
     introduce: '',

@@ -2,15 +2,15 @@ import { SetStateAction, useEffect, useRef } from 'react';
 import MenuClose from '@/assets/svg/MenuClose.svg';
 import { BIBLE_BOOKS } from '@/constants/bible';
 
-interface MultiOptionProps {
+type MultiOptionProps = {
   setIndexOpen: React.Dispatch<SetStateAction<boolean>>;
   totalChapterCnt: number[];
   totalVerseCnt: number[];
-  searchQuery: BibleProps;
+  searchQuery: Bible;
   onBookClick?: (bookIdx: number) => void;
   onChapterClick?: (chapter: number) => void;
   onVerseClick?: (verse: number) => void;
-}
+};
 
 const MultiOption = ({
   setIndexOpen,

@@ -11,7 +11,7 @@ import { getLocalStorage, removeLocalStorage } from '@/utils/localStorage';
 const Header = () => {
   const queryClient = useQueryClient();
   const loggedIn: boolean = getLocalStorage('isLoggedIn');
-  const { data: userInfo } = useQuery<UserProps>([QUERY_KEYS.MY_INFO], getMeAPI, {
+  const { data: userInfo } = useQuery<User>([QUERY_KEYS.MY_INFO], getMeAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
