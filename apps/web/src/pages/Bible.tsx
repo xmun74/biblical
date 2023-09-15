@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from 'react';
 import { getBibleAPI, getBibleTotalCntAPI, getVerseTotalCntAPI } from '@/apis';
 import Back from '@/assets/svg/Back.svg';
 import Search from '@/assets/svg/Search.svg';
+import IndexOption from '@/components/Bible/IndexOption';
 import MultiOption from '@/components/Bible/MultiOption';
 import { QUERY_KEYS } from '@/constants';
 import { BIBLE_BOOKS } from '@/constants/bible';
@@ -108,6 +109,28 @@ const Bible = () => {
               <Back fill="black" width="18px" height="18px" />
             </div>
           </button>
+
+          {/*  */}
+          <IndexOption
+            label="목차 검색"
+            trigger={
+              <button className="relative flex items-center">
+                <span className="font-bold md:text-lg mr-4">
+                  {BIBLE_BOOKS[searchQuery.book - 1]} {searchQuery.chapter}장
+                </span>
+                <div className={`${indexOpen ? 'rotate-90' : '-rotate-90'} transition-all	`}>
+                  <Back fill="black" width="18px" height="18px" />
+                </div>
+              </button>
+            }
+            onBookClick={i => onBookClick(i + 1)}
+            onChapterClick={event => {
+              onChapterClick(Number((event.target as HTMLLIElement).textContent));
+            }}
+            onVerseClick={event => {
+              onVerseClick(Number((event.target as HTMLLIElement).textContent));
+            }}
+          />
 
           {indexOpen && (
             <MultiOption
