@@ -4,7 +4,6 @@ import { useCallback, useEffect, useState } from 'react';
 import { getBibleAPI, getBibleTotalCntAPI, getVerseTotalCntAPI } from '@/apis';
 import Back from '@/assets/svg/Back.svg';
 import Search from '@/assets/svg/Search.svg';
-import IndexOption from '@/components/Bible/IndexOption';
 import MultiOption from '@/components/Bible/MultiOption';
 import { QUERY_KEYS } from '@/constants';
 import { BIBLE_BOOKS } from '@/constants/bible';
@@ -110,8 +109,8 @@ const Bible = () => {
             </div>
           </button>
 
-          {/*  */}
-          <IndexOption
+          {/* 수정중 */}
+          {/* <IndexOption
             label="목차 검색"
             trigger={
               <button className="relative flex items-center">
@@ -130,7 +129,7 @@ const Bible = () => {
             onVerseClick={event => {
               onVerseClick(Number((event.target as HTMLLIElement).textContent));
             }}
-          />
+          /> */}
 
           {indexOpen && (
             <MultiOption
