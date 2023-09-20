@@ -13,7 +13,7 @@ const PostReadModal = ({
     onClose();
   };
   return (
-    <div className="w-full h-full px-4 md:min-w-[600px] md:min-h-[250px] block" role="document" tabIndex={-1}>
+    <div className="w-full h-fit px-4 md:max-w-[600px] md:min-h-[250px] block" role="document" tabIndex={-1}>
       <div className="flex">
         <AvatarImg src={post?.User?.img} size="sm" rounded="full" onClick={handleAvatarClick} />
         <div className="w-full flex flex-col justify-between ml-3">

@@ -26,9 +26,19 @@ module.exports = {
       boxShadow: {
         sm: '0px 0px 7px rgba(63,71,77,0.3)',
         md: '0px 0px 10px rgba(63,71,77,0.3)',
+        xl: '0 0px 60px 30px rgba(63,71,77,0.3)',
       },
       backgroundImage: {
         'kakao-login': "url('../public/images/kakao_login_medium_narrow.png')",
+      },
+      animation: {
+        marquee: 'marquee 10s linear infinite',
+      },
+      keyframes: {
+        marquee: {
+          '0%': { transform: 'translateX(0)' },
+          '100%': { transform: 'translateX(-50%)' },
+        },
       },
     },
   },
