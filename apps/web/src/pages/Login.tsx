@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { useCallback, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loginAPI } from '@/apis';
-import KakaoLoginBtn from '@/components/KakaoLoginBtn';
+import KakaoLoginBtn from '@/components/Login/KakaoLoginBtn';
 import { QUERY_KEYS } from '@/constants';
 import { setLocalStorage } from '@/utils/localStorage';
 

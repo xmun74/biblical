@@ -2,9 +2,9 @@ import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getMeAPI, getUserAPI } from '@/apis';
-import AvatarImg from '@/components/AvatarImg';
-import FollowBtn from '@/components/FollowBtn';
-import Layout from '@/components/Layout';
+import AvatarImg from '@/components/common/AvatarImg';
+import FollowBtn from '@/components/common/FollowBtn';
+import Layout from '@/components/common/Layout';
 import { PAGE_ROUTES, QUERY_KEYS } from '@/constants';
 
 const Profile = () => {

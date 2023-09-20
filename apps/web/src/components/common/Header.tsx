@@ -52,9 +52,13 @@ const Header = () => {
 
   return (
     <>
-      <header className="flex justify-between items-center sticky top-0 z-10 w-full h-[70px] md:h-[80px] bg-white/50 backdrop-blur px-4 sm:px-[40px] mx-auto lg:max-w-[1200px]">
+      <header
+        className={`flex justify-between items-center sticky top-0 z-10 w-full h-[70px] md:h-[80px] ${
+          pathname === '/' && 'text-accent-400'
+        } backdrop-blur-xl px-4 sm:px-[40px] mx-auto lg:max-w-[1200px]`}
+      >
         <div className="flex text-xl">
-          <Link to="/" className="font-monda mr-10 md:w-[75px] h-[28px]">
+          <Link to="/" className={`font-monda mr-10 md:w-[75px] h-[28px]`}>
             Biblical
           </Link>
           <Link
@@ -77,9 +81,9 @@ const Header = () => {
 
         {userInfo && userInfo?.id ? (
           <div className="hidden md:flex relative items-center h-full">
-            <Link to={`/users/${userInfo.id}/history`} className="font-bold text-accent-400 mr-2 w-[85px]">
+            {/*  <Link to={`/users/${userInfo.id}/history`} className="font-bold text-accent-400 mr-2 w-[85px]">
               MY 성경기록
-            </Link>
+            </Link> */}
 
             <div
               className="flex items-center pl-4 h-full cursor-pointer w-[52px]"
@@ -121,7 +125,7 @@ const Header = () => {
             )}
           </div>
         ) : (
-          <div className="hidden md:inline text-sm text-slate-600">
+          <div className={`hidden md:inline text-sm  ${pathname === '/' ? 'text-accent-500/60' : 'text-slate-600'} `}>
             <Link to="/auth/login" className="border-r border-slate-200 pr-2 mr-2">
               로그인
             </Link>
@@ -131,7 +135,12 @@ const Header = () => {
         {/* 모바일 */}
         <div className="block md:hidden">
           <button className={`p-2 ${isOpenMenu ? 'hidden' : 'block'}`} onClick={handleOpenMenuBar}>
-            <MenuBar fill="black" width={28} height={28} stroke="black" />
+            <MenuBar
+              fill={`${pathname === '/' ? 'rgba(20, 247, 117, 1)' : 'black'}`}
+              width={28}
+              height={28}
+              stroke={`${pathname === '/' ? 'rgba(20, 247, 117, 1)' : 'black'}`}
+            />
           </button>
         </div>
       </header>
