@@ -20,6 +20,7 @@ export const QUERY_KEYS = {
   MY_INFO: 'userInfo',
   OTHER_INFO: 'otherUserInfo',
   MEET_POSTS: 'meetPosts',
+  MEETING_MEMBER: 'meetingMember',
   BIBLE_CHAPTER_CNT: 'chapterCount',
   BIBLE: 'bible',
 };

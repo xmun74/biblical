@@ -1,4 +1,4 @@
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { SetStateAction, useCallback, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { deleteUnFollowAPI, getMeAPI, postFollowAPI } from '@/apis';
@@ -14,6 +14,7 @@ const FollowBtn = ({
   setIsFollowers?: React.Dispatch<SetStateAction<number>>;
 }) => {
   const { userId } = useParams();
+  const queryClient = useQueryClient();
   const { data: me } = useQuery<User>([QUERY_KEYS.MY_INFO], getMeAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
@@ -47,7 +48,8 @@ const FollowBtn = ({
         setIsFollowers(isFollowers + 1);
       }
     }
-  }, [isFollow, isFollowers, otherUserId, setIsFollowers]);
+    queryClient?.invalidateQueries({ queryKey: [QUERY_KEYS.MEETING_MEMBER] });
+  }, [isFollow, isFollowers, otherUserId, queryClient, setIsFollowers]);
 
   return (
     <button
