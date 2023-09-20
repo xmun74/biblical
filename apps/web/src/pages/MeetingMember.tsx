@@ -2,8 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getMeAPI, getMeetingMembersAPI } from '@/apis';
-import AvatarImg from '@/components/AvatarImg';
-import FollowBtn from '@/components/FollowBtn';
+import AvatarImg from '@/components/common/AvatarImg';
+import FollowBtn from '@/components/common/FollowBtn';
 import { QUERY_KEYS } from '@/constants';
 
 const MeetingMember = () => {

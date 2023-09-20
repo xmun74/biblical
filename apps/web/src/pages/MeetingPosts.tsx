@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { deletePostAPI, getPostAPI, getPostsAPI, patchPostAPI, uploadPostAPI } from '@/apis';
 import MoreOption from '@/assets/svg/MoreOption.svg';
-import AvatarImg from '@/components/AvatarImg';
+import AvatarImg from '@/components/common/AvatarImg';
 import { modals } from '@/components/Modal/modals';
 
 import { QUERY_KEYS } from '@/constants';

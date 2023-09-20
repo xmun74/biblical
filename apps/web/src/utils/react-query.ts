@@ -12,7 +12,7 @@ export const useMyInfo = () =>
     enabled: Boolean(loggedIn), // 로그인했을 때만 fetch
   });
 export const useMyMeetings = () =>
-  useQuery<{ meetings: MeetingsProps[] }>([QUERY_KEYS.MY_MEETINGS], getMeetingsAPI, {
+  useQuery<{ meetings: Meetings[] }>([QUERY_KEYS.MY_MEETINGS], getMeetingsAPI, {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,

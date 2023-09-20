@@ -1,5 +1,5 @@
 import { lazy } from 'react';
-import MeetingNav from '@/components/MeetingNav';
+import MeetingNav from '@/components/Meet/MeetingNav';
 import { PAGE_ROUTES } from '@/constants';
 import History from '@/pages/History';
 import KakaoLogin from '@/pages/KakaoLogin';

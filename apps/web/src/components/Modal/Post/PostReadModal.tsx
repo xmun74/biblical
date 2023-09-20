@@ -1,4 +1,4 @@
-import AvatarImg from '@/components/AvatarImg';
+import AvatarImg from '@/components/common/AvatarImg';
 
 const PostReadModal = ({
   onAvatarClick,

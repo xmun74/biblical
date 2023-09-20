@@ -81,9 +81,9 @@ const Header = () => {
 
         {userInfo && userInfo?.id ? (
           <div className="hidden md:flex relative items-center h-full">
-            <Link to={`/users/${userInfo.id}/history`} className="font-bold text-accent-400 mr-2 w-[85px]">
+            {/*  <Link to={`/users/${userInfo.id}/history`} className="font-bold text-accent-400 mr-2 w-[85px]">
               MY 성경기록
-            </Link>
+            </Link> */}
 
             <div
               className="flex items-center pl-4 h-full cursor-pointer w-[52px]"

@@ -1,7 +1,7 @@
 import React from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
-import Authorization from './components/Authorization';
-import Header from './components/Header';
+import Authorization from './components/common/Authorization';
+import Header from './components/common/Header';
 import ErrorPage from './pages/ErrorPage';
 import { RouteInfo } from './utils/route';
 
