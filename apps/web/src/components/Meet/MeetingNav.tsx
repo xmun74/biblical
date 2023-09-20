@@ -33,7 +33,7 @@ const MeetingNav = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     const fetchApi = async () => {
       const { meeting } = await getMeetingAPI(Number(meetId));
-      console.log('모임조회 :', meeting);
+      // console.log('모임조회 :', meeting);
       setMeetingInfo({
         ...meetingInfo,
         name: meeting?.name,

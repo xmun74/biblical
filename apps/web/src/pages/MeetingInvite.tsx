@@ -2,13 +2,13 @@ import { useModals } from '@biblical/react-ui';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { postMeetingInviteAPI } from '@/apis';
 import { modals } from '@/components/Modal/modals';
-import { useMyInfo } from '@/utils/react-query';
+import { useGetMe } from '@/hooks/query/useGetMe';
 
 const MeetingInvite = () => {
   const { meetId, inviteLink } = useParams();
   const path = useLocation();
   const navigate = useNavigate();
-  const { data: me } = useMyInfo();
+  const { data: me } = useGetMe();
   const { openModal } = useModals();
 
   const handleClick = async () => {

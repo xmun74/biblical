@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { getMeetingInviteInfoAPI } from '@/apis';
+import { useGetMyMeetings } from '@/hooks/query/useGetMyMeetings';
 import { getLocalStorage } from '@/utils/localStorage';
-import { useMyMeetings } from '@/utils/react-query';
 
 const MeetingInviteAcceptModal = ({
   onSubmit,
@@ -13,7 +13,7 @@ const MeetingInviteAcceptModal = ({
   inviteLink?: string;
 }) => {
   const loggedIn: boolean = getLocalStorage('isLoggedIn');
-  const { data: myMeetings } = useMyMeetings();
+  const { data: myMeetings } = useGetMyMeetings();
   const [meetName, setMeetName] = useState<string>();
 
   useEffect(() => {
