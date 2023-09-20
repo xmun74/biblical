@@ -7,14 +7,14 @@ import Plus from '@/assets/svg/Plus.svg';
 import Layout from '@/components/common/Layout';
 import { modals } from '@/components/Modal/modals';
 import { QUERY_KEYS } from '@/constants';
+import { useGetMe } from '@/hooks/query/useGetMe';
 import { getLocalStorage } from '@/utils/localStorage';
-import { useMyInfo } from '@/utils/react-query';
 
 const Meetings = () => {
   const navigate = useNavigate();
   const { openModal } = useModals();
   const queryClient = useQueryClient();
-  const { data: isMe } = useMyInfo();
+  const { data: isMe } = useGetMe();
   const loggedIn: boolean = getLocalStorage('isLoggedIn');
   const { data: myMeetings } = useQuery<{ meetings: Meetings[] }>([QUERY_KEYS.MY_MEETINGS], getMeetingsAPI, {
     refetchOnWindowFocus: false,

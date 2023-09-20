@@ -1,20 +1,18 @@
 import { useModals } from '@biblical/react-ui';
-import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { modals } from '../Modal/modals';
-import { deleteWithdrawAPI, getMeetingAPI, postMeetingInviteLinkAPI, uploadPostAPI } from '@/apis';
+import { deleteWithdrawAPI, postMeetingInviteLinkAPI, uploadPostAPI } from '@/apis';
 import Plus from '@/assets/svg/Plus.svg';
 import Setting from '@/assets/svg/Setting.svg';
+import { useGetMeeting } from '@/hooks/query/useGetMeeting';
 
 const MeetingNav = ({ children }: { children: React.ReactNode }) => {
   const { meetId } = useParams();
   const { pathname } = useLocation();
   const navigate = useNavigate();
   const { openModal } = useModals();
-  const [meetingInfo, setMeetingInfo] = useState({
-    name: '',
-    introduce: '',
-  });
+  const { data: meetingRes } = useGetMeeting(Number(meetId));
+
   const navName = [
     {
       name: '통독 기록',
@@ -30,20 +28,6 @@ const MeetingNav = ({ children }: { children: React.ReactNode }) => {
     },
   ];
 
-  useEffect(() => {
-    const fetchApi = async () => {
-      const { meeting } = await getMeetingAPI(Number(meetId));
-      console.log('모임조회 :', meeting);
-      setMeetingInfo({
-        ...meetingInfo,
-        name: meeting?.name,
-        introduce: meeting?.introduce,
-      });
-    };
-    fetchApi();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
   const handleInviteClick = async () => {
     const { inviteLink } = await postMeetingInviteLinkAPI(Number(meetId));
     const inviteUrl = `${process.env.CLIENT_URL}/meetings/${Number(meetId)}/invite/${inviteLink}`;
@@ -51,7 +35,7 @@ const MeetingNav = ({ children }: { children: React.ReactNode }) => {
     openModal(modals.meetInviteModal, {
       onSubmit: async (value: string) => {
         await navigator.clipboard.writeText(inviteUrl);
-        alert('복사 성공'); // 임시
+        alert('복사 성공');
         console.log('링크 복사 :', value);
       },
       inviteUrl,
@@ -82,7 +66,9 @@ const MeetingNav = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="my-0 mx-auto w-full lg:max-w-[1200px]">
       <>
-        <div className="px-4 sm:px-[40px] lg:hidden mt-3 font-bold text-lg flex items-center">{meetingInfo.name}</div>
+        <div className="px-4 sm:px-[40px] lg:hidden mt-3 font-bold text-lg flex items-center">
+          {meetingRes?.meeting?.name}
+        </div>
 
         <nav className="px-4 sm:px-0 sm:mx-[40px] sticky top-[70px] md:top-[80px] flex my-2 justify-between items-center border-b border-slate-200 bg-white/50 backdrop-blur border-t lg:border-t-0">
           <ul className="flex font-semibold text-sm gap-6">
@@ -117,12 +103,12 @@ const MeetingNav = ({ children }: { children: React.ReactNode }) => {
       <div className="px-4 sm:px-[40px] lg:grid lg:grid-cols-[1fr_4fr] mx-auto lg:gap-8 lg:max-w-[1280px] pt-3 lg:py-3">
         <aside className="lg:sticky top-[140px] hidden lg:block border rounded-xl h-[250px] p-4">
           <div className="flex justify-between">
-            <span className="font-bold text-xl">{meetingInfo.name}</span>
+            <span className="font-bold text-xl">{meetingRes?.meeting?.name}</span>
             <button type="button" onClick={handleSetting}>
               <Setting fill="gray" width="18px" height="18px" />
             </button>
           </div>
-          <div className="text-xs my-2 text-slate-400 line-clamp-2">{meetingInfo?.introduce}</div>
+          <div className="text-xs my-2 text-slate-400 line-clamp-2">{meetingRes?.meeting?.introduce}</div>
           <button
             className="text-xs min-w-[40px] text-accent-400 font-bold flex items-center justify-center mr-3"
             onClick={handleInviteClick}

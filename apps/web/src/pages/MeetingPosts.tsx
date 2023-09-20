@@ -1,12 +1,11 @@
 import { useModals } from '@biblical/react-ui';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useEffect, useState } from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { deletePostAPI, getPostAPI, getPostsAPI, patchPostAPI, uploadPostAPI } from '@/apis';
 import MoreOption from '@/assets/svg/MoreOption.svg';
 import AvatarImg from '@/components/common/AvatarImg';
 import { modals } from '@/components/Modal/modals';
-
 import { QUERY_KEYS } from '@/constants';
 
 const MeetingPosts = () => {
@@ -18,14 +17,22 @@ const MeetingPosts = () => {
   const queryClient = useQueryClient();
   const me = queryClient.getQueryData<User>([QUERY_KEYS.MY_INFO]);
 
-  const { data: meetPosts, refetch } = useQuery<Post[]>([QUERY_KEYS.MEET_POSTS], () => getPostsAPI(Number(meetId)), {
+  const { data: meetPosts } = useQuery<Post[]>([QUERY_KEYS.MEET_POSTS], () => getPostsAPI(Number(meetId)), {
     refetchOnWindowFocus: false,
     refetchOnMount: false,
     refetchOnReconnect: false,
   });
-  useEffect(() => {
-    refetch();
-  }, [meetId, refetch]);
+
+  const { mutate: postUpdateMutation } = useMutation(
+    [QUERY_KEYS.MEET_POSTS],
+    (params: { postId: number; value: PostFormProps }) => {
+      const { postId, value } = params;
+      return patchPostAPI(postId, value);
+    },
+    {
+      onSuccess: () => queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MEET_POSTS] }),
+    }
+  );
 
   const handleCreatePost = () => {
     openModal(modals.postCreateModal, {
@@ -34,7 +41,7 @@ const MeetingPosts = () => {
         if (data.code === 201) {
           queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MEET_POSTS] });
         }
-        console.log('글쓰기 제출', data);
+        // console.log('글쓰기 제출', data);
       },
       meetId,
     });
@@ -52,11 +59,7 @@ const MeetingPosts = () => {
   const handlePostUpdate = async (postId: number, meetId: number, preTitle: string, preContent: string) => {
     openModal(modals.postUpdateModal, {
       onSubmit: async (value: PostFormProps) => {
-        const data = await patchPostAPI(postId, value);
-        if (data.code === 200) {
-          queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MEET_POSTS] });
-          console.log('수정 :', data);
-        }
+        postUpdateMutation({ postId, value });
       },
       meetId,
       preTitle,
@@ -70,7 +73,7 @@ const MeetingPosts = () => {
         const data = await deletePostAPI(postId, meetId);
         if (data.code === 200) {
           queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MEET_POSTS] });
-          console.log('삭제', data);
+          // console.log('삭제', data);
         }
       },
     });
