@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 const path = require('path');
+const CopyPlugin = require('copy-webpack-plugin');
 const dotenv = require('dotenv');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const SpeedMeasurePlugin = require('speed-measure-webpack-plugin');
@@ -34,10 +35,17 @@ module.exports = smp.wrap({
         },
       },
       {
-        test: /\.(png|jpe?g|gif|ico|webp|woff|woff2|ttf)$/,
+        test: /\.(png|jpe?g|gif|ico|webp)$/,
         type: 'asset/resource',
         generator: {
           filename: 'images/[hash][ext][query]',
+        },
+      },
+      {
+        test: /\.(woff|woff2|ttf)$/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'fonts/[hash][ext][query]',
         },
       },
       {
@@ -53,6 +61,12 @@ module.exports = smp.wrap({
     ],
   },
   plugins: [
+    new CopyPlugin({
+      patterns: [
+        { from: 'public/images', to: 'images' },
+        { from: 'public/favicons', to: 'favicons' },
+      ],
+    }),
     new HtmlWebpackPlugin({
       template: path.resolve(__dirname, './public/index.html'),
       favicon: path.join(__dirname, 'public/favicons/favicon.ico'),
