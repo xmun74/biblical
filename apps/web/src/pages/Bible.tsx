@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useCallback, useEffect, useState } from 'react';
 import { getBibleAPI, getBibleTotalCntAPI, getVerseTotalCntAPI } from '@/apis';
 import Back from '@/assets/svg/Back.svg';
-import Search from '@/assets/svg/Search.svg';
+// import Search from '@/assets/svg/Search.svg';
 import MultiOption from '@/components/Bible/MultiOption';
 import { QUERY_KEYS } from '@/constants';
 import { BIBLE_BOOKS } from '@/constants/bible';
@@ -143,9 +143,9 @@ const Bible = () => {
             />
           )}
 
-          <button className="w-[35px] h-[35px] flex justify-center items-center">
+          {/* <button className="w-[35px] h-[35px] flex justify-center items-center">
             <Search stroke="black" width="25px" height="25px" strokeWidth="5" />
-          </button>
+          </button> */}
         </div>
       </nav>
 
