@@ -1,0 +1,49 @@
+name: CI-CD-biblical-web
+
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'apps/web/**'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: ⎔ Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+
+      - name: ⎔ Monorepo install
+        uses: ./.github/actions/yarn-install
+
+      - name: ⎔ Build web
+        working-directory: apps/web
+        env:
+          API_URL: ${{ secrets.API_URL}}
+          USER_IMG_FIELD: ${{ secrets.USER_IMG_FIELD}}
+          CLIENT_URL: ${{ secrets.CLIENT_URL}}
+        run: |
+          yarn build
+
+      - name: ⎔ Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_KEY }}
+          aws-region: ap-northeast-2
+
+      - name: ⎔ Deploy to AWS S3
+        run: |
+          aws s3 sync --delete --region ap-northeast-2 apps/web/dist s3://biblebiblical.site
+
+      - name: ⎔ Invalidate AWS CloudFront Cache
+        run: |
+          aws cloudfront create-invalidation --distribution-id ${{ secrets.AWS_DISTRIBUTION_ID }}
