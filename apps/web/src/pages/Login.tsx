@@ -3,7 +3,7 @@ import { AxiosError } from 'axios';
 import { useCallback, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { loginAPI } from '@/apis';
-import KakaoLoginBtn from '@/components/Login/KakaoLoginBtn';
+// import KakaoLoginBtn from '@/components/Login/KakaoLoginBtn';
 import { QUERY_KEYS } from '@/constants';
 import { setLocalStorage } from '@/utils/localStorage';
 
@@ -107,13 +107,13 @@ const Login = () => {
                 회원가입
               </Link>
             </div>
-            <div className="relative my-10 text-slate-300 border-t text-center">
+            {/* <div className="relative my-10 text-slate-300 border-t text-center">
               <div className="absolute left-[45%] top-[-14px] bg-white px-2 text-center">or</div>
             </div>
             <div className="flex justify-center mb-4 font-thin">SNS 계정으로 로그인하기</div>
             <div className="flex justify-center">
               <KakaoLoginBtn />
-            </div>
+            </div> */}
           </div>
         </form>
       </div>
