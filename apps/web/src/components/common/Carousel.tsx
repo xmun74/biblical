@@ -27,7 +27,7 @@ const Carousel = ({ children }: { children: React.ReactElement[] }) => {
         style={{ transform: `translateX(-${current * (100 / childrenArray.length)}%)` }}
       >
         {childrenArray?.map((child, i) => (
-          <li key={i} className="">
+          <li key={i} className="w-full mr-6">
             {child}
           </li>
         ))}

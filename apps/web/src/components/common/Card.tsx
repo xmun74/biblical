@@ -6,7 +6,7 @@ type CardProps = {
 
 const Card = ({ label, imgSrc, content }: CardProps) => {
   return (
-    <div className="min-w-[360px] min-h-[400px] bg-neutral-800 rounded-3xl mr-6">
+    <div className="w-[91.7vw] sm:w-full sm:min-w-[360px] min-h-[400px] bg-neutral-800 rounded-3xl">
       <div className="bg-gradient-to-t from-lime-300 to-cyan-500 w-full h-[250px] rounded-t-3xl flex justify-center items-center">
         <img src={imgSrc} alt="landing-card_img" className="w-[85%] h-[80%] rounded-md" />
       </div>
