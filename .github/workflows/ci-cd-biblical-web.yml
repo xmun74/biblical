@@ -41,7 +41,7 @@ jobs:
 
       - name: ⎔ Deploy to AWS S3
         run: |
-          aws s3 sync --delete --region ap-northeast-2 apps/web/dist s3://biblebiblical.site
+          aws s3 sync --delete --region ap-northeast-2 apps/web/dist s3://${{ secrets.AWS_S3_BUCKET }}
 
       - name: ⎔ Invalidate AWS CloudFront Cache
         run: |
