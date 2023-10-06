@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { deleteUserAPI, getMeAPI, patchNicknameAPI, uploadUserImgAPI } from '@/apis';
 import Layout from '@/components/common/Layout';
-import { DEFAULT_IMG_URL, QUERY_KEYS } from '@/constants';
+import { DEFAULT_IMG_URL, QUERY_KEYS, USER_IMG_FIELD } from '@/constants';
 
 const ProfileEdit = () => {
   const navigate = useNavigate();
@@ -74,7 +74,7 @@ const ProfileEdit = () => {
       /* 이미지 state 저장 */
       const formData = new FormData();
       if (uploadFiles) {
-        formData.append(process.env.USER_IMG_FIELD, uploadFiles);
+        formData.append(USER_IMG_FIELD, uploadFiles);
       }
       setImgFile(uploadFiles);
     }
@@ -83,10 +83,10 @@ const ProfileEdit = () => {
   const handleEdit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const imgFormData = new FormData();
-    imgFormData.append(process.env.USER_IMG_FIELD, imgFile);
+    imgFormData.append(USER_IMG_FIELD, imgFile);
     try {
       nickMutation(nickname);
-      if (imgFormData.get(process.env.USER_IMG_FIELD) !== 'undefined') {
+      if (imgFormData.get(USER_IMG_FIELD) !== 'undefined') {
         imgMutation(imgFormData);
       }
       if (imgRes?.userImgUrl) {
@@ -133,7 +133,7 @@ const ProfileEdit = () => {
               <input
                 className="hidden bg-cover"
                 type="file"
-                name={`${process.env.USER_IMG_FIELD}`}
+                name={USER_IMG_FIELD}
                 accept="image/jpg,image/png,image/jpeg"
                 ref={fileInputRef}
                 onChange={handelImgChange}
