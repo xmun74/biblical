@@ -2,7 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { AxiosError } from 'axios';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { deleteUserAPI, getMeAPI, patchNicknameAPI, patchUserImgAPI } from '@/apis';
+import { deleteUserAPI, getMeAPI, patchNicknameAPI, uploadUserImgAPI } from '@/apis';
 import Layout from '@/components/common/Layout';
 import { DEFAULT_IMG_URL, QUERY_KEYS } from '@/constants';
 
@@ -34,7 +34,7 @@ const ProfileEdit = () => {
     { fileName: string; userImgUrl: string },
     AxiosError,
     FormData
-  >([QUERY_KEYS.MY_INFO], patchUserImgAPI, {
+  >([QUERY_KEYS.MY_INFO], uploadUserImgAPI, {
     onError: error => {
       if (error instanceof AxiosError) {
         if (error?.response?.data === 'File too large') {
@@ -46,6 +46,7 @@ const ProfileEdit = () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MY_INFO] });
     },
   });
+  console.log('✅이미지 응답 imgRes:', imgRes);
 
   useEffect(() => {
     setNickErrMsg('');

@@ -20,8 +20,8 @@ export const patchNicknameAPI = async (nickname: string) => {
   const { data } = await axiosInstance.patch(`/users/nickname`, { nickname });
   return data;
 };
-export const patchUserImgAPI = async (imgData: FormData) => {
-  const { data } = await axiosInstance.patch(`/users/image`, imgData, {
+export const uploadUserImgAPI = async (imgData: FormData) => {
+  const { data } = await axiosInstance.post(`/users/image`, imgData, {
     headers: { 'Content-Type': 'multipart/form-data; charset=UTF-8' },
   });
   return data;
