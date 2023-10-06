@@ -37,7 +37,7 @@ const imgConfig: ImgConfigType = {
 const AvatarImg = ({ src, size, rounded, onClick }: ImgProps): JSX.Element => {
   const [avatar, setAvatar] = useState(DEFAULT_IMG_URL);
   useEffect(() => {
-    setAvatar(src ? `${process.env.API_URL}${src}` : DEFAULT_IMG_URL);
+    setAvatar(src ? src : DEFAULT_IMG_URL);
   }, [src]);
 
   return (

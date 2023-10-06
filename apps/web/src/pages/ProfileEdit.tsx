@@ -46,7 +46,6 @@ const ProfileEdit = () => {
       queryClient.invalidateQueries({ queryKey: [QUERY_KEYS.MY_INFO] });
     },
   });
-  console.log('✅이미지 응답 imgRes:', imgRes);
 
   useEffect(() => {
     setNickErrMsg('');
@@ -54,7 +53,7 @@ const ProfileEdit = () => {
     setEmail(userInfoData?.email);
     setNickname(userInfoData?.nickname);
     if (userInfoData?.img) {
-      setAvatar(`${process.env.API_URL}${userInfoData?.img}`);
+      setAvatar(userInfoData?.img);
     }
   }, [userInfoData]);
 
@@ -90,7 +89,7 @@ const ProfileEdit = () => {
         imgMutation(imgFormData);
       }
       if (imgRes?.userImgUrl) {
-        setAvatar(`${process.env.API_URL}${imgRes?.userImgUrl}`);
+        setAvatar(imgRes?.userImgUrl);
       }
     } catch (err) {
       console.log(err);
