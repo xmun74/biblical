@@ -9,7 +9,8 @@
   ],
   "scripts": {
     "g:typecheck": "yarn workspaces foreach -pv run typecheck",
-    "web-dev": "yarn workspace @biblical/web dev",
+    "admin": "yarn workspace @biblical/admin dev",
+    "web": "yarn workspace @biblical/web dev",
     "web-build": "yarn workspace @biblical/web build"
   },
   "devDependencies": {

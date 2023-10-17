@@ -24,12 +24,12 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:apps/web"\
       },\
       {\
-        "name": "@biblical/configs",\
-        "reference": "workspace:packages/react/configs"\
+        "name": "@biblical/utils",\
+        "reference": "workspace:packages/common/utils"\
       },\
       {\
-        "name": "@biblical/react-menu",\
-        "reference": "workspace:packages/react/menu"\
+        "name": "@biblical/configs",\
+        "reference": "workspace:packages/react/configs"\
       },\
       {\
         "name": "@biblical/react-ui",\
@@ -40,8 +40,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
       ["@biblical/configs", ["workspace:packages/react/configs"]],\
-      ["@biblical/react-menu", ["workspace:packages/react/menu"]],\
       ["@biblical/react-ui", ["workspace:packages/react/ui"]],\
+      ["@biblical/utils", ["workspace:packages/common/utils"]],\
       ["@biblical/web", ["workspace:apps/web"]],\
       ["@biblical/web-admin", ["workspace:apps/admin"]],\
       ["biblical", ["workspace:."]]\
@@ -2648,16 +2648,6 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
-      ["@biblical/react-menu", [\
-        ["workspace:packages/react/menu", {\
-          "packageLocation": "./packages/react/menu/",\
-          "packageDependencies": [\
-            ["@biblical/react-menu", "workspace:packages/react/menu"],\
-            ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071"]\
-          ],\
-          "linkType": "SOFT"\
-        }]\
-      ]],\
       ["@biblical/react-ui", [\
         ["workspace:packages/react/ui", {\
           "packageLocation": "./packages/react/ui/",\
@@ -2668,6 +2658,16 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/react-dom", "npm:18.2.6"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:a597e30f8663e69879a96929b2c91713e8799d229452baf1cfcc3626eb28f2d88ea50747971619e7b49de3cb51990bf05f8663e3e699479ca0faca25e17893cf#npm:18.2.0"],\
+            ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
+      ["@biblical/utils", [\
+        ["workspace:packages/common/utils", {\
+          "packageLocation": "./packages/common/utils/",\
+          "packageDependencies": [\
+            ["@biblical/utils", "workspace:packages/common/utils"],\
             ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071"]\
           ],\
           "linkType": "SOFT"\
@@ -2684,8 +2684,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-react", "virtual:3771606f35eaccf6735eb3228677c4c9348b5f9299c39a13a1bc8534c86dc49523f2ee758db9cba6a1ff1326f0377d3e1e987d769801e334a35b2800ef0aeb4e#npm:7.22.5"],\
             ["@babel/preset-typescript", "virtual:3771606f35eaccf6735eb3228677c4c9348b5f9299c39a13a1bc8534c86dc49523f2ee758db9cba6a1ff1326f0377d3e1e987d769801e334a35b2800ef0aeb4e#npm:7.22.5"],\
             ["@biblical/configs", "workspace:packages/react/configs"],\
-            ["@biblical/react-menu", "workspace:packages/react/menu"],\
             ["@biblical/react-ui", "workspace:packages/react/ui"],\
+            ["@biblical/utils", "workspace:packages/common/utils"],\
             ["@svgr/webpack", "npm:8.0.1"],\
             ["@tanstack/eslint-plugin-query", "npm:4.29.25"],\
             ["@tanstack/react-query", "virtual:7615373265588c1c0943de77f32af355d64f874b8fdd0dd383077e256402b7e4add49c45ce945b485d13121651dcac9da8aa8145a2cfe54345d2ac7fb8d90d52#npm:4.29.25"],\
@@ -2733,8 +2733,8 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-react", "virtual:3771606f35eaccf6735eb3228677c4c9348b5f9299c39a13a1bc8534c86dc49523f2ee758db9cba6a1ff1326f0377d3e1e987d769801e334a35b2800ef0aeb4e#npm:7.22.5"],\
             ["@babel/preset-typescript", "virtual:3771606f35eaccf6735eb3228677c4c9348b5f9299c39a13a1bc8534c86dc49523f2ee758db9cba6a1ff1326f0377d3e1e987d769801e334a35b2800ef0aeb4e#npm:7.22.5"],\
             ["@biblical/configs", "workspace:packages/react/configs"],\
-            ["@biblical/react-menu", "workspace:packages/react/menu"],\
             ["@biblical/react-ui", "workspace:packages/react/ui"],\
+            ["@biblical/utils", "workspace:packages/common/utils"],\
             ["@svgr/webpack", "npm:8.0.1"],\
             ["@types/react", "npm:18.2.13"],\
             ["@types/react-dom", "npm:18.2.6"],\
