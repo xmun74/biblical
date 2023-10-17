@@ -4,7 +4,7 @@
 
 ## 소개
 
-- [biblical](https://www.biblebiblical.site/) - [프로젝트 소개](https://github.com/xmun74/biblical/tree/master/apps/web)
+- [biblical](https://www.biblebiblical.site/) - [프로젝트 소개](https://github.com/xmun74/biblical/blob/master/apps/web/README.md)
 
 ## 스택
 
