@@ -32,6 +32,10 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
         "reference": "workspace:packages/react/configs"\
       },\
       {\
+        "name": "@biblical/hooks",\
+        "reference": "workspace:packages/react/hooks"\
+      },\
+      {\
         "name": "@biblical/react-ui",\
         "reference": "workspace:packages/react/ui"\
       }\
@@ -40,6 +44,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
     "ignorePatternData": "(^(?:\\\\.yarn\\\\/sdks(?:\\\\/(?!\\\\.{1,2}(?:\\\\/|$))(?:(?:(?!(?:^|\\\\/)\\\\.{1,2}(?:\\\\/|$)).)*?)|$))$)",\
     "fallbackExclusionList": [\
       ["@biblical/configs", ["workspace:packages/react/configs"]],\
+      ["@biblical/hooks", ["workspace:packages/react/hooks"]],\
       ["@biblical/react-ui", ["workspace:packages/react/ui"]],\
       ["@biblical/utils", ["workspace:packages/common/utils"]],\
       ["@biblical/web", ["workspace:apps/web"]],\
@@ -2648,6 +2653,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "SOFT"\
         }]\
       ]],\
+      ["@biblical/hooks", [\
+        ["workspace:packages/react/hooks", {\
+          "packageLocation": "./packages/react/hooks/",\
+          "packageDependencies": [\
+            ["@biblical/hooks", "workspace:packages/react/hooks"],\
+            ["@types/node", "npm:20.8.6"],\
+            ["@types/react", "npm:18.2.28"],\
+            ["@types/react-dom", "npm:18.2.13"],\
+            ["react", "npm:18.2.0"],\
+            ["react-dom", "virtual:665dfce80f88474f64fd739cb5981a06f1555c61bbf8d73cf8995ea0b950f33be931eede6074fb39eaf868181c96711761c3dbb55687d8bb85f54d27d0c89645#npm:18.2.0"],\
+            ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=5da071"]\
+          ],\
+          "linkType": "SOFT"\
+        }]\
+      ]],\
       ["@biblical/react-ui", [\
         ["workspace:packages/react/ui", {\
           "packageLocation": "./packages/react/ui/",\
@@ -2684,6 +2704,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@babel/preset-react", "virtual:3771606f35eaccf6735eb3228677c4c9348b5f9299c39a13a1bc8534c86dc49523f2ee758db9cba6a1ff1326f0377d3e1e987d769801e334a35b2800ef0aeb4e#npm:7.22.5"],\
             ["@babel/preset-typescript", "virtual:3771606f35eaccf6735eb3228677c4c9348b5f9299c39a13a1bc8534c86dc49523f2ee758db9cba6a1ff1326f0377d3e1e987d769801e334a35b2800ef0aeb4e#npm:7.22.5"],\
             ["@biblical/configs", "workspace:packages/react/configs"],\
+            ["@biblical/hooks", "workspace:packages/react/hooks"],\
             ["@biblical/react-ui", "workspace:packages/react/ui"],\
             ["@biblical/utils", "workspace:packages/common/utils"],\
             ["@svgr/webpack", "npm:8.0.1"],\
@@ -3846,6 +3867,14 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["@types/node", "npm:20.4.1"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:20.8.6", {\
+          "packageLocation": "./.yarn/cache/@types-node-npm-20.8.6-856e50b60a-ccfb7ac482.zip/node_modules/@types/node/",\
+          "packageDependencies": [\
+            ["@types/node", "npm:20.8.6"],\
+            ["undici-types", "npm:5.25.3"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@types/prop-types", [\
@@ -3885,9 +3914,27 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["csstype", "npm:3.1.2"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["npm:18.2.28", {\
+          "packageLocation": "./.yarn/cache/@types-react-npm-18.2.28-8e8cf3938c-81381bedeb.zip/node_modules/@types/react/",\
+          "packageDependencies": [\
+            ["@types/react", "npm:18.2.28"],\
+            ["@types/prop-types", "npm:15.7.5"],\
+            ["@types/scheduler", "npm:0.16.3"],\
+            ["csstype", "npm:3.1.2"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["@types/react-dom", [\
+        ["npm:18.2.13", {\
+          "packageLocation": "./.yarn/cache/@types-react-dom-npm-18.2.13-1f38112e81-22ba066b14.zip/node_modules/@types/react-dom/",\
+          "packageDependencies": [\
+            ["@types/react-dom", "npm:18.2.13"],\
+            ["@types/react", "npm:18.2.13"]\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["npm:18.2.6", {\
           "packageLocation": "./.yarn/cache/@types-react-dom-npm-18.2.6-7f191ee628-b56e42efab.zip/node_modules/@types/react-dom/",\
           "packageDependencies": [\
@@ -11036,6 +11083,21 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           ],\
           "linkType": "SOFT"\
         }],\
+        ["virtual:665dfce80f88474f64fd739cb5981a06f1555c61bbf8d73cf8995ea0b950f33be931eede6074fb39eaf868181c96711761c3dbb55687d8bb85f54d27d0c89645#npm:18.2.0", {\
+          "packageLocation": "./.yarn/__virtual__/react-dom-virtual-f723f77759/0/cache/react-dom-npm-18.2.0-dd675bca1c-7d323310be.zip/node_modules/react-dom/",\
+          "packageDependencies": [\
+            ["react-dom", "virtual:665dfce80f88474f64fd739cb5981a06f1555c61bbf8d73cf8995ea0b950f33be931eede6074fb39eaf868181c96711761c3dbb55687d8bb85f54d27d0c89645#npm:18.2.0"],\
+            ["@types/react", "npm:18.2.28"],\
+            ["loose-envify", "npm:1.4.0"],\
+            ["react", "npm:18.2.0"],\
+            ["scheduler", "npm:0.23.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/react",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }],\
         ["virtual:a597e30f8663e69879a96929b2c91713e8799d229452baf1cfcc3626eb28f2d88ea50747971619e7b49de3cb51990bf05f8663e3e699479ca0faca25e17893cf#npm:18.2.0", {\
           "packageLocation": "./.yarn/__virtual__/react-dom-virtual-7de45e8e9c/0/cache/react-dom-npm-18.2.0-dd675bca1c-7d323310be.zip/node_modules/react-dom/",\
           "packageDependencies": [\
@@ -12584,6 +12646,13 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["typescript", "patch:typescript@npm%3A5.1.3#~builtin<compat/typescript>::version=5.1.3&hash=5da071"]\
           ],\
           "linkType": "HARD"\
+        }],\
+        ["patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=5da071", {\
+          "packageLocation": "./.yarn/cache/typescript-patch-10330190f4-07106822b4.zip/node_modules/typescript/",\
+          "packageDependencies": [\
+            ["typescript", "patch:typescript@npm%3A5.2.2#~builtin<compat/typescript>::version=5.2.2&hash=5da071"]\
+          ],\
+          "linkType": "HARD"\
         }]\
       ]],\
       ["unbox-primitive", [\
@@ -12595,6 +12664,15 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["has-bigints", "npm:1.0.2"],\
             ["has-symbols", "npm:1.0.3"],\
             ["which-boxed-primitive", "npm:1.0.2"]\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
+      ["undici-types", [\
+        ["npm:5.25.3", {\
+          "packageLocation": "./.yarn/cache/undici-types-npm-5.25.3-2ac9eafc9e-ec9d2cc365.zip/node_modules/undici-types/",\
+          "packageDependencies": [\
+            ["undici-types", "npm:5.25.3"]\
           ],\
           "linkType": "HARD"\
         }]\

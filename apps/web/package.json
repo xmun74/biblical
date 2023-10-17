@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@biblical/configs": "workspace:^",
+    "@biblical/hooks": "workspace:^",
     "@biblical/react-ui": "workspace:^",
     "@biblical/utils": "workspace:^",
     "@tanstack/react-query": "^4.29.25",
