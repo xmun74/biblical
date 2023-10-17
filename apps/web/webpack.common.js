@@ -71,7 +71,7 @@ module.exports = smp.wrap({
       template: path.resolve(__dirname, './public/index.html'),
       favicon: path.join(__dirname, 'public/favicons/favicon.ico'),
     }),
-    new webpack.EnvironmentPlugin(['API_URL', 'USER_IMG_FIELD', 'CLIENT_URL']),
+    new webpack.EnvironmentPlugin(['API_URL', 'CLIENT_URL']),
   ],
   optimization: {
     splitChunks: {
