@@ -74,26 +74,28 @@ const MeetingNav = ({ children }: { children: React.ReactNode }) => {
           <ul className="flex font-semibold text-sm gap-6">
             {navName &&
               navName?.map(nav => (
-                <Link
-                  key={nav.name}
-                  to={nav.href}
-                  className={` py-2 hover:text-orange-400 ${
-                    pathname === nav.href && 'text-orange-400 font-extrabold border-b-2 border-b-orange-400'
-                  }`}
-                >
-                  <li>{nav?.name}</li>
-                </Link>
+                <li key={nav.name}>
+                  <Link
+                    to={nav.href}
+                    className={` py-2 hover:text-orange-400 ${
+                      pathname === nav.href && 'text-orange-400 font-extrabold border-b-2 border-b-orange-400'
+                    }`}
+                  >
+                    {nav?.name}
+                  </Link>
+                </li>
               ))}
           </ul>
           <div className="flex lg:hidden">
             <button
               className="text-sm min-w-[40px] text-accent-400 font-bold flex items-center justify-center mr-3"
+              aria-label="invited"
               onClick={handleInviteClick}
             >
               <Plus stroke="rgba(46, 230, 131)" width="18px" height="18px" strokeWidth="6" />
               초대
             </button>
-            <button type="button" onClick={handleSetting}>
+            <button type="button" aria-label="setting" onClick={handleSetting}>
               <Setting fill="gray" width="18px" height="18px" />
             </button>
           </div>

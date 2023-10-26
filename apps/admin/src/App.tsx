@@ -1,5 +1,5 @@
-import { sayHello } from '@biblical/react-menu';
 import { Button } from '@biblical/react-ui';
+import { sayHello } from '@biblical/utils';
 
 function App() {
   return (
