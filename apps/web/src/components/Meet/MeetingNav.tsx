@@ -74,16 +74,15 @@ const MeetingNav = ({ children }: { children: React.ReactNode }) => {
           <ul className="flex font-semibold text-sm gap-6">
             {navName &&
               navName?.map(nav => (
-                <li key={nav.name}>
-                  <Link
-                    to={nav.href}
-                    className={` py-2 hover:text-orange-400 ${
-                      pathname === nav.href && 'text-orange-400 font-extrabold border-b-2 border-b-orange-400'
-                    }`}
-                  >
-                    {nav?.name}
-                  </Link>
-                </li>
+                <Link
+                  key={nav.name}
+                  to={nav.href}
+                  className={`py-2 hover:text-orange-400 ${
+                    pathname === nav.href && 'text-orange-400 font-extrabold border-b-2 border-b-orange-400'
+                  }`}
+                >
+                  <li>{nav.name}</li>
+                </Link>
               ))}
           </ul>
           <div className="flex lg:hidden">
